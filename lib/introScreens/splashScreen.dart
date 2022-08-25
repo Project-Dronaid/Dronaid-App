@@ -1,6 +1,7 @@
 import 'dart:async' show Timer;
 import 'package:flutter/material.dart';
-import 'package:project_dronaid/onBoardingScreen.dart';
+
+import '../onBoardingScreen.dart';
 
 class SplashScreen extends StatefulWidget {
   @override

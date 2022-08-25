@@ -1,12 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:project_dronaid/constants.dart';
+
+import '../constants.dart';
 
 class SocialIcon extends StatelessWidget {
   final String iconSrc;
   final Function onPress;
   const SocialIcon({
-    Key? key, required this.iconSrc, required this.onPress,
+    Key? key,
+    required this.iconSrc,
+    required this.onPress,
   }) : super(key: key);
 
   @override
@@ -23,9 +26,11 @@ class SocialIcon extends StatelessWidget {
           ),
           shape: BoxShape.circle,
         ),
-        child: SvgPicture.asset(iconSrc,
+        child: SvgPicture.asset(
+          iconSrc,
           height: 20,
-          width: 20,),
+          width: 20,
+        ),
       ),
     );
   }

@@ -1,7 +1,8 @@
+import 'package:dronaidapp/components/textFieldContainer.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:project_dronaid/components/textFieldContainer.dart';
-import 'package:project_dronaid/constants.dart';
+
+import '../constants.dart';
 
 class RoundedInputField extends StatelessWidget {
   final String hintText;
