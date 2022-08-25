@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:project_dronaid/Screens/Login/background.dart';
-import 'package:project_dronaid/Screens/SignUp/signUp.dart';
-import 'package:project_dronaid/components/AlreadyHaveAnAccountCheck.dart';
-import 'package:project_dronaid/components/RoundInputField.dart';
-import 'package:project_dronaid/components/roundedButton.dart';
-import 'package:project_dronaid/constants.dart';
+import '../../components/AlreadyHaveAnAccountCheck.dart';
+import '../../components/RoundInputField.dart';
+import '../../components/roundedButton.dart';
 import '../../components/roundedPasswordField.dart';
+import '../../constants.dart';
+import '../SignUp/signUp.dart';
+import '../WelcomeScreen/background.dart';
 
 
 class Body extends StatelessWidget {

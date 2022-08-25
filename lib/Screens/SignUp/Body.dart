@@ -1,14 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:project_dronaid/Screens/Login/loginScreen.dart';
-import 'package:project_dronaid/Screens/SignUp/Background.dart';
-import 'package:project_dronaid/components/AlreadyHaveAnAccountCheck.dart';
-import 'package:project_dronaid/components/OrDivider.dart';
-import 'package:project_dronaid/components/RoundInputField.dart';
-import 'package:project_dronaid/components/SocialIcon.dart';
-import 'package:project_dronaid/components/roundedButton.dart';
-import 'package:project_dronaid/components/roundedPasswordField.dart';
-import 'package:project_dronaid/constants.dart';
+
+import '../../components/AlreadyHaveAnAccountCheck.dart';
+import '../../components/RoundInputField.dart';
+import '../../components/roundedButton.dart';
+import '../../components/roundedPasswordField.dart';
+import '../../constants.dart';
+import 'Background.dart';
+
 
 class Body extends StatelessWidget {
   const Body({

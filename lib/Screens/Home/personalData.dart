@@ -1,5 +1,7 @@
-import 'package:project_dronaid/components/constants.dart';
+
 import 'package:flutter/material.dart';
+
+import '../../components/constants.dart';
 
 class PersonalData extends StatefulWidget {
   @override

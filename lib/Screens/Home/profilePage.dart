@@ -1,6 +1,6 @@
-import 'package:project_dronaid/components/constants.dart';
 import 'package:flutter/material.dart';
 
+import '../../components/constants.dart';
 
 class ProfilePage extends StatefulWidget {
   @override
@@ -8,7 +8,6 @@ class ProfilePage extends StatefulWidget {
 }
 
 class _ProfilePageState extends State<ProfilePage> {
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -25,7 +24,8 @@ class _ProfilePageState extends State<ProfilePage> {
                   children: [
                     const CircleAvatar(
                       radius: 50.0,
-                      backgroundImage: AssetImage('assets/images/profilepicture.png'),
+                      backgroundImage:
+                          AssetImage('assets/images/profilepicture.png'),
                     ),
                   ],
                 ),
@@ -55,8 +55,7 @@ class _ProfilePageState extends State<ProfilePage> {
                       textContext: 'Medical History',
                       iconDataWithArrow: Icons.arrow_right,
                       color: const Color(0xFF8689C6),
-                      onPress: () {
-                      },
+                      onPress: () {},
                     ),
                     ProfileCardWidgetwithOptions(
                       iconData: Icons.settings,

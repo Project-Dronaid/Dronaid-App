@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:project_dronaid/Screens/WelcomeScreen/background.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:project_dronaid/components/roundedButton.dart';
-import 'package:project_dronaid/constants.dart';
+
+
+import '../../components/roundedButton.dart';
+import '../../constants.dart';
+import '../Login/background.dart';
 
 class Body extends StatelessWidget {
   const Body({Key? key}) : super(key: key);
