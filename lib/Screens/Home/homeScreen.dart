@@ -92,6 +92,10 @@ class _HomeListViewState extends State<HomeListView> {
                   setState(() {
                     pageIndex = 1;
                   });
+                  // Navigator.push(
+                  //   context,
+                  //   MaterialPageRoute(builder: (context) => MapScreen()),
+                  // );
                 },
                 icon: pageIndex == 1
                     ? const Icon(
