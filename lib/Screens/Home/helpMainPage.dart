@@ -68,44 +68,47 @@ class _HelpPageState extends State<HelpPage> {
     return Container(
         margin: const EdgeInsets.only(top: 36.0),
         color: Colors.white,
-        child: Row(
+        child: Column(
           children: [
-            Column(children: [
-              MyCardWidget("Medical Aid", Icons.medical_services),
-              MyCardWidget("Fire", Icons.fire_truck_outlined)
+            Row(children: [
+              MyCardWidget("Medical Aid", Icons.medical_services, 100, 190, 40),
+              MyCardWidget("Fire", Icons.fire_truck_outlined, 100, 190, 40)
             ]),
-            Column(children: [
-              MyCardWidget("Ambulance", Icons.medical_services_rounded),
-              MyCardWidget("Police", Icons.local_police)
+            Row(children: [
+              MyCardWidget(
+                  "Ambulance", Icons.medical_services_rounded, 100, 190, 40),
+              MyCardWidget("Police", Icons.local_police, 100, 190, 40)
             ]),
+            MyCardWidget("", Icons.sos, 200, 300, 240)
           ],
         ));
   }
 }
 
 class MyCardWidget extends StatelessWidget {
-  MyCardWidget(this.text, this.iconName, this.height, this.width);
+  MyCardWidget(
+      this.text, this.iconName, this.height, this.width, this.iconSize);
   String text = "Hello";
   IconData iconName = Icons.add;
-  int height = 100, width = 190;
+  double height = 100, width = 190, iconSize;
   @override
   Widget build(BuildContext context) {
     return Center(
         child: Container(
-      width: 190,
-      height: 100,
+      width: width,
+      height: height,
       padding: new EdgeInsets.all(10.0),
       child: Card(
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(15.0),
         ),
-        color: Colors.red,
+        color: Colors.redAccent,
         elevation: 10,
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: <Widget>[
             ListTile(
-              leading: Icon(iconName, size: 40),
+              leading: Icon(iconName, size: iconSize),
               title: Text(text, style: TextStyle(fontSize: 20.0)),
             ),
           ],
