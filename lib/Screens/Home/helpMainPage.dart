@@ -42,7 +42,7 @@ class _HelpPageState extends State<HelpPage> {
         ),
         collapsed: Container(
           decoration: BoxDecoration(
-              color: Colors.blue,
+              color: Colors.blueGrey,
               borderRadius: BorderRadius.only(
                   topLeft: Radius.circular(24.0),
                   topRight: Radius.circular(24.0))),
@@ -71,49 +71,69 @@ class _HelpPageState extends State<HelpPage> {
         child: Column(
           children: [
             Row(children: [
-              MyCardWidget("Medical Aid", Icons.medical_services, 100, 190, 40),
-              MyCardWidget("Fire", Icons.fire_truck_outlined, 100, 190, 40)
+              Card(
+                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15.0)),
+                child: Center(child: Text('Medical Aid', style: TextStyle(color: Colors.indigo), ),),
+              ),
+              Card(
+                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15.0)),
+                child: Center(child: Text('Fire', style: TextStyle(color: Colors.indigo), ),),
+              ),
+              //MyCardWidget("Medical Aid", Icons.medical_services, 100, 190, 40),
+              //MyCardWidget("Fire", Icons.fire_truck_outlined, 100, 190, 40)
             ]),
             Row(children: [
-              MyCardWidget(
-                  "Ambulance", Icons.medical_services_rounded, 100, 190, 40),
-              MyCardWidget("Police", Icons.local_police, 100, 190, 40)
+              Card(
+                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15.0)),
+                child: Center(child: Text('Ambulance', style: TextStyle(color: Colors.indigo), ),),
+              ),
+              Card(
+                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15.0)),
+                child: Center(child: Text('Police', style: TextStyle(color: Colors.indigo), ),),
+              ),
+              //MyCardWidget(
+                //  "Ambulance", Icons.medical_services_rounded, 100, 190, 40),
+              //MyCardWidget("Police", Icons.local_police, 100, 190, 40)
             ]),
-            MyCardWidget("", Icons.sos, 200, 300, 240)
+            Card(
+              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15.0)),
+              child: Center(child: Text('Emergency', style: TextStyle(color: Colors.indigo), ),),
+            ),
+            //MyCardWidget("", Icons.sos, 200, 300, 240)
           ],
         ));
   }
 }
 
-class MyCardWidget extends StatelessWidget {
-  MyCardWidget(
-      this.text, this.iconName, this.height, this.width, this.iconSize);
-  String text = "Hello";
-  IconData iconName = Icons.add;
-  double height = 100, width = 190, iconSize;
-  @override
-  Widget build(BuildContext context) {
-    return Center(
-        child: Container(
-      width: width,
-      height: height,
-      padding: new EdgeInsets.all(10.0),
-      child: Card(
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(15.0),
-        ),
-        color: Colors.redAccent,
-        elevation: 10,
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: <Widget>[
-            ListTile(
-              leading: Icon(iconName, size: iconSize),
-              title: Text(text, style: TextStyle(fontSize: 20.0)),
-            ),
-          ],
-        ),
-      ),
-    ));
-  }
-}
+// class MyCardWidget extends StatelessWidget {
+//   MyCardWidget(
+//       this.text, this.iconName, this.height, this.width, this.iconSize);
+//   String text = "Hello";
+//   IconData iconName = Icons.add;
+//   double height = 100, width = 190, iconSize;
+//   @override
+//   Widget build(BuildContext context) {
+//     return Center(
+//         child: Container(
+//       width: width,
+//       height: height,
+//       padding: new EdgeInsets.all(10.0),
+//       child: Card(
+//         shape: RoundedRectangleBorder(
+//           borderRadius: BorderRadius.circular(15.0),
+//         ),
+//         color: Colors.redAccent,
+//         elevation: 10,
+//         child: Column(
+//           mainAxisSize: MainAxisSize.min,
+//           children: <Widget>[
+//             ListTile(
+//               leading: Icon(iconName, size: iconSize),
+//               title: Text(text, style: TextStyle(fontSize: 20.0)),
+//             ),
+//           ],
+//         ),
+//       ),
+//     ));
+//   }
+ //}
