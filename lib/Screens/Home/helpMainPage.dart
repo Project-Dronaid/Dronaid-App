@@ -85,7 +85,7 @@ class _HelpPageState extends State<HelpPage> {
             Row(children: [
               Card(
                 shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15.0)),
-                child: Center(child: Text('Ambulance', style: TextStyle(color: Colors.indigo), ),),
+                child: Center(child: Text('MIT', style: TextStyle(color: Colors.indigo), ),),
               ),
               Card(
                 shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15.0)),
