@@ -1,3 +1,5 @@
+import 'package:dronaidapp/introScreens/introScreen.dart';
+import 'package:dronaidapp/introScreens/introScreen4.dart';
 import 'package:flutter/material.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
@@ -8,6 +10,7 @@ import 'introScreens/introScreen3.dart';
 
 class OnBoardingScreen extends StatefulWidget {
   const OnBoardingScreen({Key? key}) : super(key: key);
+
   @override
   _OnBoardingScreenState createState() => _OnBoardingScreenState();
 }
@@ -15,6 +18,7 @@ class OnBoardingScreen extends StatefulWidget {
 class _OnBoardingScreenState extends State<OnBoardingScreen> {
   final PageController _controller = PageController();
   bool onLastPage = false;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -24,13 +28,38 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
             controller: _controller,
             onPageChanged: (index) {
               setState(() {
-                onLastPage = (index == 2);
+                onLastPage = (index == 3);
               });
             },
-            children: const [
-              IntroScreen1(),
-              IntroScreen2(),
-              IntroScreen3(),
+            children: [
+              IntroScreen(
+                lottieUrl:
+                    'https://assets3.lottiefiles.com/private_files/lf30_k985zjll.json',
+                txt:
+                    "Lorem ipsum dolor sit amet. Ut exercitationem autem aut dolorum ",
+              ),
+              IntroScreen(
+                lottieUrl:
+                    'https://assets3.lottiefiles.com/temp/lf20_i8B3aE.json',
+                txt:
+                    "Lorem ipsum dolor sit amet. Ut exercitationem autem aut dolorum ",
+              ),
+              IntroScreen(
+                lottieUrl:
+                    'https://assets5.lottiefiles.com/packages/lf20_ecvwbhww.json',
+                txt:
+                    "Lorem ipsum dolor sit amet. Ut exercitationem autem aut dolorum ",
+              ),
+              IntroScreen(
+                lottieUrl:
+                    'https://assets6.lottiefiles.com/private_files/lf30_khO3Hb.json',
+                txt:
+                    "Lorem ipsum dolor sit amet. Ut exercitationem autem aut dolorum ",
+              ),
+              // IntroScreen1(),
+              // IntroScreen2(),
+              // IntroScreen3(),
+              // IntroScreen4(),
             ],
           ),
           Container(
@@ -50,7 +79,7 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
                           curve: Curves.easeIn);
                     },
                   ),
-                  SmoothPageIndicator(controller: _controller, count: 3),
+                  SmoothPageIndicator(controller: _controller, count: 4),
                   onLastPage
                       ? GestureDetector(
                           child: const Text(
