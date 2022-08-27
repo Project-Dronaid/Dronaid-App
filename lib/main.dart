@@ -1,3 +1,4 @@
+import 'package:dronaidapp/Screens/WelcomeScreen/welcomeBack.dart';
 import 'package:flutter/material.dart';
 import 'Screens/Home/homeScreen.dart';
 import 'Screens/Home/personalData.dart';
@@ -28,10 +29,12 @@ class MyApp extends StatelessWidget {
       initialRoute: 'start',
       routes: {
         'onBoarding': (context) => OnBoardingScreen(),
+        WelcomeBack.id : (context) => WelcomeBack(),
         'start': (context) => SplashScreen(),
-        'login': (context) => const LoginScreen(),
-        'signUp': (context) => const SignUp(),
+        LoginScreen.id : (context) => LoginScreen(),
+        SignUp.id: (context) => SignUp(),
         'home': (context) => HomeScreen(),
+
         'Personal Data': (context) => PersonalData(),
       },
     );

@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 
-import '../../components/AlreadyHaveAnAccountCheck.dart';
-import '../../components/OrDivider.dart';
-import '../../components/RoundInputField.dart';
-import '../../components/SocialIcon.dart';
-import '../../components/roundedButton.dart';
-import '../../components/roundedPasswordField.dart';
-import '../../constants.dart';
-import '../Login/loginScreen.dart';
+import 'package:dronaidapp/components/AlreadyHaveAnAccountCheck.dart';
+import 'package:dronaidapp/components/RoundInputField.dart';
+import 'package:dronaidapp/components/roundedButton.dart';
+import 'package:dronaidapp/components/roundedPasswordField.dart';
+import 'package:dronaidapp/constants.dart';
+import 'package:dronaidapp/components/OrDivider.dart';
+import 'package:dronaidapp/Screens/Login/loginScreen.dart';
+import 'package:dronaidapp/components/SocialIcon.dart';
 import 'Background.dart';
 
 class Body extends StatelessWidget {
@@ -57,7 +57,7 @@ class Body extends StatelessWidget {
           AlreadyHaveAnAccountCheck(
             press: () {
               Navigator.push(context, MaterialPageRoute(builder: (context) {
-                return const LoginScreen();
+                return LoginScreen();
               }));
             },
             login: false,
@@ -71,8 +71,7 @@ class Body extends StatelessWidget {
                 onPress: () {},
               ),
               SocialIcon(iconSrc: 'assets/icons/twitter.svg', onPress: () {}),
-              SocialIcon(
-                  iconSrc: 'assets/icons/google-plus.svg', onPress: () {}),
+              SocialIcon(iconSrc: 'assets/icons/google-plus.svg', onPress: () {}),
             ],
           )
         ],

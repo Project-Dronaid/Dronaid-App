@@ -82,7 +82,7 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
                   SmoothPageIndicator(controller: _controller, count: 4),
                   onLastPage
                       ? GestureDetector(
-                          child: const Text(
+                          child: Text(
                             'Done',
                             style: TextStyle(
                               fontWeight: FontWeight.bold,
@@ -90,10 +90,7 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
                             ),
                           ),
                           onTap: () {
-                            Navigator.push(context,
-                                MaterialPageRoute(builder: (context) {
-                              return const WelcomeBack();
-                            }));
+                            Navigator.pushNamed(context, WelcomeBack.id);
                           },
                         )
                       : GestureDetector(

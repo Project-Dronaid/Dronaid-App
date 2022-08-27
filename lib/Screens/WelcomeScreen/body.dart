@@ -1,3 +1,5 @@
+import 'package:dronaidapp/Screens/Login/loginScreen.dart';
+import 'package:dronaidapp/Screens/SignUp/signUp.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 
@@ -28,11 +30,11 @@ class Body extends StatelessWidget {
           RoundedButton(
             text: 'LOGIN',
             textColor: Colors.white,
-            route: 'login',
+            route: LoginScreen.id,
             color: kPrimaryColor,
           ),
           RoundedButton(
-            route: 'signUp',
+            route: SignUp.id,
             text: 'SIGN UP',
             textColor: Colors.black,
             color: kPrimaryLightColor,

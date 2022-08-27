@@ -1,18 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-import '../../components/AlreadyHaveAnAccountCheck.dart';
-import '../../components/RoundInputField.dart';
-import '../../components/roundedButton.dart';
-import '../../components/roundedPasswordField.dart';
-import '../../constants.dart';
-import '../SignUp/signUp.dart';
-import '../WelcomeScreen/background.dart';
+import 'package:dronaidapp/components/AlreadyHaveAnAccountCheck.dart';
+import 'package:dronaidapp/components/RoundInputField.dart';
+import 'package:dronaidapp/components/roundedButton.dart';
+import 'package:dronaidapp/components/roundedPasswordField.dart';
+import 'package:dronaidapp/constants.dart';
+import 'package:dronaidapp/Screens/SignUp/signUp.dart';
+import 'package:dronaidapp/Screens/WelcomeScreen/background.dart';
 
 
 class Body extends StatelessWidget {
-  const Body({
-    Key? key,
-  }) : super(key: key);
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
@@ -31,14 +28,13 @@ class Body extends StatelessWidget {
           SizedBox(height: size.height*0.03,),
           RoundedInputField(hintText: 'Phone Number', icon: Icons.phone, onChanged: (value){}, maxLength: 10),
           RoundedPasswordField(onChanged:(value){
+
           },),
           RoundedButton(text: 'LOGIN', color: kPrimaryColor, textColor: Colors.white, route: 'home'),
           SizedBox(height: size.height*0.03,),
           AlreadyHaveAnAccountCheck(
             press: (){
-              Navigator.push(context, MaterialPageRoute(builder: (context){
-                return const SignUp();
-              }));
+              Navigator.pushNamed(context, SignUp.id);
           },)
         ],
     ),
