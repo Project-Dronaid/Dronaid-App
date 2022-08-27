@@ -1,14 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
 
-class IntroScreen1 extends StatefulWidget {
-  const IntroScreen1({Key? key}) : super(key: key);
+class IntroScreen extends StatefulWidget {
+  String lottieUrl, txt;
+
+  IntroScreen({Key? key, required this.lottieUrl, required this.txt})
+      : super(key: key);
 
   @override
-  _IntroScreen1State createState() => _IntroScreen1State();
+  State<IntroScreen> createState() => _IntroScreenState();
 }
 
-class _IntroScreen1State extends State<IntroScreen1> {
+class _IntroScreenState extends State<IntroScreen> {
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
@@ -38,12 +41,11 @@ class _IntroScreen1State extends State<IntroScreen1> {
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             SizedBox(
-              height: size.height*0.02,
+              height: size.height * 0.02,
             ),
-            Lottie.network(
-                'https://assets3.lottiefiles.com/private_files/lf30_k985zjll.json'),
-            const Text(
-              "Lorem ipsum dolor sit amet. Ut exercitationem autem aut dolorum ",
+            Lottie.network(widget.lottieUrl),
+            Text(
+              widget.txt,
               textAlign: TextAlign.center,
             ),
           ],
