@@ -27,6 +27,7 @@ class _HelpPageState extends State<HelpPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: SlidingUpPanel(
+        maxHeight: 450.0,
         backdropEnabled: true,
         borderRadius: BorderRadius.only(
             topLeft: Radius.circular(24.0), topRight: Radius.circular(24.0)),
