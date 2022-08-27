@@ -85,18 +85,24 @@ class _HelpPageState extends State<HelpPage> {
   }
 }
 
-class MyCardWidget extends StatelessWidget {
+class MyCardWidget extends StatefulWidget {
   MyCardWidget(
       this.text, this.iconName, this.height, this.width, this.iconSize);
   String text = "Hello";
   IconData iconName = Icons.add;
   double height = 100, width = 190, iconSize;
+
+  @override
+  State<MyCardWidget> createState() => _MyCardWidgetState();
+}
+
+class _MyCardWidgetState extends State<MyCardWidget> {
   @override
   Widget build(BuildContext context) {
     return Center(
         child: Container(
-      width: width,
-      height: height,
+      width: widget.width,
+      height: widget.height,
       padding: new EdgeInsets.all(10.0),
       child: Card(
         shape: RoundedRectangleBorder(
@@ -108,8 +114,12 @@ class MyCardWidget extends StatelessWidget {
           mainAxisSize: MainAxisSize.min,
           children: <Widget>[
             ListTile(
-              leading: Icon(iconName, size: iconSize),
-              title: Text(text, style: TextStyle(fontSize: 20.0)),
+              leading: SizedBox(
+                child: Icon(widget.iconName, size: widget.iconSize),
+                height: 50,
+                width: 50,
+              ),
+              title: Text(widget.text, style: TextStyle(fontSize: 20.0)),
             ),
           ],
         ),
