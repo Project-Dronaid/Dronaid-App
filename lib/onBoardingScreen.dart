@@ -22,6 +22,7 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      // backgroundColor: Colors.black,
       body: Stack(
         children: [
           PageView(
@@ -36,25 +37,25 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
                 lottieUrl:
                     'https://assets3.lottiefiles.com/private_files/lf30_k985zjll.json',
                 txt:
-                    "Lorem ipsum dolor sit amet. Ut exercitationem autem aut dolorum ",
+                    "Drone Delivery is possible now.",
               ),
               IntroScreen(
                 lottieUrl:
                     'https://assets3.lottiefiles.com/temp/lf20_i8B3aE.json',
                 txt:
-                    "Lorem ipsum dolor sit amet. Ut exercitationem autem aut dolorum ",
+                    "We cover every possible locations",
               ),
               IntroScreen(
                 lottieUrl:
                     'https://assets5.lottiefiles.com/packages/lf20_ecvwbhww.json',
                 txt:
-                    "Lorem ipsum dolor sit amet. Ut exercitationem autem aut dolorum ",
+                    "Medication available anytime.",
               ),
               IntroScreen(
                 lottieUrl:
                     'https://assets6.lottiefiles.com/private_files/lf30_khO3Hb.json',
                 txt:
-                    "Lorem ipsum dolor sit amet. Ut exercitationem autem aut dolorum ",
+                    "Fire rescue surveillance in real time.",
               ),
               // IntroScreen1(),
               // IntroScreen2(),

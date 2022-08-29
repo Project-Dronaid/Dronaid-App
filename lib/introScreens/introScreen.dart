@@ -16,6 +16,7 @@ class _IntroScreenState extends State<IntroScreen> {
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
     return Scaffold(
+      backgroundColor: Colors.lightBlue,
       appBar: AppBar(
         toolbarHeight: size.height * 0.105,
         flexibleSpace: Padding(
@@ -30,8 +31,8 @@ class _IntroScreenState extends State<IntroScreen> {
         decoration: const BoxDecoration(
           shape: BoxShape.circle,
           image: DecorationImage(
-            image: AssetImage('assets/images/orange_bg.png'),
-            fit: BoxFit.cover,
+            image: AssetImage('assets/images/orange_bg2.jpg'),
+            fit: BoxFit.fill,
           ),
         ),
         height: size.height * 0.7,
@@ -44,9 +45,20 @@ class _IntroScreenState extends State<IntroScreen> {
               height: size.height * 0.02,
             ),
             Lottie.network(widget.lottieUrl),
-            Text(
-              widget.txt,
-              textAlign: TextAlign.center,
+            Padding(
+              padding: EdgeInsets.only(
+                left: size.width * 0.05,
+                right: size.width * 0.05,
+              ),
+              child: Text(
+                widget.txt,
+                textAlign: TextAlign.center,
+                style: const TextStyle(
+                  fontSize: 20,
+                  fontWeight: FontWeight.bold,
+                  letterSpacing: 1,
+                ),
+              ),
             ),
           ],
         ),
