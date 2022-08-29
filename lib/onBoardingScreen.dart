@@ -28,7 +28,18 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
         toolbarHeight: size.height * 0.105,
         flexibleSpace: Padding(
           padding: EdgeInsets.only(top: size.height * 0.02),
-          child: SizedBox(
+          child: Container(
+            decoration: const BoxDecoration(
+              gradient: LinearGradient(
+                colors: [
+                  Color(0xff466FA7),
+                  // Color(0xff845449),
+                  Color(0xff42AA8F),
+                ],
+                stops: [0.1,0.4],
+                // transform: GradientRotation(0.78539816339),
+              ),
+            ),
             width: size.width * 0.8,
             child: Image.asset('assets/images/banner.png'),
           ),
@@ -46,6 +57,7 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
             children: [
               IntroScreen(
                 lottieUrl:
+                    // 'https://drive.google.com/file/d/1cKQA4ocwLZQdz8-sjorchz167bkHvnY6/view?usp=sharing',
                     'https://assets3.lottiefiles.com/private_files/lf30_k985zjll.json',
                 txt: "Drone Delivery is possible now.",
               ),

@@ -22,8 +22,8 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primaryColor: kPrimaryColor,
         scaffoldBackgroundColor: Colors.white,
-        appBarTheme: const AppBarTheme(
-          color: Color(0xFFE3E5FF),
+        appBarTheme: AppBarTheme(
+          // color: Colors.,
         ),
       ),
       initialRoute: 'start',

@@ -1,5 +1,8 @@
 import 'dart:async' show Timer;
+import 'package:dronaidapp/constants.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:lottie/lottie.dart';
 
 import '../onBoardingScreen.dart';
 
@@ -14,8 +17,8 @@ class _SplashScreenState extends State<SplashScreen> {
     // TODO: implement initState
     super.initState();
     Timer(const Duration(seconds: 3), () {
-      Navigator.of(context)
-          .pushReplacement(MaterialPageRoute(builder: (_) => OnBoardingScreen()));
+      Navigator.of(context).pushReplacement(
+          MaterialPageRoute(builder: (_) => OnBoardingScreen()));
     });
   }
 
@@ -58,9 +61,12 @@ class _SplashScreenState extends State<SplashScreen> {
                   const SizedBox(
                     height: 40,
                   ),
-                  const CircularProgressIndicator(
-                    valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
-                  )
+                  SpinKitCubeGrid(
+                    color: Colors.orangeAccent,
+                  ),
+                  // const CircularProgressIndicator(
+                  //   valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
+                  // ),
                 ],
               ),
             ),
