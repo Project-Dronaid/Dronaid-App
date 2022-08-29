@@ -21,8 +21,19 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
 
   @override
   Widget build(BuildContext context) {
+    Size size = MediaQuery.of(context).size;
     return Scaffold(
       // backgroundColor: Colors.black,
+      appBar: AppBar(
+        toolbarHeight: size.height * 0.105,
+        flexibleSpace: Padding(
+          padding: EdgeInsets.only(top: size.height * 0.02),
+          child: SizedBox(
+            width: size.width * 0.8,
+            child: Image.asset('assets/images/banner.png'),
+          ),
+        ),
+      ),
       body: Stack(
         children: [
           PageView(
@@ -36,26 +47,22 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
               IntroScreen(
                 lottieUrl:
                     'https://assets3.lottiefiles.com/private_files/lf30_k985zjll.json',
-                txt:
-                    "Drone Delivery is possible now.",
+                txt: "Drone Delivery is possible now.",
               ),
               IntroScreen(
                 lottieUrl:
                     'https://assets3.lottiefiles.com/temp/lf20_i8B3aE.json',
-                txt:
-                    "We cover every possible locations",
+                txt: "We cover every possible locations",
               ),
               IntroScreen(
                 lottieUrl:
                     'https://assets5.lottiefiles.com/packages/lf20_ecvwbhww.json',
-                txt:
-                    "Medication available anytime.",
+                txt: "Medication available anytime.",
               ),
               IntroScreen(
                 lottieUrl:
                     'https://assets6.lottiefiles.com/private_files/lf30_khO3Hb.json',
-                txt:
-                    "Fire rescue surveillance in real time.",
+                txt: "Fire rescue surveillance in real time.",
               ),
               // IntroScreen1(),
               // IntroScreen2(),
@@ -73,6 +80,7 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
                         borderRadius: BorderRadius.circular(10),
                         child: const Icon(
                           Icons.arrow_back_outlined,
+                          color: Colors.white,
                         )),
                     onTap: () {
                       _controller.previousPage(
@@ -83,11 +91,12 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
                   SmoothPageIndicator(controller: _controller, count: 4),
                   onLastPage
                       ? GestureDetector(
-                          child: Text(
+                          child: const Text(
                             'Done',
                             style: TextStyle(
                               fontWeight: FontWeight.bold,
                               fontSize: 18,
+                              color: Colors.white,
                             ),
                           ),
                           onTap: () {
@@ -95,7 +104,10 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
                           },
                         )
                       : GestureDetector(
-                          child: const Icon(Icons.arrow_forward_outlined),
+                          child: const Icon(
+                            Icons.arrow_forward_outlined,
+                            color: Colors.white,
+                          ),
                           onTap: () {
                             _controller.nextPage(
                                 duration: const Duration(seconds: 1),
