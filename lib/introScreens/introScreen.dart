@@ -16,25 +16,7 @@ class IntroScreen extends StatefulWidget {
 
 
 class _IntroScreenState extends State<IntroScreen> {
-  bool isLoading = true;
 
-  @override
-  void initState() {
-    // TODO: implement initState
-    super.initState();
-    Timer(Duration(milliseconds: 1150), () {
-      if (this.mounted) {
-        setState(() {
-          isLoading = false;
-        });}
-    });
-  }
-
-  @override
-  void dispose() {
-    // TODO: implement dispose
-    super.dispose();
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -54,7 +36,7 @@ class _IntroScreenState extends State<IntroScreen> {
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             Expanded(
-              child: isLoading? Lottie.network('https://assets1.lottiefiles.com/packages/lf20_ht6o1bdu.json')  : Lottie.network(widget.lottieUrl)
+              child: Lottie.network(widget.lottieUrl)
             ),
             Padding(
               padding: EdgeInsets.only(
