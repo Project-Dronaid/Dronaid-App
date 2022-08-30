@@ -24,6 +24,7 @@ class _SplashScreenState extends State<SplashScreen> {
 
   @override
   Widget build(BuildContext context) {
+    Size size = MediaQuery.of(context).size;
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       home: Container(
@@ -48,28 +49,31 @@ class _SplashScreenState extends State<SplashScreen> {
                 children: [
                   // logo here
                   SizedBox(
-                    height: 360,
-                    width: 360,
+                    height: size.height*0.7,
+                    width: size.width*0.7,
                     child: Image.asset(
                       'assets/images/spsc2.png',
                       height: 120,
                     ),
                   ),
-                  const SizedBox(
-                    height: 40,
-                  ),
+                  // SizedBox(
+                  //   height: size.height*0.05,
+                  // ),
                   const Text(
                     "One flight saves life.",
                     style: TextStyle(
                       fontWeight: FontWeight.bold,
-                      fontSize: 20.0,
+                      fontSize: 24.0,
                     ),
                   ),
-                  const SizedBox(
-                    height: 40,
+                  SizedBox(
+                    height: size.height*0.05,
                   ),
                   SpinKitWave(
                     color: Colors.black,
+                  ),
+                  SizedBox(
+                    height: size.height*0.05,
                   ),
                   // const CircularProgressIndicator(
                   //   valueColor: AlwaysStoppedAnimation<Color>(Colors.white),

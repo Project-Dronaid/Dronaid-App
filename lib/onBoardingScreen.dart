@@ -19,7 +19,7 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
     return Scaffold(
       // backgroundColor: Colors.black,
       appBar: AppBar(
-        toolbarHeight: size.height * 0.105,
+        toolbarHeight: size.height * 0.095,
         flexibleSpace: Padding(
           padding: EdgeInsets.only(top: size.height * 0.02),
           child: Container(

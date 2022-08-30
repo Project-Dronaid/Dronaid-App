@@ -22,7 +22,7 @@ class _IntroScreenState extends State<IntroScreen> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    Timer(Duration(milliseconds: 1250), () {
+    Timer(Duration(milliseconds: 1150), () {
       if (this.mounted) {
         setState(() {
           isLoading = false;
