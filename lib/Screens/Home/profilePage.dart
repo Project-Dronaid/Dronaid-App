@@ -1,5 +1,12 @@
-import 'package:dronaidapp/Screens/Home/personalData.dart';
+import 'package:dronaidapp/Screens/Home/profilePageComponents/community.dart';
+import 'package:dronaidapp/Screens/Home/profilePageComponents/faq.dart';
+import 'package:dronaidapp/Screens/Home/profilePageComponents/license.dart';
+import 'package:dronaidapp/Screens/Home/profilePageComponents/medicalService.dart';
+import 'package:dronaidapp/Screens/Home/profilePageComponents/personalData.dart';
+import 'package:dronaidapp/Screens/Home/profilePageComponents/settings.dart';
+import 'package:dronaidapp/Screens/Home/profilePageComponents/support.dart';
 import 'package:flutter/material.dart';
+import 'package:dronaidapp/components/profileCardWidget.dart';
 
 import '../../components/constants.dart';
 
@@ -22,8 +29,8 @@ class _ProfilePageState extends State<ProfilePage> {
             child: Column(
               children: [
                 Column(
-                  children: [
-                    const CircleAvatar(
+                  children: const [
+                    CircleAvatar(
                       radius: 50.0,
                       backgroundImage:
                           AssetImage('assets/images/profilepicture.png'),
@@ -41,14 +48,13 @@ class _ProfilePageState extends State<ProfilePage> {
                 Column(
                   children: [
                     ProfileCardWidgetwithOptions(
+                      route: PersonalData.id,
                       iconData: Icons.person,
                       textContext: 'Personal Data',
                       iconDataWithArrow: Icons.arrow_right,
                       color: const Color(0xFF8689C6),
                       onPress: () {
-                        setState(() {
-                          Navigator.pushNamed(context, PersonalData.id);
-                        });
+                        Navigator.pushNamed(context, PersonalData.id);
                       },
                     ),
                     ProfileCardWidgetwithOptions(
@@ -56,7 +62,10 @@ class _ProfilePageState extends State<ProfilePage> {
                       textContext: 'Medical History',
                       iconDataWithArrow: Icons.arrow_right,
                       color: const Color(0xFF8689C6),
-                      onPress: () {},
+                      onPress: () {
+                        Navigator.pushNamed(context, MedicalServices.id);
+                      },
+                      route: MedicalServices.id,
                     ),
                     ProfileCardWidgetwithOptions(
                       iconData: Icons.settings,
@@ -64,10 +73,9 @@ class _ProfilePageState extends State<ProfilePage> {
                       iconDataWithArrow: Icons.arrow_right,
                       color: const Color(0xFF8689C6),
                       onPress: () {
-                        setState(() {
-                          Navigator.pushNamed(context, PersonalData.id);
-                        });
+                        Navigator.pushNamed(context, Settings.id);
                       },
+                      route: Settings.id,
                     ),
                     ProfileCardWidgetwithOptions(
                       iconData: Icons.exit_to_app_rounded,
@@ -75,10 +83,9 @@ class _ProfilePageState extends State<ProfilePage> {
                       iconDataWithArrow: Icons.arrow_right,
                       color: const Color(0xFF8689C6),
                       onPress: () {
-                        setState(() {
-                          Navigator.pushNamed(context, PersonalData.id);
-                        });
+                        Navigator.pushNamed(context, Settings.id);
                       },
+                      route: Settings.id,
                     ),
                     const SizedBox(
                       height: 20.0,
@@ -90,10 +97,9 @@ class _ProfilePageState extends State<ProfilePage> {
                       iconDataWithArrow: Icons.arrow_right,
                       color: const Color(0xFF8689C6),
                       onPress: () {
-                        setState(() {
-                          Navigator.pushNamed(context, PersonalData.id);
-                        });
+                        Navigator.pushNamed(context, Faq.id);
                       },
+                      route: Faq.id,
                     ),
                     ProfileCardWidgetwithOptions(
                       iconData: Icons.group_add,
@@ -101,20 +107,18 @@ class _ProfilePageState extends State<ProfilePage> {
                       iconDataWithArrow: Icons.arrow_right,
                       color: const Color(0xFF8689C6),
                       onPress: () {
-                        setState(() {
-                          Navigator.pushNamed(context, PersonalData.id);
-                        });
+                        Navigator.pushNamed(context, Community.id);
                       },
+                      route: Community.id,
                     ),
                     ProfileCardWidgetwithOptions(
                       iconData: Icons.file_copy_rounded,
                       textContext: 'License',
                       color: const Color(0xFF8689C6),
                       onPress: () {
-                        setState(() {
-                          Navigator.pushNamed(context, PersonalData.id);
-                        });
+                        Navigator.pushNamed(context, License.id);
                       },
+                      route: License.id,
                       iconDataWithArrow: Icons.arrow_right,
                     ),
                     ProfileCardWidgetwithOptions(
@@ -123,10 +127,9 @@ class _ProfilePageState extends State<ProfilePage> {
                       iconDataWithArrow: Icons.arrow_right,
                       color: const Color(0xFF8689C6),
                       onPress: () {
-                        setState(() {
-                          Navigator.pushNamed(context, PersonalData.id);
-                        });
+                        Navigator.pushNamed(context, Support.id);
                       },
+                      route: Support.id,
                     ),
                   ],
                 ),
@@ -139,66 +142,4 @@ class _ProfilePageState extends State<ProfilePage> {
   }
 }
 
-class ProfileCardWidgetwithOptions extends StatefulWidget {
-  ProfileCardWidgetwithOptions({
-    required this.iconData,
-    required this.textContext,
-    required this.iconDataWithArrow,
-    required this.color,
-    required this.onPress,
-  });
 
-  final IconData iconData;
-  final String textContext;
-  final IconData iconDataWithArrow;
-  final Color color;
-  final Function onPress;
-
-  @override
-  State<ProfileCardWidgetwithOptions> createState() =>
-      _ProfileCardWidgetwithOptionsState();
-}
-
-class _ProfileCardWidgetwithOptionsState
-    extends State<ProfileCardWidgetwithOptions> {
-  void onSearchButtonPressed(routeName) {
-    setState(() {
-      Navigator.pushNamed(context, routeName);
-    });
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Card(
-      margin: const EdgeInsets.symmetric(vertical: 10.0, horizontal: 30.0),
-      //padding: EdgeInsets.all(10.0),
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(40), // if you need this
-        side: BorderSide(
-          color: Colors.grey.withOpacity(0.0),
-          width: 1,
-        ),
-      ),
-      child: Padding(
-        padding: const EdgeInsets.all(2.0),
-        child: ListTile(
-          leading: Icon(
-            widget.iconData,
-            color: widget.color,
-          ),
-          title: Text(
-            widget.textContext,
-            style: kProfileStyle,
-          ),
-          trailing: IconButton(
-            icon: Icon(widget.iconDataWithArrow),
-            onPressed: () {
-              onSearchButtonPressed(widget.textContext);
-              widget.onPress;
-            },
-          ),
-        ),
-      ),
-    );
-  }
-}

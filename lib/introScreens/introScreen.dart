@@ -5,27 +5,28 @@ import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
 
 class IntroScreen extends StatefulWidget {
-  String lottieUrl, txt;
+  String lottieUrl, txt, imageUrl;
 
-  IntroScreen({Key? key, required this.lottieUrl, required this.txt})
-      : super(key: key);
+  IntroScreen({
+    Key? key,
+    required this.lottieUrl,
+    required this.txt,
+    required this.imageUrl,
+  }) : super(key: key);
 
   @override
   State<IntroScreen> createState() => _IntroScreenState();
 }
 
-
 class _IntroScreenState extends State<IntroScreen> {
-
-
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
     return Scaffold(
       body: Container(
-        decoration: const BoxDecoration(
+        decoration: BoxDecoration(
           image: DecorationImage(
-            image: AssetImage('assets/images/poster.jpg'),
+            image: AssetImage(widget.imageUrl),
             fit: BoxFit.fill,
           ),
         ),
@@ -35,9 +36,7 @@ class _IntroScreenState extends State<IntroScreen> {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            Expanded(
-              child: Lottie.network(widget.lottieUrl)
-            ),
+            Expanded(child: Lottie.network(widget.lottieUrl)),
             Padding(
               padding: EdgeInsets.only(
                 left: size.width * 0.05,

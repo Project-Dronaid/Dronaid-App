@@ -28,13 +28,14 @@ class _SplashScreenState extends State<SplashScreen> {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       home: Container(
-        decoration: BoxDecoration(
+        decoration: const BoxDecoration(
           gradient: LinearGradient(
             colors: [
-              Color(0xff466FA7),
               Color(0xff42AA8F),
+              Color(0xff466FA7),
+
             ],
-            stops: [0.1,0.4],
+            stops: [0.35,1],
           ),
           // image: DecorationImage(
           //     image: AssetImage('assets/images/Untitled design (5).png'),
