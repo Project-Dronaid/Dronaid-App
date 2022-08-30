@@ -19,13 +19,6 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      theme: ThemeData(
-        primaryColor: kPrimaryColor,
-        scaffoldBackgroundColor: Colors.white,
-        appBarTheme: AppBarTheme(
-          // color: Colors.,
-        ),
-      ),
       initialRoute: 'start',
       routes: {
         'onBoarding': (context) => OnBoardingScreen(),

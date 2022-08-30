@@ -1,12 +1,7 @@
 import 'package:dronaidapp/introScreens/introScreen.dart';
-import 'package:dronaidapp/introScreens/introScreen4.dart';
 import 'package:flutter/material.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
-
 import 'Screens/WelcomeScreen/welcomeBack.dart';
-import 'introScreens/introScreen1.dart';
-import 'introScreens/introScreen2.dart';
-import 'introScreens/introScreen3.dart';
 
 class OnBoardingScreen extends StatefulWidget {
   const OnBoardingScreen({Key? key}) : super(key: key);
@@ -18,14 +13,13 @@ class OnBoardingScreen extends StatefulWidget {
 class _OnBoardingScreenState extends State<OnBoardingScreen> {
   final PageController _controller = PageController();
   bool onLastPage = false;
-
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
     return Scaffold(
       // backgroundColor: Colors.black,
       appBar: AppBar(
-        toolbarHeight: size.height * 0.105,
+        toolbarHeight: size.height * 0.095,
         flexibleSpace: Padding(
           padding: EdgeInsets.only(top: size.height * 0.02),
           child: Container(
@@ -33,11 +27,9 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
               gradient: LinearGradient(
                 colors: [
                   Color(0xff466FA7),
-                  // Color(0xff845449),
                   Color(0xff42AA8F),
                 ],
                 stops: [0.1,0.4],
-                // transform: GradientRotation(0.78539816339),
               ),
             ),
             width: size.width * 0.8,
