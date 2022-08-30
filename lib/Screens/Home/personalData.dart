@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import '../../components/constants.dart';
 
 class PersonalData extends StatefulWidget {
+  static const String id = "personalData";
   @override
   State<PersonalData> createState() => _PersonalDataState();
 }

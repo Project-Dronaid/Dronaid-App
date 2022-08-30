@@ -1,3 +1,4 @@
+import 'package:dronaidapp/Screens/Home/personalData.dart';
 import 'package:flutter/material.dart';
 
 import '../../components/constants.dart';
@@ -46,7 +47,7 @@ class _ProfilePageState extends State<ProfilePage> {
                       color: const Color(0xFF8689C6),
                       onPress: () {
                         setState(() {
-                          Navigator.pushNamed(context, 'Personal Data');
+                          Navigator.pushNamed(context, PersonalData.id);
                         });
                       },
                     ),
@@ -64,7 +65,7 @@ class _ProfilePageState extends State<ProfilePage> {
                       color: const Color(0xFF8689C6),
                       onPress: () {
                         setState(() {
-                          Navigator.pushNamed(context, 'Personal Data');
+                          Navigator.pushNamed(context, PersonalData.id);
                         });
                       },
                     ),
@@ -75,7 +76,7 @@ class _ProfilePageState extends State<ProfilePage> {
                       color: const Color(0xFF8689C6),
                       onPress: () {
                         setState(() {
-                          Navigator.pushNamed(context, 'Personal Data');
+                          Navigator.pushNamed(context, PersonalData.id);
                         });
                       },
                     ),
@@ -90,7 +91,7 @@ class _ProfilePageState extends State<ProfilePage> {
                       color: const Color(0xFF8689C6),
                       onPress: () {
                         setState(() {
-                          Navigator.pushNamed(context, 'Personal Data');
+                          Navigator.pushNamed(context, PersonalData.id);
                         });
                       },
                     ),
@@ -101,7 +102,7 @@ class _ProfilePageState extends State<ProfilePage> {
                       color: const Color(0xFF8689C6),
                       onPress: () {
                         setState(() {
-                          Navigator.pushNamed(context, 'Personal Data');
+                          Navigator.pushNamed(context, PersonalData.id);
                         });
                       },
                     ),
@@ -111,7 +112,7 @@ class _ProfilePageState extends State<ProfilePage> {
                       color: const Color(0xFF8689C6),
                       onPress: () {
                         setState(() {
-                          Navigator.pushNamed(context, 'Personal Data');
+                          Navigator.pushNamed(context, PersonalData.id);
                         });
                       },
                       iconDataWithArrow: Icons.arrow_right,
@@ -123,7 +124,7 @@ class _ProfilePageState extends State<ProfilePage> {
                       color: const Color(0xFF8689C6),
                       onPress: () {
                         setState(() {
-                          Navigator.pushNamed(context, 'Personal Data');
+                          Navigator.pushNamed(context, PersonalData.id);
                         });
                       },
                     ),
