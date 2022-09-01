@@ -1,3 +1,4 @@
+import 'package:dronaidapp/components/personalDataContainers.dart';
 import 'package:dronaidapp/constants.dart';
 import 'package:flutter/material.dart';
 
@@ -14,10 +15,12 @@ class PersonalData extends StatefulWidget {
 class _PersonalDataState extends State<PersonalData> {
   @override
   Widget build(BuildContext context) {
+    double width = MediaQuery.of(context).size.width;
+    double height = MediaQuery.of(context).size.height;
     return Scaffold(
       appBar: AppBar(
         leading: GestureDetector(
-          onTap: (){
+          onTap: () {
             Navigator.of(context).pop();
           },
           child: const Icon(
@@ -38,20 +41,124 @@ class _PersonalDataState extends State<PersonalData> {
       resizeToAvoidBottomInset: false,
       backgroundColor: const Color(0xFFF2F3FC),
       body: ListView(
+        padding: const EdgeInsets.symmetric(horizontal: 30),
         shrinkWrap: true,
         children: [
           Column(
-            children: [
-              const CircleAvatar(
+            children: const [
+              CircleAvatar(
                 radius: 50.0,
                 backgroundImage: AssetImage('assets/images/profilepicture.png'),
               ),
-              const SizedBox(
+              SizedBox(
                 height: 20.0,
                 width: 250.0,
               ),
             ],
           ),
+          const Text(
+            "Your Name",
+            style: lightBlueTextStyle,
+          ),
+          DataContainer(
+            num: 1,
+            childOfContainer: const Text(
+              "Sahana Shenoy",
+              style: blueTextStyle,
+            ),
+          ),
+          const Text(
+            "Email",
+            style: lightBlueTextStyle,
+          ),
+          DataContainer(
+            num: 1,
+            childOfContainer: const Text(
+              "",
+              style: blueTextStyle,
+            ),
+          ),
+          const Text(
+            "Phone Number",
+            style: lightBlueTextStyle,
+          ),
+          DataContainer(
+            num: 1,
+            childOfContainer: const Text(
+              "",
+              style: blueTextStyle,
+            ),
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  const Text(
+                    "Age",
+                    style: lightBlueTextStyle,
+                  ),
+                  DataContainer(
+                    num: 2.5,
+                    childOfContainer: const Text(
+                      "20",
+                      style: blueTextStyle,
+                    ),
+                  ),
+                ],
+              ),
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  const Text(
+                    "Blood Group",
+                    style: lightBlueTextStyle,
+                  ),
+                  DataContainer(
+                    num: 2.5,
+                    childOfContainer: const Text(
+                      "O+ve",
+                      style: blueTextStyle,
+                    ),
+                  ),
+                ],
+              ),
+            ],
+          ),
+          const Text(
+            "Gender",
+            style: lightBlueTextStyle,
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              DataContainer(
+                childOfContainer: const Text(
+                  "Male",
+                  style: blueTextStyle,
+                ),
+                num: 2.5,
+              ),
+              DataContainer(
+                childOfContainer: const Text(
+                  "Female",
+                  style: blueTextStyle,
+                ),
+                num: 2.5,
+              ),
+            ],
+          ),
+          SizedBox(
+            width: width/2,
+            child: DataContainer(
+              childOfContainer: const Text(
+                "Other",
+                style: blueTextStyle,
+              ),
+              num: 2.5,
+            ),
+          )
         ],
       ),
     );

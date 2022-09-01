@@ -10,3 +10,11 @@ const gradientColor = LinearGradient(
   ],
   stops: [0.35, 1],
 );
+const blueTextStyle = TextStyle(
+  color: Color(0xff00078B),
+  fontSize: 18,
+);
+const lightBlueTextStyle = TextStyle(
+  color: Color(0xff696DC3),
+  fontSize: 15,
+);
