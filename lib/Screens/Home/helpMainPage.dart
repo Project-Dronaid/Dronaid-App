@@ -27,7 +27,7 @@ class _HelpPageState extends State<HelpPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: SlidingUpPanel(
-        maxHeight: 450.0,
+        maxHeight: 550.0,
         backdropEnabled: true,
         borderRadius: BorderRadius.only(
             topLeft: Radius.circular(24.0), topRight: Radius.circular(24.0)),
@@ -71,27 +71,37 @@ class _HelpPageState extends State<HelpPage> {
         color: Colors.white,
         child: Column(
           children: [
-            Row(children: [
-              MyCardWidget("Medical Aid", Icons.medical_services, 100, 190, 40),
-              MyCardWidget("Fire", Icons.fire_truck_outlined, 100, 190, 40)
-            ]),
-            Row(children: [
-              MyCardWidget(
-                  "Ambulance", Icons.medical_services_rounded, 100, 190, 40),
-              MyCardWidget("Police", Icons.local_police, 100, 190, 40)
-            ]),
-            MyCardWidget("", Icons.sos, 200, 300, 240)
+            Flexible(
+                flex: 2,
+                fit: FlexFit.loose,
+                child: MyCardWidget("Medical Aid", Icons.medical_services, 40)),
+            Flexible(
+                flex: 2,
+                fit: FlexFit.loose,
+                child: MyCardWidget("Fire", Icons.fire_truck_outlined, 40)),
+            Flexible(
+                flex: 2,
+                fit: FlexFit.loose,
+                child: MyCardWidget(
+                    "Ambulance", Icons.medical_services_rounded, 40)),
+            Flexible(
+                flex: 2,
+                fit: FlexFit.loose,
+                child: MyCardWidget("Police", Icons.local_police, 40)),
+            Flexible(
+                flex: 2,
+                fit: FlexFit.loose,
+                child: MyCardWidget("Emergency", Icons.sos, 50))
           ],
         ));
   }
 }
 
 class MyCardWidget extends StatefulWidget {
-  MyCardWidget(
-      this.text, this.iconName, this.height, this.width, this.iconSize);
+  MyCardWidget(this.text, this.iconName, this.iconSize);
   String text = "Hello";
   IconData iconName = Icons.add;
-  double height = 100, width = 190, iconSize;
+  double iconSize;
 
   @override
   State<MyCardWidget> createState() => _MyCardWidgetState();
@@ -102,8 +112,6 @@ class _MyCardWidgetState extends State<MyCardWidget> {
   Widget build(BuildContext context) {
     return Center(
         child: Container(
-      width: widget.width,
-      height: widget.height,
       padding: new EdgeInsets.all(10.0),
       child: Card(
         shape: RoundedRectangleBorder(
@@ -120,7 +128,10 @@ class _MyCardWidgetState extends State<MyCardWidget> {
                 height: 50,
                 width: 50,
               ),
-              title: Text(widget.text, style: TextStyle(fontSize: 20.0)),
+              title: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Text(widget.text, style: TextStyle(fontSize: 20.0)),
+              ),
             ),
           ],
         ),
