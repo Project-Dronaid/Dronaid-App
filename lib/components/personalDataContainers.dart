@@ -16,7 +16,7 @@ class DataContainer extends StatelessWidget {
     double height = MediaQuery.of(context).size.height;
     return Container(
       margin: const EdgeInsets.symmetric(vertical: 8),
-      width: width / num,
+      width: width/num,
       decoration: BoxDecoration(
         borderRadius: const BorderRadius.all(Radius.circular(10)),
         border: Border.all(

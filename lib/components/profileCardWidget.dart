@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'constants.dart';
+
 class ProfileCardWidgetwithOptions extends StatefulWidget {
   ProfileCardWidgetwithOptions({
     required this.iconData,
@@ -33,33 +34,42 @@ class _ProfileCardWidgetwithOptionsState
 
   @override
   Widget build(BuildContext context) {
-    return Card(
-      margin: const EdgeInsets.symmetric(vertical: 10.0, horizontal: 30.0),
-      //padding: EdgeInsets.all(10.0),
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(40), // if you need this
-        side: BorderSide(
-          color: Colors.grey.withOpacity(0.0),
-          width: 1,
-        ),
-      ),
-      child: Padding(
-        padding: const EdgeInsets.all(2.0),
-        child: ListTile(
-          leading: Icon(
-            widget.iconData,
-            color: widget.color,
+    return Hero(
+      tag: widget.textContext,
+      child: GestureDetector(
+        onTap: () {
+          onSearchButtonPressed(widget.route);
+          widget.onPress;
+        },
+        child: Card(
+          margin: const EdgeInsets.symmetric(vertical: 10.0, horizontal: 30.0),
+          //padding: EdgeInsets.all(10.0),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(40), // if you need this
+            side: BorderSide(
+              color: Colors.grey.withOpacity(0.0),
+              width: 1,
+            ),
           ),
-          title: Text(
-            widget.textContext,
-            style: kProfileStyle,
-          ),
-          trailing: IconButton(
-            icon: Icon(widget.iconDataWithArrow),
-            onPressed: () {
-              onSearchButtonPressed(widget.route);
-              widget.onPress;
-            },
+          child: Padding(
+            padding: const EdgeInsets.all(2.0),
+            child: ListTile(
+              leading: Icon(
+                widget.iconData,
+                color: widget.color,
+              ),
+              title: Text(
+                widget.textContext,
+                style: kProfileStyle,
+              ),
+              // trailing: IconButton(
+              //   icon: Icon(widget.iconDataWithArrow),
+              //   onPressed: () {
+              //     onSearchButtonPressed(widget.route);
+              //     widget.onPress;
+              //   },
+              // ),
+            ),
           ),
         ),
       ),
