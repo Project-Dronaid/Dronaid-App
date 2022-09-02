@@ -128,7 +128,8 @@ class _PersonalDataState extends State<PersonalData> {
                     DataContainer(
                       num: 2.5,
                       childOfContainer: DropdownButton(
-                        underline: SizedBox(),
+                        isExpanded: true,
+                        underline: const SizedBox(),
                         isDense: true,
                         icon: const Icon(
                           Icons.keyboard_arrow_down,
@@ -138,12 +139,9 @@ class _PersonalDataState extends State<PersonalData> {
                         items: items
                             .map((e) => DropdownMenuItem(
                                   value: e,
-                                  child: Container(
-                                    margin: EdgeInsets.only(right: width * 0.09),
-                                    child: Text(
-                                      e,
-                                      style: blueTextStyle,
-                                    ),
+                                  child: Text(
+                                    e,
+                                    style: blueTextStyle,
                                   ),
                                 ))
                             .toList(),
