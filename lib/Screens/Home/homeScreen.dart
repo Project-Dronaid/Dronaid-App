@@ -47,7 +47,7 @@ class _HomeListViewState extends State<HomeListView> {
     return Container(
       height: 85,
       decoration: BoxDecoration(
-        color: const Color(0xFFECECFA),
+        color: const Color.fromRGBO(29, 56, 73, 1.0),
         boxShadow: [
           BoxShadow(
             color: Colors.grey.withOpacity(0.5),
@@ -72,7 +72,7 @@ class _HomeListViewState extends State<HomeListView> {
                 icon: pageIndex == 0
                     ? const Icon(
                         Icons.home_filled,
-                        color: Color(0xFF0304A0),
+                        color: Colors.white,
                         size: 35,
                       )
                     : const Icon(
@@ -81,7 +81,7 @@ class _HomeListViewState extends State<HomeListView> {
                         size: 35,
                       ),
               ),
-              const Text('Home'),
+              const Text('Home',style: TextStyle(color: Colors.white),),
             ],
           ),
           Column(
@@ -100,7 +100,7 @@ class _HomeListViewState extends State<HomeListView> {
                 icon: pageIndex == 1
                     ? const Icon(
                         TablerIcons.drone,
-                        color: Color(0xFF0304A0),
+                        color: Colors.white,
                         size: 35,
                       )
                     : const Icon(
@@ -109,7 +109,7 @@ class _HomeListViewState extends State<HomeListView> {
                         size: 35,
                       ),
               ),
-              const Text('Help'),
+              const Text('Help',style: TextStyle(color: Colors.white),),
             ],
           ),
           Column(
@@ -124,7 +124,7 @@ class _HomeListViewState extends State<HomeListView> {
                 icon: pageIndex == 2
                     ? const Icon(
                         Icons.person,
-                        color: Color(0xFF0304A0),
+                        color: Colors.white,
                         size: 35,
                       )
                     : const Icon(
@@ -133,7 +133,7 @@ class _HomeListViewState extends State<HomeListView> {
                         size: 35,
                       ),
               ),
-              const Text('Profile'),
+              const Text('Profile' ,style: TextStyle(color: Colors.white),),
             ],
           ),
         ],

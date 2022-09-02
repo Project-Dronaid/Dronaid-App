@@ -32,7 +32,7 @@ class _HelpPageState extends State<HelpPage> {
         borderRadius: BorderRadius.only(
             topLeft: Radius.circular(24.0), topRight: Radius.circular(24.0)),
         panel: _createListMenu(),
-        color: Colors.blueGrey,
+        color: const Color.fromRGBO(29, 56, 73, 1.0),
         backdropColor: Colors.blue,
         backdropTapClosesPanel: true,
         body: GoogleMap(
@@ -43,14 +43,14 @@ class _HelpPageState extends State<HelpPage> {
         ),
         collapsed: Container(
           decoration: BoxDecoration(
-              color: Colors.blue,
+              color: const Color.fromRGBO(29, 56, 73, 1.0),
               borderRadius: BorderRadius.only(
                   topLeft: Radius.circular(24.0),
                   topRight: Radius.circular(24.0))),
           child: Center(
             child: Text(
               'Slide Upwards',
-              style: TextStyle(color: Colors.white),
+              style: TextStyle(color: Colors.white, fontSize: 30.0, fontWeight: FontWeight.bold),
             ),
           ),
         ),
@@ -67,8 +67,9 @@ class _HelpPageState extends State<HelpPage> {
 
   Widget _createListMenu() {
     return Container(
+
         margin: const EdgeInsets.only(top: 36.0),
-        color: Colors.white,
+        color: const Color.fromRGBO(39, 77, 100, 1.0),
         child: Column(
           children: [
             Row(children: [
