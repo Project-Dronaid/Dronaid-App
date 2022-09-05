@@ -29,6 +29,7 @@ class _HelpPageState extends State<HelpPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: const Color.fromRGBO(29, 56, 73, 1.0),
         title: Text('Search'),
         actions: [
           IconButton(onPressed: (){
@@ -37,6 +38,7 @@ class _HelpPageState extends State<HelpPage> {
         ],
       ),
       body: SlidingUpPanel(
+        minHeight: 175,
         maxHeight: 550.0,
         backdropEnabled: true,
         borderRadius: BorderRadius.only(
@@ -52,18 +54,24 @@ class _HelpPageState extends State<HelpPage> {
           onMapCreated: (controller) => _googleMapController,
         ),
         collapsed: Container(
+
           decoration: BoxDecoration(
+
               color: const Color.fromRGBO(29, 56, 73, 1.0),
               borderRadius: BorderRadius.only(
                   topLeft: Radius.circular(24.0),
                   topRight: Radius.circular(24.0))),
-          child: Center(
-            child: Text(
-              'Slide Upwards',
-              style: TextStyle(color: Colors.white, fontSize: 19.0, fontWeight: FontWeight.w700),
+          child: Padding(
+            padding: const EdgeInsets.only(bottom: 80.0),
+            child: Center(
+              child: Text(
+                'Slide Upwards',
+                style: TextStyle(color: Colors.white, fontSize: 25.0, fontWeight: FontWeight.w700),
+              ),
             ),
           ),
         ),
+
       ),
       floatingActionButton: FloatingActionButton(
         backgroundColor: Colors.black54,
