@@ -7,7 +7,7 @@ import '../../../components/profileCardWidget.dart';
 
 class PersonalData extends StatefulWidget {
   static const String id = "personalData";
-
+  String gender = "m";
   @override
   State<PersonalData> createState() => _PersonalDataState();
 }
@@ -164,9 +164,14 @@ class _PersonalDataState extends State<PersonalData> {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 DataContainer(
-                  childOfContainer: const Text(
-                    "Male",
-                    style: blueTextStyle,
+                  childOfContainer: Row(
+                    children: [
+                      // Radio(value: value, groupValue: groupValue, onChanged: onChanged),
+                      const Text(
+                        "Male",
+                        style: blueTextStyle,
+                      ),
+                    ],
                   ),
                   num: 2.5,
                 ),
