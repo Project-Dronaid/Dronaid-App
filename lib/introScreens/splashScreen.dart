@@ -7,6 +7,7 @@ import 'package:lottie/lottie.dart';
 import '../onBoardingScreen.dart';
 
 class SplashScreen extends StatefulWidget {
+  static const String id = "SplashScreen";
   @override
   _SplashScreenState createState() => _SplashScreenState();
 }

@@ -5,6 +5,7 @@ import 'webPage.dart';
 import 'helpMainPage.dart';
 
 class HomeScreen extends StatefulWidget {
+  static const String id = "HomeScreen";
   @override
   _HomeScreenState createState() => _HomeScreenState();
 }

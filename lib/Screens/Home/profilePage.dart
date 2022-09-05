@@ -1,9 +1,10 @@
 import 'package:dronaidapp/Screens/Home/profilePageComponents/community.dart';
 import 'package:dronaidapp/Screens/Home/profilePageComponents/faq.dart';
 import 'package:dronaidapp/Screens/Home/profilePageComponents/license.dart';
-import 'package:dronaidapp/Screens/Home/profilePageComponents/medicalService.dart';
+import 'package:dronaidapp/Screens/Home/profilePageComponents/medicalHistory.dart';
 import 'package:dronaidapp/Screens/Home/profilePageComponents/personalData.dart';
 import 'package:dronaidapp/Screens/Home/profilePageComponents/settings.dart';
+import 'package:dronaidapp/Screens/Home/profilePageComponents/signOut.dart';
 import 'package:dronaidapp/Screens/Home/profilePageComponents/support.dart';
 import 'package:flutter/material.dart';
 import 'package:dronaidapp/components/profileCardWidget.dart';
@@ -63,9 +64,9 @@ class _ProfilePageState extends State<ProfilePage> {
                       iconDataWithArrow: Icons.arrow_right,
                       color: const Color(0xFF8689C6),
                       onPress: () {
-                        Navigator.pushNamed(context, MedicalServices.id);
+                        Navigator.pushNamed(context, MedicalHistory.id);
                       },
-                      route: MedicalServices.id,
+                      route: MedicalHistory.id,
                     ),
                     ProfileCardWidgetwithOptions(
                       iconData: Icons.settings,
@@ -83,7 +84,7 @@ class _ProfilePageState extends State<ProfilePage> {
                       iconDataWithArrow: Icons.arrow_right,
                       color: const Color(0xFF8689C6),
                       onPress: () {
-                        Navigator.pushNamed(context, Settings.id);
+                        Navigator.pushNamed(context, SignOut.id);
                       },
                       route: Settings.id,
                     ),

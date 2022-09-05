@@ -3,8 +3,8 @@ import 'package:dronaidapp/Screens/Home/profilePageComponents/faq.dart';
 import 'package:dronaidapp/Screens/Home/profilePageComponents/faq.dart';
 import 'package:dronaidapp/Screens/Home/profilePageComponents/license.dart';
 import 'package:dronaidapp/Screens/Home/profilePageComponents/license.dart';
-import 'package:dronaidapp/Screens/Home/profilePageComponents/medicalService.dart';
-import 'package:dronaidapp/Screens/Home/profilePageComponents/medicalService.dart';
+import 'package:dronaidapp/Screens/Home/profilePageComponents/medicalHistory.dart';
+import 'package:dronaidapp/Screens/Home/profilePageComponents/medicalHistory.dart';
 import 'package:dronaidapp/Screens/Home/profilePageComponents/settings.dart';
 import 'package:dronaidapp/Screens/Home/profilePageComponents/settings.dart';
 import 'package:dronaidapp/Screens/Home/profilePageComponents/signOut.dart';
@@ -33,16 +33,16 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      initialRoute: 'start',
+      initialRoute: SplashScreen.id,
       routes: {
-        'onBoarding': (context) => OnBoardingScreen(),
+        OnBoardingScreen.id : (context) => OnBoardingScreen(),
         WelcomeBack.id: (context) => WelcomeBack(),
-        'start': (context) => SplashScreen(),
+        SplashScreen.id: (context) => SplashScreen(),
         LoginScreen.id: (context) => LoginScreen(),
         SignUp.id: (context) => SignUp(),
-        'home': (context) => HomeScreen(),
+        HomeScreen.id : (context) => HomeScreen(),
         PersonalData.id: (context) => PersonalData(),
-        MedicalServices.id: (context) => MedicalServices(),
+        MedicalHistory.id: (context) => MedicalHistory(),
         Settings.id: (context) => Settings(),
         SignOut.id: (context) => SignOut(),
         Faq.id: (context) => Faq(),

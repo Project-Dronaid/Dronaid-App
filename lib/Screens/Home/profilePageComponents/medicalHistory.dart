@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 
-class SignOut extends StatefulWidget {
-  static const String id = "signOut";
+class MedicalHistory extends StatefulWidget {
+  static const String id = "medicalServices";
 
   @override
-  State<SignOut> createState() => _SignOutState();
+  State<MedicalHistory> createState() => _MedicalHistoryState();
 }
 
-class _SignOutState extends State<SignOut> {
+class _MedicalHistoryState extends State<MedicalHistory> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -24,7 +24,7 @@ class _SignOutState extends State<SignOut> {
         centerTitle: true,
         backgroundColor: const Color(0xFFF2F3FC),
         title: const Text(
-          "Sing Out",
+          "Medical History",
           style: TextStyle(
             color: Color(0xff000162),
           ),

@@ -4,7 +4,7 @@ import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 import 'Screens/WelcomeScreen/welcomeBack.dart';
 
 class OnBoardingScreen extends StatefulWidget {
-  const OnBoardingScreen({Key? key}) : super(key: key);
+  static const String id = "onBoarding";
 
   @override
   _OnBoardingScreenState createState() => _OnBoardingScreenState();

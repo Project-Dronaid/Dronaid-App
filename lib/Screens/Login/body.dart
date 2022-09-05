@@ -1,3 +1,4 @@
+import 'package:dronaidapp/Screens/Home/homeScreen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:dronaidapp/components/AlreadyHaveAnAccountCheck.dart';
@@ -30,7 +31,7 @@ class Body extends StatelessWidget {
           RoundedPasswordField(onChanged:(value){
 
           },),
-          RoundedButton(text: 'LOGIN', color: kPrimaryColor, textColor: Colors.white, route: 'home'),
+          RoundedButton(text: 'LOGIN', color: kPrimaryColor, textColor: Colors.white, route: HomeScreen.id),
           SizedBox(height: size.height*0.03,),
           AlreadyHaveAnAccountCheck(
             press: (){
