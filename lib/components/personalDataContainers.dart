@@ -27,7 +27,7 @@ class DataContainer extends StatelessWidget {
         horizontal: 21,
         vertical: 16,
       ),
-      child: Center(child: childOfContainer),
+      child: childOfContainer,
     );
   }
 }
