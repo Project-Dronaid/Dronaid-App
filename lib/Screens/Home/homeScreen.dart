@@ -3,6 +3,7 @@ import 'package:flutter_tabler_icons/flutter_tabler_icons.dart';
 import 'profilePage.dart';
 import 'webPage.dart';
 import 'helpMainPage.dart';
+import 'package:google_nav_bar/google_nav_bar.dart';
 
 class HomeScreen extends StatefulWidget {
   static const String id = "HomeScreen";
@@ -61,87 +62,30 @@ class _HomeListViewState extends State<HomeListView> {
           ),
         ],
       ),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceAround,
-        children: [
-          Column(
-            children: [
-              IconButton(
-                enableFeedback: false,
-                onPressed: () {
-                  setState(() {
-                    pageIndex = 0;
-                  });
-                },
-                icon: pageIndex == 0
-                    ? const Icon(
-                        Icons.home_filled,
-                        color: Colors.white,
-                        size: 35,
-                      )
-                    : const Icon(
-                        Icons.home_outlined,
-                        color: Color(0xFF8689C6),
-                        size: 35,
-                      ),
-              ),
-              const Text('Home',style: TextStyle(color: Colors.white),),
-            ],
+      child: GNav(
+
+        color: Color(0xFF8689C6),
+        activeColor: Colors.white,
+        tabBackgroundColor: Color(0xFF8689C6),
+        onTabChange: (index){
+          setState(() {
+            pageIndex=index;
+          });
+        },
+        tabs: [
+          GButton(
+            icon: Icons.home,
+            text: ' Home',
           ),
-          Column(
-            children: [
-              IconButton(
-                enableFeedback: false,
-                onPressed: () {
-                  setState(() {
-                    pageIndex = 1;
-                  });
-                  // Navigator.push(
-                  //   context,
-                  //   MaterialPageRoute(builder: (context) => MapScreen()),
-                  // );
-                },
-                icon: pageIndex == 1
-                    ? const Icon(
-                        TablerIcons.drone,
-                        color: Colors.white,
-                        size: 35,
-                      )
-                    : const Icon(
-                        TablerIcons.drone,
-                        color: Color(0xFF8689C6),
-                        size: 35,
-                      ),
-              ),
-              const Text('Help',style: TextStyle(color: Colors.white),),
-            ],
+          GButton(
+            icon: TablerIcons.drone,
+            text: ' Help',
           ),
-          Column(
-            children: [
-              IconButton(
-                enableFeedback: false,
-                onPressed: () {
-                  setState(() {
-                    pageIndex = 2;
-                  });
-                },
-                icon: pageIndex == 2
-                    ? const Icon(
-                        Icons.person,
-                        color: Colors.white,
-                        size: 35,
-                      )
-                    : const Icon(
-                        Icons.person,
-                        color: Color(0xFF8689C6),
-                        size: 35,
-                      ),
-              ),
-              const Text('Profile' ,style: TextStyle(color: Colors.white),),
-            ],
-          ),
-        ],
-      ),
+          GButton(
+            icon: Icons.person ,
+            text: ' Profile',
+          )
+        ],),
     );
 
   }

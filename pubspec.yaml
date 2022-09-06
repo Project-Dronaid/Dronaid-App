@@ -53,6 +53,7 @@ dependencies:
   url_launcher: ^6.1.5
   roundcheckbox: ^2.0.5
   expandable: ^5.0.1
+  google_nav_bar: ^5.0.6
 
 dev_dependencies:
   flutter_test:
