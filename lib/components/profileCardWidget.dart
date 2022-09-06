@@ -42,33 +42,41 @@ class _ProfileCardWidgetwithOptionsState
           widget.onPress;
         },
         child: Card(
-          margin: const EdgeInsets.symmetric(vertical: 10.0, horizontal: 30.0),
-          //padding: EdgeInsets.all(10.0),
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(40), // if you need this
-            side: BorderSide(
-              color: Colors.grey.withOpacity(0.0),
-              width: 1,
-            ),
-          ),
-          child: Padding(
-            padding: const EdgeInsets.all(2.0),
-            child: ListTile(
-              leading: Icon(
+          // shape: RoundedRectangleBorder(
+          //   borderRadius: BorderRadius.circular(40), // if you need this
+          //   side: BorderSide(
+          //     color: Colors.grey.withOpacity(0.0),
+          //     width: 1,
+          //   ),
+          // ),
+          elevation: 0,
+          color: Colors.transparent,
+          child: ListTile(
+            // dense: true,
+            leading: Container(
+              // width: double.infinity,
+              padding: EdgeInsets.all(10),
+              decoration: BoxDecoration(
+                borderRadius: const BorderRadius.all(Radius.circular(10)),
+                border: Border.all(
+                  color: const Color(0xff8689C6),
+                ),
+              ),
+              child: Icon(
                 widget.iconData,
                 color: widget.color,
               ),
-              title: Text(
-                widget.textContext,
-                style: kProfileStyle,
-              ),
-              // trailing: IconButton(
-              //   icon: Icon(widget.iconDataWithArrow),
-              //   onPressed: () {
-              //     onSearchButtonPressed(widget.route);
-              //     widget.onPress;
-              //   },
-              // ),
+            ),
+            title: Text(
+              widget.textContext,
+              style: kProfileStyle,
+            ),
+            trailing: IconButton(
+              icon: Icon(Icons.keyboard_arrow_right, color: const Color(0xff000162), size: 30,),
+              onPressed: () {
+                onSearchButtonPressed(widget.route);
+                widget.onPress;
+              },
             ),
           ),
         ),
