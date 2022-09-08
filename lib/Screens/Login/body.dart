@@ -1,16 +1,57 @@
+import 'dart:convert';
+import 'package:dio/dio.dart';
 import 'package:dronaidapp/Screens/Home/homeScreen.dart';
+import 'package:dronaidapp/components/url.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:dronaidapp/components/AlreadyHaveAnAccountCheck.dart';
 import 'package:dronaidapp/components/RoundInputField.dart';
-import 'package:dronaidapp/components/roundedButton.dart';
-import 'package:dronaidapp/components/roundedPasswordField.dart';
 import 'package:dronaidapp/constants.dart';
 import 'package:dronaidapp/Screens/SignUp/signUp.dart';
 import 'package:dronaidapp/Screens/WelcomeScreen/background.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
-class Body extends StatelessWidget {
-  TextEditingController phonecontroller = TextEditingController();
+class Body extends StatefulWidget {
+  @override
+  State<Body> createState() => _BodyState();
+}
+
+class _BodyState extends State<Body> {
+  TextEditingController emailcontroller = TextEditingController();
+  TextEditingController passwordcontroller = TextEditingController();
+  String ?user_id;
+  String url=PROD_URL+"/user/loginuser";
+
+  void postdata() async{
+    var dio= Dio();
+    var body=jsonEncode({
+      "email": emailcontroller.text.toString(),
+      "password": passwordcontroller.text.toString(),
+    });
+
+    try {
+      Response response = await dio.post(url, data: body);
+      print(response.data);
+      setState((){
+        user_id=response.data["_id"];
+        print(user_id);
+      });
+
+      if(response.statusCode==200){
+        Fluttertoast.showToast(msg: "Login Successful");
+        Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context)=>HomeScreen(user_id!)));
+      }
+    }catch(err){
+      print(err);
+    }
+  }
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    // _focus.addListener(_onFocusChange);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -38,15 +79,15 @@ class Body extends StatelessWidget {
             ),
             RoundedInputField(
               chld: TextField(
-                controller: phonecontroller,
-                keyboardType: TextInputType.phone,
+                controller: emailcontroller,
+                keyboardType: TextInputType.emailAddress,
                 autofocus: true,
                 decoration: const InputDecoration(
                   icon: Icon(
-                    Icons.phone,
+                    Icons.mail_outline_outlined,
                     color: Color(0xFF6F35A5),
                   ),
-                  hintText: "Enter Phone Number",
+                  hintText: "Enter Email ID",
                   hintStyle: TextStyle(
                     color: Colors.grey,
                   ),
@@ -56,14 +97,49 @@ class Body extends StatelessWidget {
                 ),
               ),
             ),
-            RoundedPasswordField(
-              onChanged: (value) {},
+            RoundedInputField(
+              chld: TextField(
+                controller: passwordcontroller,
+                keyboardType: TextInputType.visiblePassword,
+                obscureText: true,
+                autofocus: true,
+                decoration: const InputDecoration(
+                  icon: Icon(
+                    Icons.password,
+                    color: Color(0xFF6F35A5),
+                  ),
+                  hintText: "Enter Password",
+                  hintStyle: TextStyle(
+                    color: Colors.grey,
+                  ),
+                  enabledBorder: InputBorder.none,
+                  focusedBorder: InputBorder.none,
+                  border: InputBorder.none,
+                ),
+              ),
             ),
-            RoundedButton(
-                text: 'LOGIN',
-                color: kPrimaryColor,
-                textColor: Colors.white,
-                route: HomeScreen.id),
+            Container(
+              margin: const EdgeInsets.symmetric(vertical: 10),
+              width: size.width*0.8,
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(29),
+                child: TextButton(
+                  style: TextButton.styleFrom(
+                    backgroundColor: kPrimaryColor,
+                  ),
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(vertical: 15,horizontal: 42),
+                    child: Text('LOGIN',
+                      style: TextStyle(
+                        color: Colors.white,
+                      ),),
+                  ),
+                  onPressed: (){
+                    postdata();
+                  },
+                ),
+              ),
+            ),
             SizedBox(
               height: size.height * 0.03,
             ),

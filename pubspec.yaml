@@ -55,6 +55,7 @@ dependencies:
   expandable: ^5.0.1
   google_nav_bar: ^5.0.6
   geolocator: ^8.1.1
+  fluttertoast: ^8.0.9
 
 dev_dependencies:
   flutter_test:

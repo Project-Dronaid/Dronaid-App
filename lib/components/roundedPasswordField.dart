@@ -17,7 +17,7 @@ class RoundedPasswordField extends StatelessWidget {
         onChanged: onChanged,
         obscureText: true,
         decoration: InputDecoration(
-          hintText: 'OTP',
+          hintText: 'Password',
           icon: Icon(
             Icons.lock,
             color: kPrimaryColor,

@@ -1,4 +1,9 @@
+import 'dart:convert';
+
+import 'package:dio/dio.dart';
+import 'package:dronaidapp/Screens/Home/homeScreen.dart';
 import 'package:dronaidapp/components/personalDataContainers.dart';
+import 'package:dronaidapp/components/url.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:dronaidapp/components/AlreadyHaveAnAccountCheck.dart';
@@ -8,6 +13,7 @@ import 'package:dronaidapp/constants.dart';
 import 'package:dronaidapp/components/OrDivider.dart';
 import 'package:dronaidapp/Screens/Login/loginScreen.dart';
 import 'package:dronaidapp/components/SocialIcon.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'Background.dart';
 import 'package:flutter/services.dart';
 import 'package:dronaidapp/components/RoundInputField.dart';
@@ -28,6 +34,31 @@ class _BodyState extends State<Body> {
   TextEditingController phonecontroller = TextEditingController();
   TextEditingController passwordcontroller = TextEditingController();
 
+  String url=PROD_URL+"/user/registeruser";
+
+
+  void postdata() async{
+    var dio= Dio();
+    var body=jsonEncode({
+      "email": emailcontroller.text.toString(),
+      "password": passwordcontroller.text.toString(),
+      "name":namecontroller.text.toString(),
+      "phone":phonecontroller.text,
+
+    });
+
+    try {
+      Response response = await dio.post(url, data: body);
+      print(response.data);
+      if(response.statusCode==200){
+        Fluttertoast.showToast(msg: "User has been successfully added");
+        Navigator.pushNamed(context, LoginScreen.id);
+      }
+
+    }catch(err){
+      print(err);
+    }
+  }
   @override
   void initState() {
     // TODO: implement initState
@@ -151,11 +182,27 @@ class _BodyState extends State<Body> {
               ),
             ),
           ),
-          RoundedButton(
-            text: 'SIGNUP',
-            color: kPrimaryColor,
-            textColor: Colors.white,
-            route: 'home',
+          Container(
+            margin: const EdgeInsets.symmetric(vertical: 10),
+            width: size.width*0.8,
+            child: ClipRRect(
+              borderRadius: BorderRadius.circular(29),
+              child: TextButton(
+                  style: TextButton.styleFrom(
+                    backgroundColor: kPrimaryColor,
+                  ),
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(vertical: 15,horizontal: 42),
+                    child: Text('SIGNUP',
+                      style: TextStyle(
+                        color: Colors.white,
+                      ),),
+                  ),
+                  onPressed: (){
+                    postdata();
+                  },
+              ),
+            ),
           ),
           // SizedBox(
           //   height: size.height * 0.03,

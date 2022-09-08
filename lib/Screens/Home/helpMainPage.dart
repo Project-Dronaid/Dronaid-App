@@ -59,7 +59,7 @@ class _HelpPageState extends State<HelpPage> {
         ],
       ),
       body: SlidingUpPanel(
-        minHeight: size.height*0.17,
+        minHeight: size.height*0.19,
         maxHeight: size.height*0.5,
         backdropEnabled: true,
         borderRadius: BorderRadius.only(
@@ -92,6 +92,7 @@ class _HelpPageState extends State<HelpPage> {
         ),
           ),
           ],),
+        controller: panelController,
         collapsed: Container(
           decoration: BoxDecoration(
               color: const Color.fromRGBO(29, 56, 73, 1.0),
@@ -104,8 +105,8 @@ class _HelpPageState extends State<HelpPage> {
               onTap: togglePanel,
               child: Center(
                 child: Container(
-                  width: 80,
-                  height: 3,
+                  width: size.width*0.4,
+                  height: size.height*0.005,
                   decoration: BoxDecoration(
                     color: Colors.white,
                   ),

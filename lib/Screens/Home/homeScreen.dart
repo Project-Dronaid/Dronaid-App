@@ -7,6 +7,8 @@ import 'package:google_nav_bar/google_nav_bar.dart';
 
 class HomeScreen extends StatefulWidget {
   static const String id = "HomeScreen";
+  final String user_id;
+  HomeScreen(this.user_id);
   @override
   _HomeScreenState createState() => _HomeScreenState();
 }
@@ -78,25 +80,28 @@ class _HomeListViewState extends State<HomeListView> {
             tabs: [
               GButton(
                 icon: Icons.home,
+                iconSize: 30.0,
                 text: '         Home      ',
                 textStyle: TextStyle(
-                  fontSize: 25.0,
+                  fontSize: 30.0,
                   color: Colors.white,
                 ),
               ),
               GButton(
                 icon: TablerIcons.drone,
+                iconSize: 30.0,
                 text: '         Help      ',
                 textStyle: TextStyle(
-                  fontSize: 25.0,
+                  fontSize: 30.0,
                   color: Colors.white,
                 ),
               ),
               GButton(
                 icon: Icons.person ,
+                iconSize: 30.0,
                 text: '         Profile      ',
                 textStyle: TextStyle(
-                  fontSize: 25.0,
+                  fontSize: 30.0,
                   color: Colors.white,
                 ),
               )
