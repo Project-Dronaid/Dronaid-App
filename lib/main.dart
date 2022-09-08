@@ -1,3 +1,8 @@
+import 'package:dronaidapp/Screens/Helps/Ambulance.dart';
+import 'package:dronaidapp/Screens/Helps/Emergency.dart';
+import 'package:dronaidapp/Screens/Helps/Fire.dart';
+import 'package:dronaidapp/Screens/Helps/MedicalAid.dart';
+import 'package:dronaidapp/Screens/Helps/Police.dart';
 import 'package:dronaidapp/Screens/Home/profilePageComponents/community.dart';
 import 'package:dronaidapp/Screens/Home/profilePageComponents/faq.dart';
 import 'package:dronaidapp/Screens/Home/profilePageComponents/faq.dart';
@@ -49,6 +54,11 @@ class MyApp extends StatelessWidget {
         Community.id: (context) => Community(),
         License.id: (context) => License(),
         Support.id: (context) => Support(),
+        MedicalAidMarket.id : (context) => MedicalAidMarket(),
+        Fire.id:  (context) => Fire(),
+        Ambulance.id: (context) => Ambulance(),
+        Police.id: (context) => Police(),
+        Emergency.id: (context) => Emergency(),
       },
     );
   }
