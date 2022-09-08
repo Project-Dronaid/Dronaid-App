@@ -38,7 +38,6 @@ class _BodyState extends State<Body> {
       });
 
       if(response.statusCode==200){
-        Fluttertoast.showToast(msg: "Login Successful");
         Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context)=>HomeScreen(user_id!)));
       }
     }catch(err){

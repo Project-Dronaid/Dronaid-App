@@ -51,7 +51,6 @@ class _BodyState extends State<Body> {
       Response response = await dio.post(url, data: body);
       print(response.data);
       if(response.statusCode==200){
-        Fluttertoast.showToast(msg: "User has been successfully added");
         Navigator.pushNamed(context, LoginScreen.id);
       }
 
