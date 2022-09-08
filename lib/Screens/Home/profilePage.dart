@@ -19,12 +19,13 @@ class ProfilePage extends StatefulWidget {
 class _ProfilePageState extends State<ProfilePage> {
   @override
   Widget build(BuildContext context) {
+    Size size = MediaQuery.of(context).size;
     return SafeArea(
       child: Scaffold(
         resizeToAvoidBottomInset: false,
         backgroundColor: const Color(0xFFF2F3FC),
         body: ListView(
-          shrinkWrap: true,
+          shrinkWrap: false,
           children: [
             Padding(
               padding: const EdgeInsets.only(top: 10,left: 30, right: 30,),
@@ -45,13 +46,9 @@ class _ProfilePageState extends State<ProfilePage> {
                     'Prathmesh Sinha',
                     style: kProfileTextStyle,
                   ),
-                  // const SizedBox(
-                  //   height: 20.0,
-                  //   width: 250.0,
-                  // ),
                   const Divider(),
                   Column(
-                    crossAxisAlignment: CrossAxisAlignment.center,
+                    // crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
                       ProfileCardWidgetwithOptions(
                         route: PersonalData.id,
@@ -93,10 +90,6 @@ class _ProfilePageState extends State<ProfilePage> {
                         },
                         route: Settings.id,
                       ),
-                      // const SizedBox(
-                      //   height: 20.0,
-                      //   width: 250.0,
-                      // ),
                       const Divider(),
                       ProfileCardWidgetwithOptions(
                         iconData: Icons.message_rounded,
@@ -137,6 +130,9 @@ class _ProfilePageState extends State<ProfilePage> {
                           Navigator.pushNamed(context, Support.id);
                         },
                         route: Support.id,
+                      ),
+                      SizedBox(
+                        height: size.height*0.1,
                       ),
                     ],
                   ),

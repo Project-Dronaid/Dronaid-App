@@ -39,7 +39,6 @@ class _HomeListViewState extends State<HomeListView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-
       backgroundColor: Colors.transparent,
       body: pages[pageIndex],
       extendBody: true,
@@ -47,45 +46,63 @@ class _HomeListViewState extends State<HomeListView> {
     );
   }
 
-  Container buildMyNavBar(BuildContext context) {
-    return Container(
-      height: 85,
-      decoration: BoxDecoration(
-        color: const Color.fromRGBO(29, 56, 73, 1.0),
-        borderRadius: BorderRadius.only(topLeft: Radius.circular(30), topRight: Radius.circular(30),),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.black,
-            spreadRadius: 5,
-            blurRadius: 7,
-            offset: const Offset(0, 5), // changes position of shadow
-          ),
-        ],
+  Widget buildMyNavBar(BuildContext context) {
+    Size size = MediaQuery.of(context).size;
+    return Padding(
+      padding: EdgeInsets.only(bottom: size.height*0.008),
+      child: Container(
+        height: size.height*0.1,
+        decoration: BoxDecoration(
+          color: const Color.fromRGBO(29, 56, 73, 1.0),
+          borderRadius: BorderRadius.only(topLeft: Radius.circular(20), topRight: Radius.circular(20),),
+          boxShadow: [
+            BoxShadow(
+              color: Colors.black,
+              spreadRadius: 5,
+              blurRadius: 7,
+              offset:  Offset(0, 7), // changes position of shadow
+            ),
+          ],
+        ),
+        child: Padding(
+          padding: EdgeInsets.only(top: size.height*0.008,bottom: size.height*0.008,left: size.width*0.020,right:size.width*0.020),
+          child: GNav(
+            color: Color(0xFF8689C6),
+            activeColor: Colors.white,
+            tabBackgroundColor: Color(0xFF8689C6),
+            onTabChange: (index){
+              setState(() {
+                pageIndex=index;
+              });
+            },
+            tabs: [
+              GButton(
+                icon: Icons.home,
+                text: '         Home      ',
+                textStyle: TextStyle(
+                  fontSize: 25.0,
+                  color: Colors.white,
+                ),
+              ),
+              GButton(
+                icon: TablerIcons.drone,
+                text: '         Help      ',
+                textStyle: TextStyle(
+                  fontSize: 25.0,
+                  color: Colors.white,
+                ),
+              ),
+              GButton(
+                icon: Icons.person ,
+                text: '         Profile      ',
+                textStyle: TextStyle(
+                  fontSize: 25.0,
+                  color: Colors.white,
+                ),
+              )
+            ],),
+        ),
       ),
-      child: GNav(
-
-        color: Color(0xFF8689C6),
-        activeColor: Colors.white,
-        tabBackgroundColor: Color(0xFF8689C6),
-        onTabChange: (index){
-          setState(() {
-            pageIndex=index;
-          });
-        },
-        tabs: [
-          GButton(
-            icon: Icons.home,
-            text: ' Home',
-          ),
-          GButton(
-            icon: TablerIcons.drone,
-            text: ' Help',
-          ),
-          GButton(
-            icon: Icons.person ,
-            text: ' Profile',
-          )
-        ],),
     );
 
   }

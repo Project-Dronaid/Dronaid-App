@@ -1,7 +1,9 @@
 import 'package:dronaidapp/components/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:dronaidapp/Screens/Home/locations.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:location/location.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
 
 class HelpPage extends StatefulWidget {
@@ -10,23 +12,42 @@ class HelpPage extends StatefulWidget {
 }
 
 class _HelpPageState extends State<HelpPage> {
-  static const double fabHeightClosed = 116.0;
-  double fabHeight = fabHeightClosed;
   static const _initialCameraPosition = CameraPosition(
-    target: LatLng(13.35668164832287, 74.78948939733098),
-    zoom: 13.5,
+    target: LatLng(13.35053, 74.793568),
+    zoom: 15.5,
   );
-
-  GoogleMapController? _googleMapController;
-
-  @override
-  void dispose() {
-    _googleMapController?.dispose();   
-    super.dispose();
+  Set<Marker> _markers = {};
+  late GoogleMapController _mapController;
+  void _onMapCreated(GoogleMapController controller) {
+    _mapController = controller;
+    setState(() {
+      _markers.add(
+        const Marker(
+            markerId: MarkerId('origin'),
+            position: LatLng(13.350531, 74.793568),
+            infoWindow: InfoWindow(
+              title: 'Project Dronaid',
+              snippet: 'Student Project Workshop',
+            )),
+      );
+      controller.animateCamera(
+        CameraUpdate.newCameraPosition(_initialCameraPosition),
+      );
+    });
   }
+  // void getLocation() async {
+  //
+  // }
+  final panelController = PanelController();
 
   @override
   Widget build(BuildContext context) {
+    void togglePanel() => panelController.isPanelOpen
+        ? panelController.close()
+        : panelController.open();
+    final panelHeightClosed = MediaQuery.of(context).size.height * 0.05;
+    final panelHeightOpen = MediaQuery.of(context).size.height * 0.6;
+    Size size = MediaQuery.of(context).size;
     return Scaffold(
       appBar: AppBar(
         backgroundColor: const Color.fromRGBO(29, 56, 73, 1.0),
@@ -38,83 +59,64 @@ class _HelpPageState extends State<HelpPage> {
         ],
       ),
       body: SlidingUpPanel(
-        minHeight: 175,
-        maxHeight: 550.0,
+        minHeight: size.height*0.17,
+        maxHeight: size.height*0.5,
         backdropEnabled: true,
         borderRadius: BorderRadius.only(
             topLeft: Radius.circular(24.0), topRight: Radius.circular(24.0)),
-        panel: _createListMenu(),
+        // panel: _createListMenu(),
         color: const Color.fromRGBO(29, 56, 73, 1.0),
         backdropColor: Colors.blue,
         backdropTapClosesPanel: true,
-        body: GoogleMap(
-          myLocationButtonEnabled: false,
-          zoomControlsEnabled: false,
-          initialCameraPosition: _initialCameraPosition,
-          onMapCreated: (controller) => _googleMapController,
+        body: Stack(
+          children: [
+            GoogleMap(
+            myLocationButtonEnabled: true,
+            zoomControlsEnabled: true,
+            initialCameraPosition: _initialCameraPosition,
+            onMapCreated: (controller) => _onMapCreated(controller),
+            markers: _markers,
+          ), Positioned(
+              bottom: size.height*0.28,
+              width: size.width*0.2,
+              right: size.width*0.02,
+            child: FloatingActionButton(
+            backgroundColor: Colors.white,
+            foregroundColor: Colors.blue,
+            onPressed: () {
+              setState(() {
+                _mapController.animateCamera(
+                    CameraUpdate.newCameraPosition(_initialCameraPosition));
+              });},
+            child: Icon(Icons.center_focus_strong),
         ),
+          ),
+          ],),
         collapsed: Container(
-
           decoration: BoxDecoration(
-
               color: const Color.fromRGBO(29, 56, 73, 1.0),
               borderRadius: BorderRadius.only(
                   topLeft: Radius.circular(24.0),
                   topRight: Radius.circular(24.0))),
           child: Padding(
-            padding: const EdgeInsets.only(bottom: 80.0),
-            child: Center(
-              child: Text(
-                'Slide Upwards',
-                style: TextStyle(color: Colors.white, fontSize: 25.0, fontWeight: FontWeight.w700),
+            padding: EdgeInsets.only(bottom: 80.0,left: size.width*0.1,right: size.width*0.1),
+            child: GestureDetector(
+              onTap: togglePanel,
+              child: Center(
+                child: Container(
+                  width: 80,
+                  height: 3,
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                  ),
+                ),
               ),
             ),
           ),
         ),
-
-      ),
-      floatingActionButton: FloatingActionButton(
-        backgroundColor: Colors.black54,
-        foregroundColor: Colors.blue,
-        onPressed: () {
-          setState(() {
-            _googleMapController?.animateCamera(
-                CameraUpdate.newCameraPosition(_initialCameraPosition));
-          });},
-        child: Icon(Icons.center_focus_strong),
+        panelBuilder: (controller) => PanelWidget(),
       ),
     );
-  }
-
-  Widget _createListMenu() {
-    return Container(
-        margin: const EdgeInsets.only(top: 36.0),
-        color: const Color.fromRGBO(39, 77, 100, 1.0),
-        child: Column(
-          children: [
-            Flexible(
-                flex: 1,
-                fit: FlexFit.loose,
-                child: MyCardWidget("Medical Aid", Icons.medical_services, 36)),
-            Flexible(
-                flex: 1,
-                fit: FlexFit.loose,
-                child: MyCardWidget("Fire", Icons.fire_truck_outlined, 36)),
-            Flexible(
-                flex: 1,
-                fit: FlexFit.loose,
-                child: MyCardWidget(
-                    "Ambulance", Icons.medical_services_rounded, 36)),
-            Flexible(
-                flex: 1,
-                fit: FlexFit.loose,
-                child: MyCardWidget("Police", Icons.local_police, 36)),
-            Flexible(
-                flex: 1,
-                fit: FlexFit.loose,
-                child: MyCardWidget("Emergency", Icons.sos, 36))
-          ],
-        ));
   }
 }
  
@@ -174,10 +176,9 @@ class MySearchDelegate extends SearchDelegate {
 }
 
 class MyCardWidget extends StatefulWidget {
-  MyCardWidget(this.text, this.iconName, this.iconSize);
+  MyCardWidget(this.text, this.iconName);
   String text = "Hello";
   IconData iconName = Icons.add;
-  double iconSize;
 
   @override
   State<MyCardWidget> createState() => _MyCardWidgetState();
@@ -186,32 +187,72 @@ class MyCardWidget extends StatefulWidget {
 class _MyCardWidgetState extends State<MyCardWidget> {
   @override
   Widget build(BuildContext context) {
+    Size size = MediaQuery.of(context).size;
     return Center(
         child: Container(
+          width : size.width*0.5,
       padding: new EdgeInsets.all(10.0),
       child: Card(
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(15.0),
         ),
-        color: Colors.redAccent,
-        elevation: 6,
+        color: Color(0xFFECECFA),
+        elevation: 10,
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: <Widget>[
             ListTile(
               leading: SizedBox(
-                child: Icon(widget.iconName, size: widget.iconSize),
-                height: 50,
-                width: 50,
+                height: size.height*0.05,
+                child: Icon(widget.iconName),
               ),
-              title: Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Text(widget.text, style: TextStyle(fontSize: 17.0, fontWeight: FontWeight.w500,)),
-              ),
+              title: Text(widget.text, style: TextStyle(fontSize: 15.0, fontWeight: FontWeight.w500,)),
             ),
           ],
         ),
       ),
     ));
   }
+}
+
+class PanelWidget extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) => Container(
+      margin: EdgeInsets.only(top: 36.0),
+      color: const Color.fromRGBO(39, 77, 100, 1.0),
+      child: Column(
+        children: [
+          Flexible(
+            flex: 0,
+            child: Row(
+              children: [
+                Flexible(
+                    fit: FlexFit.loose,
+                    child: MyCardWidget("Medical Aid", Icons.medical_services)),
+                Flexible(
+                    fit: FlexFit.loose,
+                    child: MyCardWidget("Fire", Icons.fire_truck_outlined)),
+              ],
+            ),
+          ),
+          Flexible(
+            flex: 0,
+            child: Row(
+              children: [
+                Flexible(
+                    fit: FlexFit.loose,
+                    child: MyCardWidget(
+                        "Ambulance", Icons.medical_services_rounded)),
+                Flexible(
+                    fit: FlexFit.loose,
+                    child: MyCardWidget("Police", Icons.local_police)),
+              ],
+            ),
+          ),
+          Flexible(
+              flex: 0,
+              fit: FlexFit.loose,
+              child: MyCardWidget("Emergency", Icons.sos))
+        ],
+      ));
 }

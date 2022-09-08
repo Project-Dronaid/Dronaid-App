@@ -1,3 +1,4 @@
+import 'package:dronaidapp/Screens/Home/homeScreen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 
@@ -50,7 +51,7 @@ class Body extends StatelessWidget {
               text: 'SIGNUP',
               color: kPrimaryColor,
               textColor: Colors.white,
-              route: 'home'),
+              route: HomeScreen.id),
           SizedBox(
             height: size.height * 0.03,
           ),
