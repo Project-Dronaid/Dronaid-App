@@ -9,7 +9,6 @@ import 'package:dronaidapp/components/RoundInputField.dart';
 import 'package:dronaidapp/constants.dart';
 import 'package:dronaidapp/Screens/SignUp/signUp.dart';
 import 'package:dronaidapp/Screens/WelcomeScreen/background.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 
 class Body extends StatefulWidget {
   @override

@@ -13,7 +13,6 @@ import 'package:dronaidapp/constants.dart';
 import 'package:dronaidapp/components/OrDivider.dart';
 import 'package:dronaidapp/Screens/Login/loginScreen.dart';
 import 'package:dronaidapp/components/SocialIcon.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 import 'Background.dart';
 import 'package:flutter/services.dart';
 import 'package:dronaidapp/components/RoundInputField.dart';
