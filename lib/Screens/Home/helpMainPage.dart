@@ -1,3 +1,9 @@
+import 'package:dronaidapp/Screens/Helps/Ambulance.dart';
+import 'package:dronaidapp/Screens/Helps/Emergency.dart';
+import 'package:dronaidapp/Screens/Helps/Fire.dart';
+import 'package:dronaidapp/Screens/Helps/MedicalAid.dart';
+import 'package:dronaidapp/Screens/Helps/Police.dart';
+import 'package:dronaidapp/components/MyCardWidget.dart';
 import 'package:dronaidapp/components/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -5,6 +11,7 @@ import 'package:dronaidapp/Screens/Home/locations.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:location/location.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
+
 
 class HelpPage extends StatefulWidget {
   @override
@@ -66,7 +73,7 @@ class _HelpPageState extends State<HelpPage> {
             topLeft: Radius.circular(24.0), topRight: Radius.circular(24.0)),
         // panel: _createListMenu(),
         color: const Color.fromRGBO(29, 56, 73, 1.0),
-        backdropColor: Colors.blue,
+        backdropColor: Colors.black,
         backdropTapClosesPanel: true,
         body: Stack(
           children: [
@@ -175,45 +182,7 @@ class MySearchDelegate extends SearchDelegate {
 
 }
 
-class MyCardWidget extends StatefulWidget {
-  MyCardWidget(this.text, this.iconName);
-  String text = "Hello";
-  IconData iconName = Icons.add;
 
-  @override
-  State<MyCardWidget> createState() => _MyCardWidgetState();
-}
-
-class _MyCardWidgetState extends State<MyCardWidget> {
-  @override
-  Widget build(BuildContext context) {
-    Size size = MediaQuery.of(context).size;
-    return Center(
-        child: Container(
-          width : size.width*0.5,
-      padding: new EdgeInsets.all(10.0),
-      child: Card(
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(15.0),
-        ),
-        color: Color(0xFFECECFA),
-        elevation: 10,
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: <Widget>[
-            ListTile(
-              leading: SizedBox(
-                height: size.height*0.05,
-                child: Icon(widget.iconName),
-              ),
-              title: Text(widget.text, style: TextStyle(fontSize: 15.0, fontWeight: FontWeight.w500,)),
-            ),
-          ],
-        ),
-      ),
-    ));
-  }
-}
 
 class PanelWidget extends StatelessWidget {
   @override
@@ -228,10 +197,11 @@ class PanelWidget extends StatelessWidget {
               children: [
                 Flexible(
                     fit: FlexFit.loose,
-                    child: MyCardWidget("Medical Aid", Icons.medical_services)),
+                    child: MyCardWidget("Medical Aid", Icons.medical_services, MedicalAidMarket.id)
+                ),
                 Flexible(
                     fit: FlexFit.loose,
-                    child: MyCardWidget("Fire", Icons.fire_truck_outlined)),
+                    child: MyCardWidget("Fire", Icons.fire_truck_outlined, Fire.id)),
               ],
             ),
           ),
@@ -242,17 +212,17 @@ class PanelWidget extends StatelessWidget {
                 Flexible(
                     fit: FlexFit.loose,
                     child: MyCardWidget(
-                        "Ambulance", Icons.medical_services_rounded)),
+                        "Ambulance", Icons.medical_services_rounded, Ambulance.id)),
                 Flexible(
                     fit: FlexFit.loose,
-                    child: MyCardWidget("Police", Icons.local_police)),
+                    child: MyCardWidget("Police", Icons.local_police, Police.id)),
               ],
             ),
           ),
           Flexible(
               flex: 0,
               fit: FlexFit.loose,
-              child: MyCardWidget("Emergency", Icons.sos))
+              child: MyCardWidget("Emergency", Icons.sos, Emergency.id))
         ],
       ));
 }
