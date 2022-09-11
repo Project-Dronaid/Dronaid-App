@@ -46,6 +46,8 @@ dependencies:
   dio: ^4.0.6
   flutter_polyline_points: ^1.0.0
   google_maps_flutter: ^2.1.12
+  geolocator: ^8.1.1
+  http: ^0.13.5
   #sliding up panel dependencies
   sliding_up_panel: ^2.0.0+1
   cached_network_image: ^3.2.1
@@ -54,8 +56,9 @@ dependencies:
   roundcheckbox: ^2.0.5
   expandable: ^5.0.1
   google_nav_bar: ^5.0.6
-  geolocator: ^8.1.1
-  fluttertoast: ^8.0.9
+  image_picker:
+  path_provider:
+
 
 dev_dependencies:
   flutter_test:

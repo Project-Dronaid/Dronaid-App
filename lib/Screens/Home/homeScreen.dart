@@ -16,30 +16,43 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
-    return const Scaffold(
+    return Scaffold(
       resizeToAvoidBottomInset: false,
-      body: HomeListView(),
+      body: HomeListView(widget.user_id,),
     );
   }
 }
 
 class HomeListView extends StatefulWidget {
-  const HomeListView({Key? key}) : super(key: key);
+  final String user_id;
+  HomeListView(this.user_id);
 
   @override
-  State<HomeListView> createState() => _HomeListViewState();
+  State<HomeListView> createState() => _HomeListViewState(this.user_id);
 }
 
 class _HomeListViewState extends State<HomeListView> {
+  _HomeListViewState(this._UID);
+  String? _UID = '';
   int pageIndex = 0;
+  // var idVal = widget.user_id!;
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    setState(() {
 
-  final pages = [
-    WebPage(),
-    HelpPage(),
-    ProfilePage(),
-  ];
+    });
+  }
+
+
   @override
   Widget build(BuildContext context) {
+    final pages = [
+      WebPage(),
+      HelpPage(),
+      ProfilePage(_UID!),
+    ];
     return Scaffold(
       backgroundColor: Colors.transparent,
       body: pages[pageIndex],

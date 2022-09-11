@@ -1,30 +1,88 @@
+import 'dart:convert';
+import 'dart:io';
+
 import 'package:dronaidapp/components/personalDataContainers.dart';
+import 'package:dronaidapp/components/url.dart';
 import 'package:dronaidapp/constants.dart';
 import 'package:flutter/material.dart';
-
+import 'package:flutter/services.dart';
+import 'package:http/http.dart';
+import 'package:image_picker/image_picker.dart';
+import 'package:path_provider/path_provider.dart';
+import 'package:path/path.dart';
 import '../../../components/constants.dart';
 import '../../../components/profileCardWidget.dart';
 
 class PersonalData extends StatefulWidget {
   static const String id = "personalData";
+  final String user_id;
+  PersonalData(this.user_id);
   // String gender = "m";
   @override
   State<PersonalData> createState() => _PersonalDataState();
 }
 
 class _PersonalDataState extends State<PersonalData> {
-  String? dropDownValue = "O+ve";
-  var items = [
-    "O+ve",
-    "A+ve",
-    "B+ve",
-    "AB+ve",
-  ];
+  var name;
+  var email;
+  var phonenumber;
+  var age;
+  var gender;
+  var bloodgroup;
+  // String? dropDownValue = "O+ve";
+  // var items = [
+  //   "O+ve",
+  //   "A+ve",
+  //   "B+ve",
+  //   "AB+ve",
+  // ];
+  Future<void> getuserdetail() async {
+    var url = PROD_URL + "/user/getuser/" + widget.user_id;
+    var response = await get(Uri.parse(url));
+    var jsondata = await jsonDecode(response.body);
+
+    setState(() {
+      name = jsondata['user']['name'].toString();
+      email = jsondata['user']['email'].toString();
+      phonenumber = jsondata['user']['phonenumber'].toString();
+      age = jsondata['user']['age'].toString();
+      gender = jsondata['user']['gender'].toString();
+      bloodgroup = jsondata['user']['bloodgroup'].toString();
+    });
+  }
+  File? image;
+  Future pickImage(ImageSource source) async {
+    try {
+      final pImage = await ImagePicker().pickImage(
+          source: source);
+      if (pImage == null)
+        return;
+      final imageTemp = File(pImage.path);
+      //  final imagePermanent = saveImagePermanently(pImage.path);
+      setState(() {
+        image = imageTemp;
+      });
+    } on PlatformException catch (e) {
+      print('Failed to pick image : $e');
+    }
+  }
+
+  Future saveImagePermanently(String imagePath) async{
+    final directory = await getApplicationDocumentsDirectory();
+    final name = basename(imagePath);
+    final image = File('${directory.path}/$name');
+    return File(imagePath).copy(image.path);
+  }
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    getuserdetail();
+  }
 
   @override
   Widget build(BuildContext context) {
-    double width = MediaQuery.of(context).size.width;
-    double height = MediaQuery.of(context).size.height;
     return Hero(
       tag: 'Personal Data',
       child: Scaffold(
@@ -55,11 +113,13 @@ class _PersonalDataState extends State<PersonalData> {
           shrinkWrap: true,
           children: [
             Column(
-              children: const [
+              children: [
                 CircleAvatar(
-                  radius: 50.0,
-                  backgroundImage: AssetImage('assets/images/profilepicture.png'),
+                  radius: 50,
+                  backgroundImage: image!=null ? FileImage(image!): AssetImage('assets/images/profilepicture.png') as ImageProvider,
+                  // image!= null? Image.file(image!) : Image.asset('assets/images/profilepicture.png'),
                 ),
+                IconButton(onPressed: () => pickImage(ImageSource.gallery), icon: Icon(Icons.edit)),
                 SizedBox(
                   height: 20.0,
                   width: 250.0,
@@ -72,8 +132,8 @@ class _PersonalDataState extends State<PersonalData> {
             ),
             DataContainer(
               num: 1,
-              childOfContainer: const Text(
-                "Sahana Shenoy",
+              childOfContainer: Text(
+                name.toString(),
                 style: blueTextStyle,
               ),
             ),
@@ -83,8 +143,8 @@ class _PersonalDataState extends State<PersonalData> {
             ),
             DataContainer(
               num: 1,
-              childOfContainer: const Text(
-                "",
+              childOfContainer: Text(
+                email.toString(),
                 style: blueTextStyle,
               ),
             ),
@@ -94,8 +154,8 @@ class _PersonalDataState extends State<PersonalData> {
             ),
             DataContainer(
               num: 1,
-              childOfContainer: const Text(
-                "",
+              childOfContainer: Text(
+                phonenumber.toString(),
                 style: blueTextStyle,
               ),
             ),
@@ -111,8 +171,8 @@ class _PersonalDataState extends State<PersonalData> {
                     ),
                     DataContainer(
                       num: 2.5,
-                      childOfContainer: const Text(
-                        "20",
+                      childOfContainer: Text(
+                        age.toString(),
                         style: blueTextStyle,
                       ),
                     ),
@@ -126,32 +186,39 @@ class _PersonalDataState extends State<PersonalData> {
                       style: lightBlueTextStyle,
                     ),
                     DataContainer(
-                      num: 2.5,
-                      childOfContainer: DropdownButton(
-                        isExpanded: true,
-                        underline: const SizedBox(),
-                        isDense: true,
-                        icon: const Icon(
-                          Icons.keyboard_arrow_down,
-                          color: Color(0xff00078B),
-                        ),
-                        value: dropDownValue,
-                        items: items
-                            .map((e) => DropdownMenuItem(
-                                  value: e,
-                                  child: Text(
-                                    e,
-                                    style: blueTextStyle,
-                                  ),
-                                ))
-                            .toList(),
-                        onChanged: (String? newValue) {
-                          setState(() {
-                            dropDownValue = newValue;
-                          });
-                        },
+                      childOfContainer: Text(
+                        bloodgroup.toString(),
+                        style: blueTextStyle,
                       ),
+                      num: 2.5,
                     ),
+                    // DataContainer(
+                    //   num: 2.5,
+                    //   childOfContainer: DropdownButton(
+                    //     isExpanded: true,
+                    //     underline: const SizedBox(),
+                    //     isDense: true,
+                    //     icon: const Icon(
+                    //       Icons.keyboard_arrow_down,
+                    //       color: Color(0xff00078B),
+                    //     ),
+                    //     value: dropDownValue,
+                    //     items: items
+                    //         .map((e) => DropdownMenuItem(
+                    //               value: e,
+                    //               child: Text(
+                    //                 e,
+                    //                 style: blueTextStyle,
+                    //               ),
+                    //             ))
+                    //         .toList(),
+                    //     onChanged: (String? newValue) {
+                    //       setState(() {
+                    //         dropDownValue = newValue;
+                    //       });
+                    //     },
+                    //   ),
+                    // ),
                   ],
                 ),
               ],
@@ -164,38 +231,33 @@ class _PersonalDataState extends State<PersonalData> {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 DataContainer(
-                  childOfContainer: Row(
-                    children: const [
-                      // Radio(value: value, groupValue: groupValue, onChanged: onChanged),
-                      Text(
-                        "Male",
-                        style: blueTextStyle,
-                      ),
-                    ],
-                  ),
-                  num: 2.5,
-                ),
-                DataContainer(
-                  childOfContainer: const Text(
-                    "Female",
+                  childOfContainer: Text(
+                    gender.toString(),
                     style: blueTextStyle,
                   ),
                   num: 2.5,
                 ),
+                // DataContainer(
+                //   childOfContainer: const Text(
+                //     "Update",
+                //     style: blueTextStyle,
+                //   ),
+                //   num: 2.5,
+                // ),
               ],
             ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                DataContainer(
-                  childOfContainer: const Text(
-                    "Other",
-                    style: blueTextStyle,
-                  ),
-                  num: 2.5,
-                ),
-              ],
-            )
+            // Row(
+            //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            //   children: [
+            //     DataContainer(
+            //       childOfContainer: const Text(
+            //         "Other",
+            //         style: blueTextStyle,
+            //       ),
+            //       num: 2.5,
+            //     ),
+            //   ],
+            // )
           ],
         ),
       ),

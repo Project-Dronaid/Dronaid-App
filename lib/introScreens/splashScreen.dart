@@ -34,7 +34,6 @@ class _SplashScreenState extends State<SplashScreen> {
             colors: [
               Color(0xff42AA8F),
               Color(0xff466FA7),
-
             ],
             stops: [0.35,1],
           ),

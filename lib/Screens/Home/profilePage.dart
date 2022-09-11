@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:dronaidapp/Screens/Home/profilePageComponents/community.dart';
 import 'package:dronaidapp/Screens/Home/profilePageComponents/faq.dart';
 import 'package:dronaidapp/Screens/Home/profilePageComponents/license.dart';
@@ -6,17 +8,40 @@ import 'package:dronaidapp/Screens/Home/profilePageComponents/personalData.dart'
 import 'package:dronaidapp/Screens/Home/profilePageComponents/settings.dart';
 import 'package:dronaidapp/Screens/Home/profilePageComponents/signOut.dart';
 import 'package:dronaidapp/Screens/Home/profilePageComponents/support.dart';
+import 'package:dronaidapp/Screens/Login/loginScreen.dart';
+import 'package:dronaidapp/Screens/WelcomeScreen/welcomeBack.dart';
+import 'package:dronaidapp/components/url.dart';
 import 'package:flutter/material.dart';
 import 'package:dronaidapp/components/profileCardWidget.dart';
+import 'package:http/http.dart';
 
 import '../../components/constants.dart';
 
 class ProfilePage extends StatefulWidget {
+  String user_id;
+  ProfilePage(this.user_id);
   @override
   State<ProfilePage> createState() => _ProfilePageState();
 }
 
 class _ProfilePageState extends State<ProfilePage> {
+  var name;
+  Future<void> getuserdetail() async {
+    var url = PROD_URL + "/user/getuser/" + widget.user_id;
+    var response = await get(Uri.parse(url));
+    var jsondata = await jsonDecode(response.body);
+
+    setState(() {
+      name = jsondata['user']['name'].toString();
+    });
+  }
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    getuserdetail();
+  }
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
@@ -42,24 +67,63 @@ class _ProfilePageState extends State<ProfilePage> {
                       ),
                     ],
                   ),
-                  const Text(
-                    'Prathmesh Sinha',
+                  Text(
+                    name.toString(),
                     style: kProfileTextStyle,
                   ),
                   const Divider(),
                   Column(
                     // crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
-                      ProfileCardWidgetwithOptions(
-                        route: PersonalData.id,
-                        iconData: Icons.person,
-                        textContext: 'Personal Data',
-                        iconDataWithArrow: Icons.arrow_right,
-                        color: const Color(0xFF8689C6),
-                        onPress: () {
-                          Navigator.pushNamed(context, PersonalData.id);
+                      // ProfileCardWidgetwithOptions(
+                      //   route: PersonalData.id,
+                      //   iconData: Icons.person,
+                      //   textContext: 'Personal Data',
+                      //   iconDataWithArrow: Icons.arrow_right,
+                      //   color: const Color(0xFF8689C6),
+                      //   onPress: () {
+                      //     Navigator.push(context, MaterialPageRoute(builder: (context) => PersonalData(widget.user_id!)));
+                      //   },
+                      // ),
+                    Hero(
+                tag: 'Personal Data',
+                child: GestureDetector(
+                  onTap: () {
+                    Navigator.push(context, MaterialPageRoute(builder: (context) => PersonalData(widget.user_id)));
+                  },
+                  child: Card(
+                    elevation: 0,
+                    color: Colors.transparent,
+                    child: ListTile(
+                      // dense: true,
+                      leading: Container(
+                        // width: double.infinity,
+                        padding: EdgeInsets.all(10),
+                        decoration: BoxDecoration(
+                          borderRadius: const BorderRadius.all(Radius.circular(10)),
+                          border: Border.all(
+                            color: const Color(0xff8689C6),
+                          ),
+                        ),
+                        child: Icon(
+                          Icons.person,
+                          color: Color(0xFF8689C6),
+                        ),
+                      ),
+                      title: Text(
+                        'Personal Data',
+                        style: kProfileStyle,
+                      ),
+                      trailing: IconButton(
+                        icon: Icon(Icons.keyboard_arrow_right, color: const Color(0xff000162), size: 30,),
+                        onPressed: () {
+                          Navigator.push(context, MaterialPageRoute(builder: (context) => PersonalData(widget.user_id)));
                         },
                       ),
+                    ),
+                  ),
+                ),
+              ),
                       ProfileCardWidgetwithOptions(
                         iconData: Icons.medical_services_rounded,
                         textContext: 'Medical History',
@@ -86,9 +150,9 @@ class _ProfilePageState extends State<ProfilePage> {
                         iconDataWithArrow: Icons.arrow_right,
                         color: const Color(0xFF8689C6),
                         onPress: () {
-                          Navigator.pushNamed(context, SignOut.id);
+                          Navigator.pushNamed(context, LoginScreen.id);
                         },
-                        route: Settings.id,
+                        route: LoginScreen.id,
                       ),
                       const Divider(),
                       ProfileCardWidgetwithOptions(

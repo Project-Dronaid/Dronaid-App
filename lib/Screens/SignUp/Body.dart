@@ -63,13 +63,6 @@ class _BodyState extends State<Body> {
     super.initState();
     // _focus.addListener(_onFocusChange);
   }
-
-  // void _onFocusChange() {
-  //   setState(() {
-  //     showImage = !_focus.hasFocus;
-  //   });
-  // }
-
   @override
   Widget build(BuildContext context) {
     // var idk = MediaQuery.of(context).viewInsets.bottom;
@@ -89,119 +82,143 @@ class _BodyState extends State<Body> {
           SizedBox(
             height: size.height * 0.03,
           ),
-          RoundedInputField(
-            chld: TextField(
-              // focusNode: _focus,
-              controller: namecontroller,
-              keyboardType: TextInputType.name,
-              autofocus: true,
-              decoration: const InputDecoration(
-                icon: Icon(
-                  Icons.person,
-                  color: kPrimaryColor,
-                  // color: Color(0xFF6F35A5),
-                ),
-                hintText: "Enter Name",
-                hintStyle: TextStyle(
-                  color: Colors.grey,
-                ),
-                enabledBorder: InputBorder.none,
-                focusedBorder: InputBorder.none,
-                border: InputBorder.none,
-              ),
-            ),
-          ),
-          // RoundedInputField(
-          //   cntroller: phonecontroller,
-          //     hintText: 'Phone Number',
-          //     icon: Icons.phone,
-          //     onChanged: (value) {
-          //     },
-          //     maxLength: 10),
-          // RoundedPasswordField(onChanged: (value) {}),
-          RoundedInputField(
-            chld: TextField(
-              controller: phonecontroller,
-              keyboardType: TextInputType.phone,
-              autofocus: true,
-              decoration: const InputDecoration(
-                icon: Icon(
-                  Icons.phone,
-                  color: Color(0xFF6F35A5),
-                ),
-                hintText: "Enter Phone Number",
-                hintStyle: TextStyle(
-                  color: Colors.grey,
-                ),
-                enabledBorder: InputBorder.none,
-                focusedBorder: InputBorder.none,
-                border: InputBorder.none,
-              ),
-            ),
-          ),
-          RoundedInputField(
-            chld: TextField(
-              controller: emailcontroller,
-              keyboardType: TextInputType.emailAddress,
-              autofocus: true,
-              decoration: const InputDecoration(
-                icon: Icon(
-                  Icons.mail_outline_outlined,
-                  color: Color(0xFF6F35A5),
-                ),
-                hintText: "Enter Email ID",
-                hintStyle: TextStyle(
-                  color: Colors.grey,
-                ),
-                enabledBorder: InputBorder.none,
-                focusedBorder: InputBorder.none,
-                border: InputBorder.none,
-              ),
-            ),
-          ),
-          RoundedInputField(
-            chld: TextField(
-              controller: passwordcontroller,
-              keyboardType: TextInputType.visiblePassword,
-              obscureText: true,
-              autofocus: true,
-              decoration: const InputDecoration(
-                icon: Icon(
-                  Icons.password,
-                  color: Color(0xFF6F35A5),
-                ),
-                hintText: "Enter Password",
-                hintStyle: TextStyle(
-                  color: Colors.grey,
-                ),
-                enabledBorder: InputBorder.none,
-                focusedBorder: InputBorder.none,
-                border: InputBorder.none,
-              ),
-            ),
-          ),
-          Container(
-            margin: const EdgeInsets.symmetric(vertical: 10),
-            width: size.width*0.8,
-            child: ClipRRect(
-              borderRadius: BorderRadius.circular(29),
-              child: TextButton(
-                  style: TextButton.styleFrom(
-                    backgroundColor: kPrimaryColor,
+          ListView(
+            scrollDirection: Axis.vertical,
+            padding: EdgeInsets.only(left: size.width*0.04,right: size.width*0.04),
+            shrinkWrap: true,
+            children: [
+              RoundedInputField(
+                chld: TextField(
+                  // focusNode: _focus,
+                  controller: namecontroller,
+                  keyboardType: TextInputType.name,
+                  autofocus: true,
+                  decoration: const InputDecoration(
+                    icon: Icon(
+                      Icons.person,
+                      color: kPrimaryColor,
+                      // color: Color(0xFF6F35A5),
+                    ),
+                    hintText: "Enter Name",
+                    hintStyle: TextStyle(
+                      color: Colors.grey,
+                    ),
+                    enabledBorder: InputBorder.none,
+                    focusedBorder: InputBorder.none,
+                    border: InputBorder.none,
                   ),
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(vertical: 15,horizontal: 42),
-                    child: Text('SIGNUP',
-                      style: TextStyle(
-                        color: Colors.white,
-                      ),),
-                  ),
-                  onPressed: (){
-                    postdata();
-                  },
+                ),
               ),
-            ),
+              RoundedInputField(
+                chld: TextField(
+                  controller: phonecontroller,
+                  keyboardType: TextInputType.phone,
+                  autofocus: true,
+                  decoration: const InputDecoration(
+                    icon: Icon(
+                      Icons.phone,
+                      color: Color(0xFF6F35A5),
+                    ),
+                    hintText: "Enter Phone Number",
+                    hintStyle: TextStyle(
+                      color: Colors.grey,
+                    ),
+                    enabledBorder: InputBorder.none,
+                    focusedBorder: InputBorder.none,
+                    border: InputBorder.none,
+                  ),
+                ),
+              ),
+              RoundedInputField(
+                chld: TextField(
+                  controller: emailcontroller,
+                  keyboardType: TextInputType.emailAddress,
+                  autofocus: true,
+                  decoration: const InputDecoration(
+                    icon: Icon(
+                      Icons.mail_outline_outlined,
+                      color: Color(0xFF6F35A5),
+                    ),
+                    hintText: "Enter Email ID",
+                    hintStyle: TextStyle(
+                      color: Colors.grey,
+                    ),
+                    enabledBorder: InputBorder.none,
+                    focusedBorder: InputBorder.none,
+                    border: InputBorder.none,
+                  ),
+                ),
+              ),
+              RoundedInputField(
+                chld: TextField(
+                  controller: passwordcontroller,
+                  keyboardType: TextInputType.visiblePassword,
+                  obscureText: true,
+                  autofocus: true,
+                  decoration: const InputDecoration(
+                    icon: Icon(
+                      Icons.password,
+                      color: Color(0xFF6F35A5),
+                    ),
+                    hintText: "Enter Password",
+                    hintStyle: TextStyle(
+                      color: Colors.grey,
+                    ),
+                    enabledBorder: InputBorder.none,
+                    focusedBorder: InputBorder.none,
+                    border: InputBorder.none,
+                  ),
+                ),
+              ),
+              Container(
+                margin: const EdgeInsets.symmetric(vertical: 10),
+                width: size.width*0.8,
+                child: ClipRRect(
+                  borderRadius: BorderRadius.circular(29),
+                  child: TextButton(
+                    style: TextButton.styleFrom(
+                      backgroundColor: kPrimaryColor,
+                    ),
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 15,horizontal: 42),
+                      child: Text('SIGNUP',
+                        style: TextStyle(
+                          color: Colors.white,
+                        ),),
+                    ),
+                    onPressed: (){
+                      postdata();
+                    },
+                  ),
+                ),
+              ),
+              SizedBox(
+                height: size.height*0.3,
+              ),
+            ],
           ),
+          // Container(
+          //   margin: const EdgeInsets.symmetric(vertical: 10),
+          //   width: size.width*0.8,
+          //   child: ClipRRect(
+          //     borderRadius: BorderRadius.circular(29),
+          //     child: TextButton(
+          //         style: TextButton.styleFrom(
+          //           backgroundColor: kPrimaryColor,
+          //         ),
+          //         child: Padding(
+          //           padding: const EdgeInsets.symmetric(vertical: 15,horizontal: 42),
+          //           child: Text('SIGNUP',
+          //             style: TextStyle(
+          //               color: Colors.white,
+          //             ),),
+          //         ),
+          //         onPressed: (){
+          //           postdata();
+          //         },
+          //     ),
+          //   ),
+          // ),
           // SizedBox(
           //   height: size.height * 0.03,
           // ),

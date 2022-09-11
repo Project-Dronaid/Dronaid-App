@@ -20,6 +20,7 @@ class _BodyState extends State<Body> {
   TextEditingController passwordcontroller = TextEditingController();
   String ?user_id;
   String url=PROD_URL+"/user/loginuser";
+  bool obscureText = true;
 
   void postdata() async{
     var dio= Dio();
@@ -38,6 +39,9 @@ class _BodyState extends State<Body> {
 
       if(response.statusCode==200){
         Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context)=>HomeScreen(user_id!)));
+      }
+      else if(response.statusCode==400){
+        print(response.statusCode);
       }
     }catch(err){
       print(err);
@@ -99,12 +103,27 @@ class _BodyState extends State<Body> {
               chld: TextField(
                 controller: passwordcontroller,
                 keyboardType: TextInputType.visiblePassword,
-                obscureText: true,
+                obscureText: obscureText,
                 autofocus: true,
-                decoration: const InputDecoration(
+                decoration: InputDecoration(
                   icon: Icon(
                     Icons.password,
                     color: Color(0xFF6F35A5),
+                  ),
+                  suffix: GestureDetector(
+                    child: Icon(
+                      Icons.remove_red_eye_outlined,
+                      color: Color(0xFF6F35A5),
+                      size: 23,
+                    ),
+                    onTap: (){
+                      setState(() {
+                        if(obscureText==true)
+                          obscureText = false;
+                        else
+                          obscureText = true;
+                      });
+                    },
                   ),
                   hintText: "Enter Password",
                   hintStyle: TextStyle(

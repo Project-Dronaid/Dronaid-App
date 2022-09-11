@@ -26,7 +26,6 @@ class ProfileCardWidgetwithOptions extends StatefulWidget {
 
 class _ProfileCardWidgetwithOptionsState
     extends State<ProfileCardWidgetwithOptions> {
-
   void onSearchButtonPressed(routeName) {
     setState(() {
       Navigator.pushNamed(context, routeName);
