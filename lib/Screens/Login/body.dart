@@ -38,7 +38,8 @@ class _BodyState extends State<Body> {
       });
 
       if(response.statusCode==200){
-        Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context)=>HomeScreen(user_id!)));
+        Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context)=>HomeScreen()));
+        // user_id!
       }
       else if(response.statusCode==400){
         print(response.statusCode);
@@ -152,7 +153,8 @@ class _BodyState extends State<Body> {
                       ),),
                   ),
                   onPressed: (){
-                    postdata();
+                    // postdata();
+                    Navigator.pushNamed(context, HomeScreen.id);
                   },
                 ),
               ),

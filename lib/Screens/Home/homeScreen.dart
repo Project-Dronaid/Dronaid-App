@@ -7,8 +7,8 @@ import 'package:google_nav_bar/google_nav_bar.dart';
 
 class HomeScreen extends StatefulWidget {
   static const String id = "HomeScreen";
-  final String user_id;
-  HomeScreen(this.user_id);
+  // final String user_id;
+  // HomeScreen(this.user_id);
   @override
   _HomeScreenState createState() => _HomeScreenState();
 }
@@ -18,21 +18,23 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       resizeToAvoidBottomInset: false,
-      body: HomeListView(widget.user_id,),
+      body: HomeListView(),
+      // widget.user_id,
     );
   }
 }
 
 class HomeListView extends StatefulWidget {
-  final String user_id;
-  HomeListView(this.user_id);
+  // final String user_id;
+  // HomeListView(this.user_id);
 
   @override
-  State<HomeListView> createState() => _HomeListViewState(this.user_id);
+  State<HomeListView> createState() => _HomeListViewState();
+  // this.user_id
 }
 
 class _HomeListViewState extends State<HomeListView> {
-  _HomeListViewState(this._UID);
+  // _HomeListViewState(this._UID);
   String? _UID = '';
   int pageIndex = 0;
   // var idVal = widget.user_id!;
