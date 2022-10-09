@@ -18,7 +18,7 @@ import 'package:flutter/material.dart';
 import 'package:dronaidapp/components/profileCardWidget.dart';
 import 'package:http/http.dart';
 
-import '../../components/constants.dart';
+import '../../../components/constants.dart';
 
 class ProfilePage extends StatefulWidget {
   @override
@@ -37,9 +37,10 @@ class _ProfilePageState extends State<ProfilePage> {
     // getuserdetail();
   }
   Future <void> showDetails() async {
-    final databaseRef = FirebaseDatabase.instance.ref(auth.currentUser!.uid.toString());
-    DatabaseEvent  event = await databaseRef.once();
-    var parent = event.snapshot.child('Profile Info');
+    final databaseRef = FirebaseDatabase.instance.ref("USERS");
+    final user = auth.currentUser!.uid.toString();
+    DatabaseEvent event = await databaseRef.once();
+    var parent = event.snapshot.child(user + '/Profile Info');
     setState(() {
       name = parent.child('Name').value.toString();
     });
@@ -49,6 +50,7 @@ class _ProfilePageState extends State<ProfilePage> {
     Size size = MediaQuery.of(context).size;
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: const Color.fromRGBO(29, 56, 73, 1.0),
         automaticallyImplyLeading: false,
         centerTitle: true,
         actions: [

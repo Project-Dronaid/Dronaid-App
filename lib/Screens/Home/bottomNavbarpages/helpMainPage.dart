@@ -203,26 +203,23 @@ class _HelpPageState extends State<HelpPage> {
     const LatLng(13.3444152,74.7944426), const LatLng(13.35053, 74.793568),const LatLng(13.352987, 74.791623),const LatLng(13.3529363,74.7882884)
   ];
 
-  String url=PROD_URL+"/user/sendlocation";
-
-  void postdata() async{
-    var dio= Dio();
-    var body=jsonEncode({
-      "lat": lat.toString(),
-      "lon": lon.toString(),
-    });
-    try {
-      Response response = await dio.post(url, data: body);
-      print(response.data);
-      if(response.statusCode==200){
-      }
-    }catch(err){
-      print(err);
-    }
-  }
-
-
-
+  // String url=PROD_URL+"/user/sendlocation";
+  //
+  // void postdata() async{
+  //   var dio= Dio();
+  //   var body=jsonEncode({
+  //     "lat": lat.toString(),
+  //     "lon": lon.toString(),
+  //   });
+  //   try {
+  //     Response response = await dio.post(url, data: body);
+  //     print(response.data);
+  //     if(response.statusCode==200){
+  //     }
+  //   }catch(err){
+  //     print(err);
+  //   }
+  // }
   //InitState
   @override
   void initState() {
@@ -349,29 +346,6 @@ class _HelpPageState extends State<HelpPage> {
                 ),
               ),
             ),
-            Positioned(
-              bottom: size.height*0.03,
-                left: size.width*0.4,
-                child: InkWell(
-                  onTap: (){
-                    postdata();
-                  },
-                  child: Container(
-                    height: size.height*0.05,
-                    width: size.width*0.2,
-                    decoration: BoxDecoration(
-                      color: Colors.deepPurple,
-                      borderRadius: BorderRadius.circular(10),
-                    ),
-                    child: Center(
-                      child: Text(
-                        'ORDER',
-                        style: TextStyle(
-                          color: Colors.white,
-                        ),),
-                    ),
-                  ),
-                ),),
             // PanelWidget(),
       ],
         ),
@@ -398,48 +372,6 @@ class _HelpPageState extends State<HelpPage> {
     );
   }
 }
-
-
-  Widget PanelWidget() => Container(
-      margin: const EdgeInsets.only(top: 36.0),
-      color: const Color.fromRGBO(39, 77, 100, 1.0),
-      child: Column(
-        children: [
-          Flexible(
-            flex: 0,
-            child: Row(
-              children: [
-                Flexible(
-                    fit: FlexFit.loose,
-                    child: MyCardWidget("Medical Aid", Icons.medical_services, MedicalAidMarket.id)
-                ),
-                Flexible(
-                    fit: FlexFit.loose,
-                    child: MyCardWidget("Fire", Icons.fire_truck_outlined, Fire.id)),
-              ],
-            ),
-          ),
-          Flexible(
-            flex: 0,
-            child: Row(
-              children: [
-                Flexible(
-                    fit: FlexFit.loose,
-                    child: MyCardWidget(
-                        "Ambulance", Icons.medical_services_rounded, Ambulance.id)),
-                Flexible(
-                    fit: FlexFit.loose,
-                    child: MyCardWidget("Police", Icons.local_police, Police.id)),
-              ],
-            ),
-          ),
-          Flexible(
-              flex: 0,
-              fit: FlexFit.loose,
-              child: MyCardWidget("Emergency", Icons.sos, Emergency.id))
-        ],
-      ));
-
 
 
 

@@ -61,7 +61,7 @@ class _BodyState extends State<Body> {
         email: emailcontroller.text,
         password: passwordcontroller.text.toString()).then((value){
       utils.toastmessage('User Login Successfully');
-      Navigator.push(context, MaterialPageRoute(builder:(context) => HomeScreen()));
+      Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder:(context) => HomeScreen()),ModalRoute.withName('/'));
       setState(() {
         loading = false;
       });
@@ -196,26 +196,26 @@ class _BodyState extends State<Body> {
             SizedBox(
               height: size.height * 0.001,
             ),
-            Padding(
-              padding: EdgeInsets.symmetric(horizontal: size.width*0.1,vertical: size.height*0.015),
-              child: InkWell(
-                onTap: (){
-                  Navigator.push(context, MaterialPageRoute(builder: (context)=> LoginWithPhoneNumber()));
-                },
-                child: Container(
-                  height: 50,
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(50),
-                    border: Border.all(
-                      color: Colors.black,
-                    ),
-                  ),
-                  child: Center(
-                    child: Text('Login with phone'),
-                  ),
-                ),
-              ),
-            ),
+            // Padding(
+            //   padding: EdgeInsets.symmetric(horizontal: size.width*0.1,vertical: size.height*0.015),
+            //   child: InkWell(
+            //     onTap: (){
+            //       Navigator.push(context, MaterialPageRoute(builder: (context)=> LoginWithPhoneNumber()));
+            //     },
+            //     child: Container(
+            //       height: 50,
+            //       decoration: BoxDecoration(
+            //         borderRadius: BorderRadius.circular(50),
+            //         border: Border.all(
+            //           color: Colors.black,
+            //         ),
+            //       ),
+            //       child: Center(
+            //         child: Text('Login with phone'),
+            //       ),
+            //     ),
+            //   ),
+            // ),
             AlreadyHaveAnAccountCheck(
               press: () {
                 Navigator.pushNamed(context, SignUp.id);

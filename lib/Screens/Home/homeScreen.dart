@@ -1,8 +1,9 @@
+import 'package:dronaidapp/Screens/Home/bottomNavbarpages/homemain.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_tabler_icons/flutter_tabler_icons.dart';
-import 'profilePage.dart';
+import 'bottomNavbarpages/profilePage.dart';
 import 'webPage.dart';
-import 'helpMainPage.dart';
+import 'bottomNavbarpages/helpMainPage.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -40,7 +41,7 @@ class _HomeListViewState extends State<HomeListView> {
   @override
   Widget build(BuildContext context) {
     final pages = [
-      WebPage(),
+      HomeMain(),
       HelpPage(),
       ProfilePage(),
     ];

@@ -16,6 +16,41 @@ class _LoginWithPhoneNumberState extends State<LoginWithPhoneNumber> {
   bool loading = false;
   final _auth = FirebaseAuth.instance;
   final String country = '+91';
+
+  void phoneLogin() {
+    setState(() {
+      loading = true;
+    });
+    _auth.verifyPhoneNumber(
+        phoneNumber: country + phoneNumbercontroller.text.toString(),
+        verificationCompleted: (_){
+          setState(() {
+            loading = false;
+          });
+        },
+        verificationFailed: (e){
+          Utils().toastmessage(e.toString());
+          setState(() {
+            loading = false;
+          });
+        },
+        codeSent: (String verificationID, int? token){
+          Navigator.push(context,
+              MaterialPageRoute(builder: (context)=>
+                  Verifycodescreen(verificationId: verificationID,)));
+          setState(() {
+            loading = false;
+          });
+        },
+        codeAutoRetrievalTimeout: (e){
+          Utils().toastmessage(e.toString());
+          setState(() {
+            loading = false;
+          });
+        }
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -40,39 +75,7 @@ class _LoginWithPhoneNumberState extends State<LoginWithPhoneNumber> {
                 height: 80
             ),
           InkWell(
-            onTap: () {
-              setState(() {
-                loading = true;
-              });
-              _auth.verifyPhoneNumber(
-                  phoneNumber: country + phoneNumbercontroller.text.toString(),
-                  verificationCompleted: (_){
-                    setState(() {
-                      loading = false;
-                    });
-                    },
-                  verificationFailed: (e){
-                    Utils().toastmessage(e.toString());
-                    setState(() {
-                      loading = false;
-                    });
-                    },
-                  codeSent: (String verificationID, int? token){
-                    Navigator.push(context,
-                        MaterialPageRoute(builder: (context)=>
-                            Verifycodescreen(verificationId: verificationID,)));
-                    setState(() {
-                      loading = false;
-                    });
-                    },
-                  codeAutoRetrievalTimeout: (e){
-                    Utils().toastmessage(e.toString());
-                    setState(() {
-                      loading = false;
-                    });
-                  }
-                  );
-              },
+            onTap: () {phoneLogin();},
             child: Container(
               height: 50,
               decoration: BoxDecoration(

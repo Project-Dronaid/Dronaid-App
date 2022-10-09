@@ -31,30 +31,6 @@ class _PersonalDataState extends State<PersonalData> {
   var bloodgroup;
   var height;
   var weight;
-  // String? dropDownValue = "O+ve";
-  // var items = [
-  //   "O+ve",
-  //   "A+ve",
-  //   "B+ve",
-  //   "AB+ve",
-  // ];
-  // Future<void> getuserdetail() async {
-  //   var url = PROD_URL + "/user/getuser/" + widget.user_id;
-  //   var response = await get(Uri.parse(url));
-  //   var jsondata = await jsonDecode(response.body);
-  //
-  //   setState(() {
-  //     name = jsondata['user']['name'].toString();
-  //     email = jsondata['user']['email'].toString();
-  //     phonenumber = jsondata['user']['phonenumber'].toString();
-  //     age = jsondata['user']['age'].toString();
-  //     gender = jsondata['user']['gender'].toString();
-  //     bloodgroup = jsondata['user']['bloodgroup'].toString();
-  //     height = jsondata['user']['height'].toString();
-  //     weight = jsondata['user']['weight'].toString();
-  //
-  //   });
-  // }
   File? image;
   Future pickImage(ImageSource source) async {
     try {
@@ -82,9 +58,10 @@ class _PersonalDataState extends State<PersonalData> {
   final auth = FirebaseAuth.instance;
 
   Future<void> showDetailsUser() async {
-    final databaseRef = FirebaseDatabase.instance.ref(auth.currentUser!.uid.toString());
+    final databaseRef = FirebaseDatabase.instance.ref("USERS");
+    final user = auth.currentUser!.uid.toString();
     DatabaseEvent  event = await databaseRef.once();
-    var parent = event.snapshot.child('Profile Info');
+    var parent = event.snapshot.child(user+'/Profile Info');
     setState(() {
       name = parent.child('Name').value.toString();
       email = parent.child('Email').value.toString();
@@ -92,6 +69,7 @@ class _PersonalDataState extends State<PersonalData> {
       bloodgroup = parent.child('Blood-Group').value.toString();
       height = parent.child('Height').value.toString();
       weight =  parent.child('Weight').value.toString();
+      gender = parent.child('Gender').value.toString();
     });
   }
   @override

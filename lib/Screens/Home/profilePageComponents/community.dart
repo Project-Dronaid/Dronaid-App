@@ -1,3 +1,4 @@
+import 'package:dronaidapp/Screens/Home/webPage.dart';
 import 'package:flutter/material.dart';
 
 class Community extends StatefulWidget {
@@ -11,6 +12,7 @@ class _CommunityState extends State<Community> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      body: WebPage(),
       appBar: AppBar(
         leading: GestureDetector(
           onTap: () {
