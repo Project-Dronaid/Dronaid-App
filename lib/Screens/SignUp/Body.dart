@@ -127,9 +127,11 @@ class _BodyState extends State<Body> {
             SizedBox(
               height: size.height * 0.03,
             ),
-            SvgPicture.asset(
-              'assets/icons/signup.svg',
-              height: size.height * 0.35,
+            Expanded(
+              child: SvgPicture.asset(
+                'assets/icons/signup.svg',
+                height: size.height * 0.35,
+              ),
             ),
             Padding(
               padding: EdgeInsets.symmetric(horizontal: size.width*0.1),
