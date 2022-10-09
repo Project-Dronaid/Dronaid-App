@@ -12,11 +12,10 @@ import 'package:dronaidapp/Screens/Home/profilePageComponents/medicalHistory.dar
 import 'package:dronaidapp/Screens/Home/profilePageComponents/medicalHistory.dart';
 import 'package:dronaidapp/Screens/Home/profilePageComponents/settings.dart';
 import 'package:dronaidapp/Screens/Home/profilePageComponents/settings.dart';
-import 'package:dronaidapp/Screens/Home/profilePageComponents/signOut.dart';
-import 'package:dronaidapp/Screens/Home/profilePageComponents/signOut.dart';
 import 'package:dronaidapp/Screens/Home/profilePageComponents/support.dart';
 import 'package:dronaidapp/Screens/Home/profilePageComponents/support.dart';
 import 'package:dronaidapp/Screens/WelcomeScreen/welcomeBack.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'Screens/Home/homeScreen.dart';
 import 'Screens/Home/profilePageComponents/personalData.dart';
@@ -25,9 +24,11 @@ import 'Screens/SignUp/signUp.dart';
 import 'constants.dart';
 
 import 'introScreens/splashScreen.dart';
-import 'onBoardingScreen.dart';
+import 'onBoarding/onBoardingScreen.dart';
 
-void main() {
+void main() async{
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
   runApp(MyApp());
 }
 
@@ -38,6 +39,9 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
+      theme: ThemeData(
+        primarySwatch: Colors.deepPurple,
+      ),
       initialRoute: SplashScreen.id,
       routes: {
         OnBoardingScreen.id : (context) => OnBoardingScreen(),
@@ -45,11 +49,10 @@ class MyApp extends StatelessWidget {
         SplashScreen.id: (context) => SplashScreen(),
         LoginScreen.id: (context) => LoginScreen(),
         SignUp.id: (context) => SignUp(),
-        HomeScreen.id : (context) => HomeScreen(),
+        // HomeScreen.id : (context) => HomeScreen(),
         // PersonalData.id: (context) => PersonalData(),
-        MedicalHistory.id: (context) => MedicalHistory(),
+        // MedicalHistory.id: (context) => MedicalHistory(),
         Settings.id: (context) => Settings(),
-        SignOut.id: (context) => SignOut(),
         Faq.id: (context) => Faq(),
         Community.id: (context) => Community(),
         License.id: (context) => License(),

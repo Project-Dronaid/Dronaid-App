@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "106636016039",
+    "project_id": "project-dronaid-480ca",
+    "storage_bucket": "project-dronaid-480ca.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:106636016039:android:231773d24210d765101e82",
+        "android_client_info": {
+          "package_name": "com.dronaid.dronaidapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "106636016039-2uk2pdhgp0i01q05108sv64oma5r6nlf.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyATKTwTulxY4pLCeNbmwVzBlljQO17QfK4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "106636016039-2uk2pdhgp0i01q05108sv64oma5r6nlf.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

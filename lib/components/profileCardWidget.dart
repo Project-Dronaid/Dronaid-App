@@ -71,13 +71,7 @@ class _ProfileCardWidgetwithOptionsState
               widget.textContext,
               style: kProfileStyle,
             ),
-            trailing: IconButton(
-              icon: Icon(Icons.keyboard_arrow_right, color: const Color(0xff000162), size: 30,),
-              onPressed: () {
-                onSearchButtonPressed(widget.route);
-                widget.onPress;
-              },
-            ),
+            trailing: Icon(Icons.keyboard_arrow_right, color: const Color(0xff000162), size: 30,),
           ),
         ),
       ),

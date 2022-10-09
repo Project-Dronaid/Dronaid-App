@@ -48,7 +48,6 @@ class _SupportState extends State<Support> {
                 SizedBox(height: 50,),
                 GestureDetector(
                   onTap: (){
-                    print("On tap called");
                     launchUrl(Uri.parse("tel:9484666168"));
                   },
                   child: Row(

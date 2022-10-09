@@ -1,16 +1,24 @@
+import 'dart:async';
+import 'dart:collection';
+import 'dart:convert';
+import 'dart:ui' as ui;
+import 'package:custom_info_window/custom_info_window.dart';
+import 'package:dio/dio.dart';
 import 'package:dronaidapp/Screens/Helps/Ambulance.dart';
 import 'package:dronaidapp/Screens/Helps/Emergency.dart';
 import 'package:dronaidapp/Screens/Helps/Fire.dart';
 import 'package:dronaidapp/Screens/Helps/MedicalAid.dart';
 import 'package:dronaidapp/Screens/Helps/Police.dart';
 import 'package:dronaidapp/components/MyCardWidget.dart';
-import 'package:dronaidapp/components/constants.dart';
+import 'package:dronaidapp/components/url.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:dronaidapp/Screens/Home/locations.dart';
+import 'package:geocoding/geocoding.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:location/location.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
+import 'package:uuid/uuid.dart';
+import 'package:http/http.dart' as http;
 
 
 class HelpPage extends StatefulWidget {
@@ -19,176 +27,381 @@ class HelpPage extends StatefulWidget {
 }
 
 class _HelpPageState extends State<HelpPage> {
+
+
+  var lat;
+  var lon;
+//Custom Info Window Controller Function//
+  //For Marker Icon Image
+  Uint8List? markerImage;
+  //Custom Info Window controller initializer
+  CustomInfoWindowController _customInfoWindowController = CustomInfoWindowController();
+  //Custom Info Window Data function
+  loadImageData() async {
+    for(int index = 1; index <images.length; index++){
+      final Uint8List markerIcon = await getBytesFromAssets(images[index], 125,125);
+      _marker.add(
+        Marker(markerId: MarkerId(index.toString()),
+            position: _latlng[index],
+            icon: BitmapDescriptor.fromBytes(markerIcon),
+        ),
+      );
+    }
+  }
+  // Function for converting images to bytes for marker icon image.
+  Future<Uint8List> getBytesFromAssets (String path, int height, int width) async {
+    ByteData data = await rootBundle.load(path);
+    ui.Codec codec  = await ui.instantiateImageCodec(data.buffer.asUint8List(),targetWidth: width,targetHeight: height);
+    ui.FrameInfo fi = await codec.getNextFrame();
+    return (await fi.image.toByteData(format: ui.ImageByteFormat.png))!.buffer.asUint8List();
+  }
+
+
+//Current Location Mapping Marking//
+  // Initial Camera Position.
   static const _initialCameraPosition = CameraPosition(
-    target: LatLng(13.35053, 74.793568),
-    zoom: 15.5,
+    target: LatLng(13.344842, 74.786309),//13.344842, 74.786309 //13.35053, 74.793568
+    zoom: 15.4746,
   );
-  Set<Marker> _markers = {};
-  late GoogleMapController _mapController;
-  void _onMapCreated(GoogleMapController controller) {
-    _mapController = controller;
-    setState(() {
-      _markers.add(
-        const Marker(
-            markerId: MarkerId('origin'),
-            position: LatLng(13.350531, 74.793568),
-            infoWindow: InfoWindow(
-              title: 'Project Dronaid',
-              snippet: 'Student Project Workshop',
-            )),
+  //Current Location Marker Set up function
+  loadData(){
+    _determinePosition().then((value) async {
+      lat = value.latitude.toString();
+      lon = value.longitude.toString();
+      print(value.latitude.toString() + "  " +value.longitude.toString());
+      _marker.add(
+        Marker(markerId: const MarkerId('0'),
+          position: LatLng(value.latitude, value.longitude),
+          infoWindow: const InfoWindow(
+            title: 'Current Location',
+          ),
+        ),
       );
-      controller.animateCamera(
-        CameraUpdate.newCameraPosition(_initialCameraPosition),
-      );
+
+      CameraPosition cameraposition = CameraPosition(
+        zoom: 15.476  ,
+        target: LatLng(value.latitude, value.longitude),);
+
+      final GoogleMapController controller = await _controller.future;
+      controller.animateCamera(CameraUpdate.newCameraPosition(cameraposition));
+      setState(() {
+      });
     });
   }
-  // void getLocation() async {
-  //
-  // }
+  //Current Location Determination
+  Future<Position> _determinePosition() async {
+    bool serviceEnabled;
+    LocationPermission permission;
+    serviceEnabled = await Geolocator.isLocationServiceEnabled();
+    if (!serviceEnabled) {
+      return Future.error('Location services are disabled.');
+    }
+    permission = await Geolocator.checkPermission();
+    if (permission == LocationPermission.denied) {
+      permission = await Geolocator.requestPermission();
+      if (permission == LocationPermission.denied) {
+        return Future.error('Location permissions are denied');
+      }
+    }
+    if (permission == LocationPermission.deniedForever) {
+      return Future.error(
+          'Location permissions are permanently denied, we cannot request permissions.');
+    }
+    return await Geolocator.getCurrentPosition(desiredAccuracy: LocationAccuracy.high);
+  }
+
+
+//Autocomplete function//
+  //Text Editing Controller initializer
+  TextEditingController textEditingController = TextEditingController();
+  TextEditingController textEditingController1 = TextEditingController();
+  // Unique Id for a device
+  var uuid = const Uuid();
+  // Session Token for personalizing service
+  String _sessiontoken = '123456';
+  //Session Token linked with Unique Id
+  void onChange(){
+    if(_sessiontoken==null){
+      setState(() {
+        _sessiontoken = uuid.v4();
+      });
+    }
+    else{
+      getSuggestion(textEditingController.text);
+      getSuggestion(textEditingController1.text);
+    }
+  }
+  //List of Dynamic Places which is generated under autocomplete
+  List<dynamic> _placesList = [];
+  //Suggestion function under autocomplete function
+  void getSuggestion(String input) async {
+    String kPLACES_API_KEY = 'AIzaSyC1_U9ZJk98Su3FtNnSpnKeIJpTPEai06M';
+    String baseURL = 'https://maps.googleapis.com/maps/api/place/autocomplete/json';
+    String request = '$baseURL?input=$input&key=$kPLACES_API_KEY&sessiontoken=$_sessiontoken';
+
+    var response = await http.get(Uri.parse(request));
+    var data = response.body.toString();
+    print(data);
+    if (response.statusCode == 200){
+      setState(() {
+        _placesList = jsonDecode(response.body.toString()) ['predictions'];
+      });
+    }else{
+      throw Exception('Failed to load Data');
+    }
+  }
+
+
+//Controllers Combination
+  //Maps Completer used for controlling maps.
+  Completer<GoogleMapController> _controller = Completer();
+  // Panel Controller initializer
   final panelController = PanelController();
 
+
+//LIST:LIST:LIST:LIST:LIST//
+  //List of images for marker icons
+  List<String> images = ['assets/images/home-delivery.png','assets/images/drone-delivery.png','assets/images/drone.png'];
+  //List of markers that appears on screen which is dynamic
+  List<Marker> _marker = [];
+  //List of pre set markers
+  List<Marker> _list = [
+    const Marker(
+      markerId: MarkerId('0'),
+      position: LatLng(13.35053, 74.793568),
+      infoWindow: InfoWindow(title: 'Dronaid',),),
+    const Marker(
+      markerId: MarkerId('1'),
+      position: LatLng(13.3529363,74.7882884),
+      infoWindow: InfoWindow(
+        title: 'Kasturba Medical College',
+        snippet: 'Hospital',
+      ),
+    ),
+    const Marker(
+      markerId: MarkerId('2'),
+      position: LatLng(13.3444152,74.7944426),
+      infoWindow: InfoWindow(
+        title: 'MIT Playground',
+        snippet: 'Ground',
+      ),
+    )];
+  //List of pre set latlang coordinates
+  List<LatLng> _latlng = [const LatLng(13.350486,74.793765),const LatLng(13.3529363,74.7882884),const LatLng(13.3444152,74.7944426)];
+
+//Polygons
+  Set<Polygon> _polygone = HashSet<Polygon>();
+  Set<Polyline> _polyline = HashSet<Polyline>();
+  List<LatLng> points = [
+     const LatLng(13.344842, 74.786309),
+     const LatLng(13.329760, 74.791855),
+     const LatLng(13.336647, 74.793746),
+     const LatLng(13.353193, 74.802395),
+     const LatLng(13.344842, 74.786309),
+  ];
+  List<LatLng> _polyLatlng = [
+    const LatLng(13.3444152,74.7944426), const LatLng(13.35053, 74.793568),const LatLng(13.352987, 74.791623),const LatLng(13.3529363,74.7882884)
+  ];
+
+  String url=PROD_URL+"/user/sendlocation";
+
+  void postdata() async{
+    var dio= Dio();
+    var body=jsonEncode({
+      "lat": lat.toString(),
+      "lon": lon.toString(),
+    });
+    try {
+      Response response = await dio.post(url, data: body);
+      print(response.data);
+      if(response.statusCode==200){
+      }
+    }catch(err){
+      print(err);
+    }
+  }
+
+
+
+  //InitState
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState( );
+    loadImageData();
+    _marker.addAll(_list);
+    loadData();
+    textEditingController.addListener(() {
+       onChange();
+    });
+    _polygone.add(
+      Polygon(polygonId: const PolygonId('1'),points: points,
+      fillColor: Colors.red.withOpacity(0.1),
+        geodesic: true,
+        strokeWidth: 4,
+        strokeColor: Colors.redAccent,
+      )
+    );
+    _polyline.add(
+      Polyline(polylineId: const PolylineId('1'),
+      points: _polyLatlng,
+        width: 5,
+        color: Colors.blue,
+      ),
+    );
+  }
+
+  // Main Build Function//
   @override
   Widget build(BuildContext context) {
     void togglePanel() => panelController.isPanelOpen
         ? panelController.close()
         : panelController.open();
-    final panelHeightClosed = MediaQuery.of(context).size.height * 0.05;
-    final panelHeightOpen = MediaQuery.of(context).size.height * 0.6;
     Size size = MediaQuery.of(context).size;
-    return Scaffold(
-      appBar: AppBar(
-        backgroundColor: const Color.fromRGBO(29, 56, 73, 1.0),
-        title: Text('Search'),
-        actions: [
-          IconButton(onPressed: (){
-            showSearch(context: context, delegate: MySearchDelegate());
-          }, icon: Icon(Icons.search)),
-        ],
-      ),
-      body: SlidingUpPanel(
-        minHeight: size.height*0.19,
-        maxHeight: size.height*0.5,
-        backdropEnabled: true,
-        borderRadius: BorderRadius.only(
-            topLeft: Radius.circular(24.0), topRight: Radius.circular(24.0)),
-        // panel: _createListMenu(),
-        color: const Color.fromRGBO(29, 56, 73, 1.0),
-        backdropColor: Colors.black,
-        backdropTapClosesPanel: true,
+    return SafeArea(
+      child: Scaffold(
         body: Stack(
           children: [
             GoogleMap(
-            myLocationButtonEnabled: true,
-            zoomControlsEnabled: true,
-            initialCameraPosition: _initialCameraPosition,
-            onMapCreated: (controller) => _onMapCreated(controller),
-            markers: _markers,
-          ), Positioned(
-              bottom: size.height*0.28,
-              width: size.width*0.2,
-              right: size.width*0.02,
-            child: FloatingActionButton(
-            backgroundColor: Colors.white,
-            foregroundColor: Colors.blue,
-            onPressed: () {
-              setState(() {
-                _mapController.animateCamera(
-                    CameraUpdate.newCameraPosition(_initialCameraPosition));
-              });},
-            child: Icon(Icons.center_focus_strong),
-        ),
-          ),
-          ],),
-        controller: panelController,
-        collapsed: Container(
-          decoration: BoxDecoration(
-              color: const Color.fromRGBO(29, 56, 73, 1.0),
-              borderRadius: BorderRadius.only(
-                  topLeft: Radius.circular(24.0),
-                  topRight: Radius.circular(24.0))),
-          child: Padding(
-            padding: EdgeInsets.only(bottom: 80.0,left: size.width*0.1,right: size.width*0.1),
-            child: GestureDetector(
-              onTap: togglePanel,
-              child: Center(
+                onTap: (position){
+                  _customInfoWindowController.hideInfoWindow!();
+                },
+                mapToolbarEnabled: true,
+                // onCameraMove: (position){
+                //   _customInfoWindowController.onCameraMove!();
+                // },
+                markers: Set<Marker>.of(_marker),
+                // polygons: _polygone,
+                myLocationButtonEnabled: false,
+                mapType: MapType.normal,
+                compassEnabled: true,
+                zoomControlsEnabled: true,
+                initialCameraPosition: _initialCameraPosition,
+                onMapCreated: (GoogleMapController controller){
+                  _controller.complete(controller);
+                },
+              zoomGesturesEnabled: true,
+              polylines: _polyline,
+            ),
+            // CustomInfoWindow(
+            //   controller: _customInfoWindowController, height: 100,
+            //   width: 300,
+            //   offset: 35,
+            // ),
+            Positioned(
+              top: size.height*0.001,
+              child: Padding(
+                padding: EdgeInsets.only(top: size.height*0.025,left: size.width*0.05),
                 child: Container(
-                  width: size.width*0.4,
-                  height: size.height*0.005,
-                  decoration: BoxDecoration(
-                    color: Colors.white,
+                  decoration: const BoxDecoration(
+                    color: Colors.transparent,
+                  ),
+                  child: SizedBox(
+                    width: size.width*0.88,
+                    height: size.height*0.2,
+                    child: Column(
+                      children: [
+                        Container(
+                          decoration: BoxDecoration(
+                            color: Colors.white,
+                              border: Border.all(color: Colors.grey),
+                            borderRadius: BorderRadius.circular(15),
+                          ),
+                          child: ListTile(
+                            leading: const Icon(Icons.search,
+                            size:  30,),
+                            title: TextFormField(
+                              cursorColor: Colors.black,
+                              controller: textEditingController ,
+                              decoration: const InputDecoration(
+                                  hintText: 'Search Places',
+                              ),
+                            ),
+                          ),
+                        ),
+                        Expanded(
+                            child: ListView.builder(
+                            itemCount:  _placesList.length,
+                            itemBuilder: (context,index){
+                              return ListTile(
+                                leading: const Icon(Icons.location_on,
+                                color: Colors.black,),
+                                onTap: () async {
+                                  List<Location> locations = await locationFromAddress(_placesList[index]['description']);
+                                  _marker.add(
+                                    Marker(markerId: const MarkerId('4'),
+                                      position: LatLng(locations.last.latitude, locations.last.longitude),
+                                      infoWindow: InfoWindow(title: _placesList[index]['description'],),),);
+                                  CameraPosition cameraposition = CameraPosition(
+                                    zoom: 15.476  ,
+                                    target: LatLng(locations.last.latitude, locations.last.longitude),);
+                                  final GoogleMapController controller = await _controller.future;
+                                  controller.animateCamera(CameraUpdate.newCameraPosition(cameraposition));
+                                  setState(() {
+                                  });
+                                },
+                                title: Text(_placesList[index]['description'])  ,
+                              );
+                            })),
+                      ],
+                    ),
                   ),
                 ),
               ),
             ),
-          ),
+            Positioned(
+              bottom: size.height*0.03,
+                left: size.width*0.4,
+                child: InkWell(
+                  onTap: (){
+                    postdata();
+                  },
+                  child: Container(
+                    height: size.height*0.05,
+                    width: size.width*0.2,
+                    decoration: BoxDecoration(
+                      color: Colors.deepPurple,
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                    child: Center(
+                      child: Text(
+                        'ORDER',
+                        style: TextStyle(
+                          color: Colors.white,
+                        ),),
+                    ),
+                  ),
+                ),),
+            // PanelWidget(),
+      ],
         ),
-        panelBuilder: (controller) => PanelWidget(),
+        floatingActionButton: FloatingActionButton(
+          child: const Icon(Icons.location_on),
+          onPressed: () async {
+            _determinePosition().then((value) async {
+              print(value.latitude.toString() + "  " +value.longitude.toString());
+              _marker.add(
+                Marker(markerId: const MarkerId('0'),
+                  position: LatLng(value.latitude, value.longitude),
+                  infoWindow: const InfoWindow(title: 'Current Location',),),);
+              CameraPosition cameraposition = CameraPosition(
+                zoom: 15.476  ,
+                target: LatLng(value.latitude, value.longitude),);
+              final GoogleMapController controller = await _controller.future;
+              controller.animateCamera(CameraUpdate.newCameraPosition(cameraposition));
+              setState(() {
+              });
+            });
+          },
+        ),
       ),
     );
   }
 }
- 
-class MySearchDelegate extends SearchDelegate {
-  List<String> searchResults  = [
-    'Manipal',
-    'Udupi',
-    'Manglore',
-    'Kunjibettu',
-    'Delhi',
-    'Mumbai',
-    'Kolkata',
-    'Chennai',
-    'Banglore',
-  ];
-  @override
-  List<Widget>? buildActions(BuildContext context) => [
-    IconButton(onPressed: (){
-      if (query.isEmpty) {
-        close(context, null);
-      }
-      else
-        query = '';
-    }, icon: Icon(Icons.clear))
-  ];
-
-  @override
-  Widget? buildLeading(BuildContext context) => IconButton(onPressed: (){close(context, null); }, icon: Icon(Icons.arrow_back_outlined));
-
-  @override
-  Widget  buildResults(BuildContext context) => Center(
-    child: Text(query),
-  );
-
-  @override
-  Widget buildSuggestions(BuildContext context) {
-    List<String> suggestions = searchResults.where((searchResult){
-      final input = query;
-      final result = searchResult;
-      return result.contains(input);
-    }).toList();
-    
-    return ListView.builder(
-      itemCount: suggestions.length,
-        itemBuilder: (context,index){
-           final suggestion = suggestions[index];
-           return ListTile(
-             title: Text(suggestion),
-             onTap: (){
-               query = suggestion;
-               showResults(context);
-             },
-           );
-        });
-  }
-
-}
 
 
-
-class PanelWidget extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) => Container(
-      margin: EdgeInsets.only(top: 36.0),
+  Widget PanelWidget() => Container(
+      margin: const EdgeInsets.only(top: 36.0),
       color: const Color.fromRGBO(39, 77, 100, 1.0),
       child: Column(
         children: [
@@ -226,4 +439,8 @@ class PanelWidget extends StatelessWidget {
               child: MyCardWidget("Emergency", Icons.sos, Emergency.id))
         ],
       ));
-}
+
+
+
+
+

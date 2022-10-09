@@ -2,6 +2,8 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:dronaidapp/components/personalDataContainers.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_database/firebase_database.dart';
 import 'package:dronaidapp/components/url.dart';
 import 'package:dronaidapp/constants.dart';
 import 'package:flutter/material.dart';
@@ -15,8 +17,6 @@ import '../../../components/profileCardWidget.dart';
 
 class PersonalData extends StatefulWidget {
   static const String id = "personalData";
-  final String user_id;
-  PersonalData(this.user_id);
   // String gender = "m";
   @override
   State<PersonalData> createState() => _PersonalDataState();
@@ -29,6 +29,8 @@ class _PersonalDataState extends State<PersonalData> {
   var age;
   var gender;
   var bloodgroup;
+  var height;
+  var weight;
   // String? dropDownValue = "O+ve";
   // var items = [
   //   "O+ve",
@@ -36,20 +38,23 @@ class _PersonalDataState extends State<PersonalData> {
   //   "B+ve",
   //   "AB+ve",
   // ];
-  Future<void> getuserdetail() async {
-    var url = PROD_URL + "/user/getuser/" + widget.user_id;
-    var response = await get(Uri.parse(url));
-    var jsondata = await jsonDecode(response.body);
-
-    setState(() {
-      name = jsondata['user']['name'].toString();
-      email = jsondata['user']['email'].toString();
-      phonenumber = jsondata['user']['phonenumber'].toString();
-      age = jsondata['user']['age'].toString();
-      gender = jsondata['user']['gender'].toString();
-      bloodgroup = jsondata['user']['bloodgroup'].toString();
-    });
-  }
+  // Future<void> getuserdetail() async {
+  //   var url = PROD_URL + "/user/getuser/" + widget.user_id;
+  //   var response = await get(Uri.parse(url));
+  //   var jsondata = await jsonDecode(response.body);
+  //
+  //   setState(() {
+  //     name = jsondata['user']['name'].toString();
+  //     email = jsondata['user']['email'].toString();
+  //     phonenumber = jsondata['user']['phonenumber'].toString();
+  //     age = jsondata['user']['age'].toString();
+  //     gender = jsondata['user']['gender'].toString();
+  //     bloodgroup = jsondata['user']['bloodgroup'].toString();
+  //     height = jsondata['user']['height'].toString();
+  //     weight = jsondata['user']['weight'].toString();
+  //
+  //   });
+  // }
   File? image;
   Future pickImage(ImageSource source) async {
     try {
@@ -74,11 +79,27 @@ class _PersonalDataState extends State<PersonalData> {
     return File(imagePath).copy(image.path);
   }
 
+  final auth = FirebaseAuth.instance;
+
+  Future<void> showDetailsUser() async {
+    final databaseRef = FirebaseDatabase.instance.ref(auth.currentUser!.uid.toString());
+    DatabaseEvent  event = await databaseRef.once();
+    var parent = event.snapshot.child('Profile Info');
+    setState(() {
+      name = parent.child('Name').value.toString();
+      email = parent.child('Email').value.toString();
+      age = parent.child('Age').value.toString();
+      bloodgroup = parent.child('Blood-Group').value.toString();
+      height = parent.child('Height').value.toString();
+      weight =  parent.child('Weight').value.toString();
+    });
+  }
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
-    getuserdetail();
+    showDetailsUser();
+    // getuserdetail();
   }
 
   @override
@@ -223,29 +244,66 @@ class _PersonalDataState extends State<PersonalData> {
                 ),
               ],
             ),
-            const Text(
-              "Gender",
-              style: lightBlueTextStyle,
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    const Text(
+                      "Gender",
+                      style: lightBlueTextStyle,
+                    ),
+                    DataContainer(
+                      childOfContainer: Text(
+                        gender.toString(),
+                        style: blueTextStyle,
+                      ),
+                      num: 2.5,
+                    ),
+                  ],
+                ),
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    const Text(
+                      "Height",
+                      style: lightBlueTextStyle,
+                    ),
+                    DataContainer(
+                      childOfContainer: Text(
+                        height.toString(),
+                        style: blueTextStyle,
+                      ),
+                      num: 2.5,
+                    ),
+                  ],
+                ),
+              ],
             ),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                DataContainer(
-                  childOfContainer: Text(
-                    gender.toString(),
-                    style: blueTextStyle,
-                  ),
-                  num: 2.5,
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    const Text(
+                      "Weight",
+                      style: lightBlueTextStyle,
+                    ),
+                    DataContainer(
+                      childOfContainer: Text(
+                        weight.toString(),
+                        style: blueTextStyle,
+                      ),
+                      num: 2.5,
+                    ),
+                  ],
                 ),
-                // DataContainer(
-                //   childOfContainer: const Text(
-                //     "Update",
-                //     style: blueTextStyle,
-                //   ),
-                //   num: 2.5,
-                // ),
               ],
             ),
+
+
             // Row(
             //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
             //   children: [

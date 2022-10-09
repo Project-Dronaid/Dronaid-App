@@ -46,8 +46,9 @@ dependencies:
   dio: ^4.0.6
   flutter_polyline_points: ^1.0.0
   google_maps_flutter: ^2.1.12
-  geolocator: ^8.1.1
+  geolocator: ^8.2.0
   http: ^0.13.5
+
   #sliding up panel dependencies
   sliding_up_panel: ^2.0.0+1
   cached_network_image: ^3.2.1
@@ -58,6 +59,13 @@ dependencies:
   google_nav_bar: ^5.0.6
   image_picker:
   path_provider:
+  geocoding: ^2.0.5
+  uuid: ^3.0.6
+  custom_info_window: ^1.0.1
+  firebase_storage: ^10.3.7
+  cloud_firestore: ^3.4.6
+  fluttertoast: ^8.0.9
+  firebase_database: ^9.1.4
 
 
 dev_dependencies:
