@@ -49,12 +49,12 @@ class _ProfilePageState extends State<ProfilePage> {
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
     return Scaffold(
-      appBar: AppBar(
-        backgroundColor: const Color.fromRGBO(29, 56, 73, 1.0),
-        automaticallyImplyLeading: false,
-        centerTitle: true,
-        title: Text('Profile'),
-      ),
+      // appBar: AppBar(
+      //   backgroundColor: const Color.fromRGBO(29, 56, 73, 1.0),
+      //   automaticallyImplyLeading: false,
+      //   centerTitle: true,
+      //   title: Text('Profile'),
+      // ),
       resizeToAvoidBottomInset: false,
       backgroundColor: const Color(0xFFF2F3FC),
       body: ListView(
@@ -83,16 +83,6 @@ class _ProfilePageState extends State<ProfilePage> {
                 Column(
                   // crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    // ProfileCardWidgetwithOptions(
-                    //   route: PersonalData.id,
-                    //   iconData: Icons.person,
-                    //   textContext: 'Personal Data',
-                    //   iconDataWithArrow: Icons.arrow_right,
-                    //   color: const Color(0xFF8689C6),
-                    //   onPress: () {
-                    //     Navigator.push(context, MaterialPageRoute(builder: (context) => PersonalData(widget.user_id!)));
-                    //   },
-                    // ),
                   Hero(
               tag: 'Personal Data',
               child: GestureDetector(
@@ -121,12 +111,6 @@ class _ProfilePageState extends State<ProfilePage> {
                     title: Text(
                       'Personal Data',
                       style: kProfileStyle,
-                    ),
-                    trailing: IconButton(
-                      icon: Icon(Icons.keyboard_arrow_right, color: const Color(0xff000162), size: 30,),
-                      onPressed: () {
-                        Navigator.push(context, MaterialPageRoute(builder: (context) => PersonalData()));
-                      },
                     ),
                   ),
                 ),
@@ -159,12 +143,6 @@ class _ProfilePageState extends State<ProfilePage> {
                             'Medical History',
                             style: kProfileStyle,
                           ),
-                          trailing: IconButton(
-                            icon: Icon(Icons.keyboard_arrow_right, color: const Color(0xff000162), size: 30,),
-                            onPressed: () {
-                              Navigator.push(context, MaterialPageRoute(builder: (context) => MedicalHistory()));
-                            },
-                          ),
                         ),
                       ),
                     ),
@@ -195,75 +173,159 @@ class _ProfilePageState extends State<ProfilePage> {
                             'Order History',
                             style: kProfileStyle,
                           ),
-                          trailing: IconButton(
-                            icon: Icon(Icons.keyboard_arrow_right, color: const Color(0xff000162), size: 30,),
-                            onPressed: () {
-                              Navigator.push(context, MaterialPageRoute(builder: (context) => MedicalHistory()));
-                            },
+                        ),
+                      ),
+                    ),
+                    GestureDetector(
+                      onTap: () {
+                        Navigator.push(context, MaterialPageRoute(builder: (context) => Settings()));
+                      },
+                      child: Card(
+                        elevation: 0,
+                        color: Colors.transparent,
+                        child: ListTile(
+                          // dense: true,
+                          leading: Container(
+                            // width: double.infinity,
+                            padding: EdgeInsets.all(10),
+                            decoration: BoxDecoration(
+                              borderRadius: const BorderRadius.all(Radius.circular(10)),
+                              border: Border.all(
+                                color: const Color(0xff8689C6),
+                              ),
+                            ),
+                            child: Icon(
+                              Icons.settings,
+                              color: Color(0xFF8689C6),
+                            ),
+                          ),
+                          title: Text(
+                            'Settings',
+                            style: kProfileStyle,
                           ),
                         ),
                       ),
                     ),
-                    // ProfileCardWidgetwithOptions(
-                    //   iconData: Icons.medical_services_rounded,
-                    //   textContext: 'Medical History',
-                    //   iconDataWithArrow: Icons.arrow_right,
-                    //   color: const Color(0xFF8689C6),
-                    //   onPress: () {
-                    //     Navigator.push(context, MaterialPageRoute(builder: (context) => MedicalHistory(widget.user_id)));
-                    //   },
-                    //   route: MedicalHistory.id,
-                    // ),
-                    ProfileCardWidgetwithOptions(
-                      iconData: Icons.settings,
-                      textContext: 'Settings',
-                      iconDataWithArrow: Icons.arrow_right,
-                      color: const Color(0xFF8689C6),
-                      onPress: () {
-                        Navigator.pushNamed(context, Settings.id);
-                      },
-                      route: Settings.id,
-                    ),
                     const Divider(),
-                    ProfileCardWidgetwithOptions(
-                      iconData: Icons.message_rounded,
-                      textContext: 'FAQ',
-                      iconDataWithArrow: Icons.arrow_right,
-                      color: const Color(0xFF8689C6),
-                      onPress: () {
-                        Navigator.pushNamed(context, Faq.id);
+                    GestureDetector(
+                      onTap: () {
+                        Navigator.push(context, MaterialPageRoute(builder: (context) => Faq()));
                       },
-                      route: Faq.id,
+                      child: Card(
+                        elevation: 0,
+                        color: Colors.transparent,
+                        child: ListTile(
+                          // dense: true,
+                          leading: Container(
+                            // width: double.infinity,
+                            padding: EdgeInsets.all(10),
+                            decoration: BoxDecoration(
+                              borderRadius: const BorderRadius.all(Radius.circular(10)),
+                              border: Border.all(
+                                color: const Color(0xff8689C6),
+                              ),
+                            ),
+                            child: Icon(
+                              Icons.message_rounded,
+                              color: Color(0xFF8689C6),
+                            ),
+                          ),
+                          title: Text(
+                            'FAQ',
+                            style: kProfileStyle,
+                          ),
+                        ),
+                      ),
                     ),
-                    ProfileCardWidgetwithOptions(
-                      iconData: Icons.group_add,
-                      textContext: 'Community',
-                      iconDataWithArrow: Icons.arrow_right,
-                      color: const Color(0xFF8689C6),
-                      onPress: () {
-                        Navigator.pushNamed(context, Community.id);
+                    GestureDetector(
+                      onTap: () {
+                        Navigator.push(context, MaterialPageRoute(builder: (context) => Community()));
                       },
-                      route: Community.id,
+                      child: Card(
+                        elevation: 0,
+                        color: Colors.transparent,
+                        child: ListTile(
+                          // dense: true,
+                          leading: Container(
+                            // width: double.infinity,
+                            padding: EdgeInsets.all(10),
+                            decoration: BoxDecoration(
+                              borderRadius: const BorderRadius.all(Radius.circular(10)),
+                              border: Border.all(
+                                color: const Color(0xff8689C6),
+                              ),
+                            ),
+                            child: Icon(
+                              Icons.group_add,
+                              color: Color(0xFF8689C6),
+                            ),
+                          ),
+                          title: Text(
+                            'Community',
+                            style: kProfileStyle,
+                          ),
+                        ),
+                      ),
                     ),
-                    ProfileCardWidgetwithOptions(
-                      iconData: Icons.file_copy_rounded,
-                      textContext: 'License',
-                      color: const Color(0xFF8689C6),
-                      onPress: () {
-                        Navigator.pushNamed(context, License.id);
+                    GestureDetector(
+                      onTap: () {
+                        Navigator.push(context, MaterialPageRoute(builder: (context) => License()));
                       },
-                      route: License.id,
-                      iconDataWithArrow: Icons.arrow_right,
+                      child: Card(
+                        elevation: 0,
+                        color: Colors.transparent,
+                        child: ListTile(
+                          // dense: true,
+                          leading: Container(
+                            // width: double.infinity,
+                            padding: EdgeInsets.all(10),
+                            decoration: BoxDecoration(
+                              borderRadius: const BorderRadius.all(Radius.circular(10)),
+                              border: Border.all(
+                                color: const Color(0xff8689C6),
+                              ),
+                            ),
+                            child: Icon(
+                              Icons.file_copy_rounded,
+                              color: Color(0xFF8689C6),
+                            ),
+                          ),
+                          title: Text(
+                            'License',
+                            style: kProfileStyle,
+                          ),
+                        ),
+                      ),
                     ),
-                    ProfileCardWidgetwithOptions(
-                      iconData: Icons.headset_mic_rounded,
-                      textContext: 'Feel Free To ask. We are Ready to Help',
-                      iconDataWithArrow: Icons.arrow_right,
-                      color: const Color(0xFF8689C6),
-                      onPress: () {
-                        Navigator.pushNamed(context, Support.id);
+                    GestureDetector(
+                      onTap: () {
+                        Navigator.push(context, MaterialPageRoute(builder: (context) => Support()));
                       },
-                      route: Support.id,
+                      child: Card(
+                        elevation: 0,
+                        color: Colors.transparent,
+                        child: ListTile(
+                          // dense: true,
+                          leading: Container(
+                            // width: double.infinity,
+                            padding: EdgeInsets.all(10),
+                            decoration: BoxDecoration(
+                              borderRadius: const BorderRadius.all(Radius.circular(10)),
+                              border: Border.all(
+                                color: const Color(0xff8689C6),
+                              ),
+                            ),
+                            child: Icon(
+                              Icons.headset_mic_rounded,
+                              color: Color(0xFF8689C6),
+                            ),
+                          ),
+                          title: Text(
+                            'Feel Free To ask. We are Ready to Help',
+                            style: kProfileStyle,
+                          ),
+                        ),
+                      ),
                     ),
                     GestureDetector(
                       onTap: () {
