@@ -1,5 +1,6 @@
 import 'package:dronaidapp/Screens/Home/webPage.dart';
 import 'package:flutter/material.dart';
+import 'package:webview_flutter/webview_flutter.dart';
 
 class Community extends StatefulWidget {
   static const String id = "community";
@@ -9,10 +10,25 @@ class Community extends StatefulWidget {
 }
 
 class _CommunityState extends State<Community> {
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    setState(() {
+
+    });
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: WebPage(),
+      body: WebView(
+        initialUrl: 'https://dronaid.in/',
+        javascriptMode: JavascriptMode.unrestricted,
+        navigationDelegate: (NavigationRequest request) {
+          return NavigationDecision.navigate;
+        },
+      ),
       appBar: AppBar(
         leading: GestureDetector(
           onTap: () {
