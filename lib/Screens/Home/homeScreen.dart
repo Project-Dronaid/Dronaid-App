@@ -1,10 +1,8 @@
-import 'package:dronaidapp/Screens/Home/bottomNavbarpages/homemain.dart';
+import 'package:dronaidapp/Screens/Home/bottomNavbarpages/orderhistory.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_tabler_icons/flutter_tabler_icons.dart';
 import '../Shopping/shoppingMain.dart';
 import 'bottomNavbarpages/profilePage.dart';
-import 'webPage.dart';
-import 'bottomNavbarpages/helpMainPage.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -30,6 +28,8 @@ class HomeListView extends StatefulWidget {
 
 class _HomeListViewState extends State<HomeListView> {
   int pageIndex = 0;
+  Color activecolor = Colors.white;
+  Color inactivecolor = Colors.red;
   // var idVal = widget.user_id!;
   @override
   void initState() {
@@ -41,9 +41,10 @@ class _HomeListViewState extends State<HomeListView> {
   }
   @override
   Widget build(BuildContext context) {
+    Size size = MediaQuery.of(context).size;
     final pages = [
-      HomeMain(),
       shoppingMain(),
+      OrderHistory(),
       ProfilePage(),
       ProfilePage(),
       ProfilePage(),
@@ -52,21 +53,34 @@ class _HomeListViewState extends State<HomeListView> {
       backgroundColor: Colors.transparent,
       body: pages[pageIndex],
       extendBody: true,
-      bottomNavigationBar: BottomAppBar(
-        child: new Row(
-          mainAxisSize: MainAxisSize.max,
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: <Widget>[
-            IconButton(icon: Icon(Icons.home), onPressed: () {
-              setState((){pageIndex=0;});
-
-            },),
-            IconButton(icon: Icon(Icons.shopping_bag), onPressed: () {setState((){pageIndex=1;});},),
-            IconButton(icon: Icon(Icons.energy_savings_leaf_outlined), onPressed: () {},),
-            IconButton(icon: Icon(Icons.medical_information), onPressed: () {},),
-            IconButton(icon: Icon(Icons.account_box), onPressed: () {setState((){pageIndex=2;});},),
-          ],
-        ),
+      bottomNavigationBar: BottomNavigationBar(
+        backgroundColor: Color.fromRGBO(29, 56, 73, 1.0),
+        currentIndex: pageIndex,
+        selectedItemColor: inactivecolor,
+        unselectedItemColor: activecolor,
+        onTap: (value){
+          setState(() {
+            pageIndex=value;
+          });
+        },
+        type: BottomNavigationBarType.fixed,
+        items: [
+          BottomNavigationBarItem(
+            icon: Icon(Icons.home),label: "Home",
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.shopping_bag),label: "Orders",
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.emergency),label: "Emergency",
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.medical_information),label: "Doctor",
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.account_box),label: "Account",
+          ),
+        ],
       ),
     );
   }
@@ -155,4 +169,60 @@ class _HomeListViewState extends State<HomeListView> {
       ),
     );
   }
+  // BottomAppBar(
+  // color: Color.fromRGBO(29, 56, 73, 1.0),
+  // child: Padding(
+  // padding: EdgeInsets.symmetric(horizontal:size.width*0.03),
+  // child: Row(
+  // mainAxisSize: MainAxisSize.max,
+  // mainAxisAlignment: MainAxisAlignment.spaceBetween,
+  // children: <Widget>[
+  // Column(
+  // mainAxisSize: MainAxisSize.min,
+  // children: [
+  // IconButton(icon: Icon(Icons.home,color: selected[pageIndex]? activecolor:inactivecolor), onPressed: () {
+  // setState((){
+  // pageIndex=0;
+  // selected[pageIndex]!=selected[pageIndex];
+  // });
+  // },),
+  // Text('Home',style: TextStyle(color: inactivecolor),),
+  // ],
+  // ),
+  // Column(
+  // mainAxisSize: MainAxisSize.min,
+  // children: [
+  // IconButton(icon: Icon(Icons.shopping_bag,color: inactivecolor),
+  // onPressed: () {
+  // setState((){
+  // pageIndex=1;
+  // });},),
+  // Text('Orders',style: TextStyle(color: Colors.white),),
+  // ],
+  // ),
+  // Column(
+  // mainAxisSize: MainAxisSize.min,
+  // children: [
+  // IconButton(icon: Icon(Icons.energy_savings_leaf_outlined,color:inactivecolor), onPressed: () {  },),
+  // Text('Emergency',style: TextStyle(color: Colors.white),),
+  // ],
+  // ),
+  // Column(
+  // mainAxisSize: MainAxisSize.min,
+  // children: [
+  // IconButton(icon: Icon(Icons.medical_information,color: inactivecolor), onPressed: () {},),
+  // Text('Doctor',style: TextStyle(color: Colors.white),),
+  // ],
+  // ),
+  // Column(
+  // mainAxisSize: MainAxisSize.min,
+  // children: [
+  // IconButton(icon: Icon(Icons.account_box,color: inactivecolor), onPressed: () {setState((){pageIndex=2;});},),
+  // Text('Account',style: TextStyle(color: Colors.white),),
+  // ],
+  // ),
+  // ],
+  // ),
+  // ),
+  // ),
 }
