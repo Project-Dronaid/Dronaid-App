@@ -16,19 +16,6 @@ class _shoppingMainState extends State<shoppingMain> {
       appBar: AppBar(
         title: Text("Shop"),
       ),
-      bottomNavigationBar: BottomAppBar(
-        child: new Row(
-          mainAxisSize: MainAxisSize.max,
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: <Widget>[
-            IconButton(icon: Icon(Icons.home), onPressed: () {},),
-            IconButton(icon: Icon(Icons.shopping_bag), onPressed: () {},),
-            IconButton(icon: Icon(Icons.energy_savings_leaf_outlined), onPressed: () {},),
-            IconButton(icon: Icon(Icons.medical_information), onPressed: () {},),
-            IconButton(icon: Icon(Icons.account_box), onPressed: () {},),
-          ],
-        ),
-      ),
       body: ListView(
         children: [
           CarouselSlider(
