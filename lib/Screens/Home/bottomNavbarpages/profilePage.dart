@@ -53,16 +53,6 @@ class _ProfilePageState extends State<ProfilePage> {
         backgroundColor: const Color.fromRGBO(29, 56, 73, 1.0),
         automaticallyImplyLeading: false,
         centerTitle: true,
-        actions: [
-          IconButton(onPressed: (){
-            auth.signOut().then((value){
-              Navigator.push(context, MaterialPageRoute(builder: (context) => LoginScreen()));
-            }).onError((error, stackTrace) {
-              Utils().toastmessage(error.toString());
-            });
-          }, icon: Icon(Icons.logout_outlined)),
-          SizedBox(width: 10,)
-        ],
         title: Text('Profile'),
       ),
       resizeToAvoidBottomInset: false,
@@ -178,6 +168,42 @@ class _ProfilePageState extends State<ProfilePage> {
                         ),
                       ),
                     ),
+                    GestureDetector(
+                      onTap: () {
+                        Navigator.push(context, MaterialPageRoute(builder: (context) => MedicalHistory()));
+                      },
+                      child: Card(
+                        elevation: 0,
+                        color: Colors.transparent,
+                        child: ListTile(
+                          // dense: true,
+                          leading: Container(
+                            // width: double.infinity,
+                            padding: EdgeInsets.all(10),
+                            decoration: BoxDecoration(
+                              borderRadius: const BorderRadius.all(Radius.circular(10)),
+                              border: Border.all(
+                                color: const Color(0xff8689C6),
+                              ),
+                            ),
+                            child: Icon(
+                              Icons.list_alt,
+                              color: Color(0xFF8689C6),
+                            ),
+                          ),
+                          title: Text(
+                            'Order History',
+                            style: kProfileStyle,
+                          ),
+                          trailing: IconButton(
+                            icon: Icon(Icons.keyboard_arrow_right, color: const Color(0xff000162), size: 30,),
+                            onPressed: () {
+                              Navigator.push(context, MaterialPageRoute(builder: (context) => MedicalHistory()));
+                            },
+                          ),
+                        ),
+                      ),
+                    ),
                     // ProfileCardWidgetwithOptions(
                     //   iconData: Icons.medical_services_rounded,
                     //   textContext: 'Medical History',
@@ -238,6 +264,40 @@ class _ProfilePageState extends State<ProfilePage> {
                         Navigator.pushNamed(context, Support.id);
                       },
                       route: Support.id,
+                    ),
+                    GestureDetector(
+                      onTap: () {
+                        auth.signOut().then((value){
+                          Navigator.push(context, MaterialPageRoute(builder: (context) => LoginScreen()));
+                        }).onError((error, stackTrace) {
+                          Utils().toastmessage(error.toString());
+                        });
+                      },
+                      child: Card(
+                        elevation: 0,
+                        color: Colors.transparent,
+                        child: ListTile(
+                          // dense: true,
+                          leading: Container(
+                            // width: double.infinity,
+                            padding: EdgeInsets.all(10),
+                            decoration: BoxDecoration(
+                              borderRadius: const BorderRadius.all(Radius.circular(10)),
+                              border: Border.all(
+                                color: const Color(0xff8689C6),
+                              ),
+                            ),
+                            child: Icon(
+                              Icons.logout_outlined,
+                              color: Color(0xFF8689C6),
+                            ),
+                          ),
+                          title: Text(
+                            'Logout',
+                            style: kProfileStyle,
+                          ),
+                        ),
+                      ),
                     ),
                     SizedBox(
                       height: size.height*0.1,
