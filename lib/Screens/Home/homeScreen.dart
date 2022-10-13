@@ -1,6 +1,7 @@
 import 'package:dronaidapp/Screens/Home/bottomNavbarpages/homemain.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_tabler_icons/flutter_tabler_icons.dart';
+import '../Shopping/shoppingMain.dart';
 import 'bottomNavbarpages/profilePage.dart';
 import 'webPage.dart';
 import 'bottomNavbarpages/helpMainPage.dart';
@@ -42,14 +43,31 @@ class _HomeListViewState extends State<HomeListView> {
   Widget build(BuildContext context) {
     final pages = [
       HomeMain(),
-      HelpPage(),
+      shoppingMain(),
+      ProfilePage(),
+      ProfilePage(),
       ProfilePage(),
     ];
     return Scaffold(
       backgroundColor: Colors.transparent,
       body: pages[pageIndex],
       extendBody: true,
-      bottomNavigationBar: buildMyNavBar(context),
+      bottomNavigationBar: BottomAppBar(
+        child: new Row(
+          mainAxisSize: MainAxisSize.max,
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: <Widget>[
+            IconButton(icon: Icon(Icons.home), onPressed: () {
+              setState((){pageIndex=0;});
+
+            },),
+            IconButton(icon: Icon(Icons.shopping_bag), onPressed: () {setState((){pageIndex=1;});},),
+            IconButton(icon: Icon(Icons.energy_savings_leaf_outlined), onPressed: () {},),
+            IconButton(icon: Icon(Icons.medical_information), onPressed: () {},),
+            IconButton(icon: Icon(Icons.account_box), onPressed: () {setState((){pageIndex=2;});},),
+          ],
+        ),
+      ),
     );
   }
 
@@ -78,34 +96,57 @@ class _HomeListViewState extends State<HomeListView> {
             tabBackgroundColor: Color(0xFF8689C6),
             onTabChange: (index){
               setState(() {
-                pageIndex=index;
+                if(index==1){
+                  Navigator.push(context, MaterialPageRoute(builder: (context)=> shoppingMain()));
+                }
+                else{
+                  pageIndex=index;
+                }
               });
             },
             tabs: [
               GButton(
                 icon: Icons.home,
-                iconSize: 30.0,
-                text: '         Home      ',
-                textStyle: TextStyle(
-                  fontSize: 30.0,
-                  color: Colors.white,
-                ),
+                iconSize: 20.0,
+                // text: ' Home ',
+                // textStyle: TextStyle(
+                //   fontSize: 20.0,
+                //   color: Colors.white,
+                // ),
               ),
               GButton(
                 icon: TablerIcons.drone,
-                iconSize: 30.0,
-                text: '         Help      ',
+                iconSize: 20.0,
+                text: ' Help ',
                 textStyle: TextStyle(
-                  fontSize: 30.0,
+                  fontSize: 20.0,
                   color: Colors.white,
                 ),
               ),
               GButton(
                 icon: Icons.person ,
-                iconSize: 30.0,
-                text: '         Profile      ',
+                iconSize: 20.0,
+                text: ' Profile ',
                 textStyle: TextStyle(
-                  fontSize: 30.0,
+                  fontSize: 20.0,
+                  color: Colors.white,
+                ),
+              ),
+              GButton(
+                icon: Icons.person ,
+                iconSize: 20.0,
+                text: ' Profile ',
+                textStyle: TextStyle(
+                  fontSize: 20.0,
+                  color: Colors.white,
+                ),
+              ),
+              GButton(
+                icon: Icons.person ,
+                iconSize: 20.0,
+                text: '  Profile ',
+                textStyle: TextStyle(
+                  fontSize: 20.0,
                   color: Colors.white,
                 ),
               )
