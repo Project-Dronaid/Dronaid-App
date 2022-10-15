@@ -203,23 +203,6 @@ class _HelpPageState extends State<HelpPage> {
     const LatLng(13.3444152,74.7944426), const LatLng(13.35053, 74.793568),const LatLng(13.352987, 74.791623),const LatLng(13.3529363,74.7882884)
   ];
 
-  // String url=PROD_URL+"/user/sendlocation";
-  //
-  // void postdata() async{
-  //   var dio= Dio();
-  //   var body=jsonEncode({
-  //     "lat": lat.toString(),
-  //     "lon": lon.toString(),
-  //   });
-  //   try {
-  //     Response response = await dio.post(url, data: body);
-  //     print(response.data);
-  //     if(response.statusCode==200){
-  //     }
-  //   }catch(err){
-  //     print(err);
-  //   }
-  // }
   //InitState
   @override
   void initState() {

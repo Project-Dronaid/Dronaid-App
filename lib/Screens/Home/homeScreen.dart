@@ -1,3 +1,5 @@
+import 'package:dronaidapp/Screens/Home/bottomNavbarpages/Doctor.dart';
+import 'package:dronaidapp/Screens/Home/bottomNavbarpages/helpMainPage.dart';
 import 'package:dronaidapp/Screens/Home/bottomNavbarpages/orderhistory.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_tabler_icons/flutter_tabler_icons.dart';
@@ -28,8 +30,6 @@ class HomeListView extends StatefulWidget {
 
 class _HomeListViewState extends State<HomeListView> {
   int pageIndex = 0;
-  Color activecolor = Colors.white;
-  Color inactivecolor = Colors.red;
   // var idVal = widget.user_id!;
   @override
   void initState() {
@@ -43,10 +43,10 @@ class _HomeListViewState extends State<HomeListView> {
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
     final pages = [
-      shoppingMain(),
+      ShoppingMain(),
       OrderHistory(),
-      ProfilePage(),
-      ProfilePage(),
+      HelpPage(),
+      Doctor(),
       ProfilePage(),
     ];
     return Scaffold(
@@ -54,10 +54,10 @@ class _HomeListViewState extends State<HomeListView> {
       body: pages[pageIndex],
       extendBody: true,
       bottomNavigationBar: BottomNavigationBar(
-        backgroundColor: Color.fromRGBO(29, 56, 73, 1.0),
+        backgroundColor: Color(0xFF000161),
         currentIndex: pageIndex,
-        selectedItemColor: inactivecolor,
-        unselectedItemColor: activecolor,
+        selectedItemColor: Colors.white,
+        unselectedItemColor: Color(0xFF8689C6),
         onTap: (value){
           setState(() {
             pageIndex=value;
@@ -111,7 +111,7 @@ class _HomeListViewState extends State<HomeListView> {
             onTabChange: (index){
               setState(() {
                 if(index==1){
-                  Navigator.push(context, MaterialPageRoute(builder: (context)=> shoppingMain()));
+                  Navigator.push(context, MaterialPageRoute(builder: (context)=> ShoppingMain()));
                 }
                 else{
                   pageIndex=index;

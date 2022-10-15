@@ -2,14 +2,14 @@ import 'package:carousel_slider/carousel_options.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 
-class shoppingMain extends StatefulWidget {
-  const shoppingMain({Key? key}) : super(key: key);
+class ShoppingMain extends StatefulWidget {
+  const ShoppingMain({Key? key}) : super(key: key);
 
   @override
-  State<shoppingMain> createState() => _shoppingMainState();
+  State<ShoppingMain> createState() => _ShoppingMainState();
 }
 
-class _shoppingMainState extends State<shoppingMain> {
+class _ShoppingMainState extends State<ShoppingMain> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -20,7 +20,6 @@ class _shoppingMainState extends State<shoppingMain> {
         children: [
           CarouselSlider(
             items: [
-
               //1st Image of Slider
               Container(
                 margin: EdgeInsets.all(6.0),
