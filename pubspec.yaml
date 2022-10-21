@@ -50,6 +50,7 @@ dependencies:
   google_maps_flutter: ^2.1.12
   geolocator: ^8.2.0
   http: ^0.13.5
+  get: ^4.6.5
 
   #sliding up panel dependencies
   sliding_up_panel: ^2.0.0+1
@@ -68,6 +69,7 @@ dependencies:
   cloud_firestore: ^3.4.6
   fluttertoast: ^8.0.9
   firebase_database: ^9.1.4
+  provider: ^6.0.4
 
 
 dev_dependencies:
