@@ -70,7 +70,6 @@ class _SubscriptionsState extends State<Subscriptions> {
                       Container(
                         child: TextButton(
                             onPressed: (){
-                              Navigator.push(context, MaterialPageRoute(builder: (context)=>ProductOverviewScreen()));
                             }, child: Text('CREATE NEW SUBSCRIPTION',style: TextStyle(color: Colors.white),)),
                         color: Color(0xFF8689C6),
                         width: size.width*0.8,

@@ -74,8 +74,6 @@ class _DoctorState extends State<Doctor> {
                                   fontWeight: FontWeight.w300),),
                             ],
                           ),
-
-
                         ],
                       ),
                     ),
