@@ -1,3 +1,4 @@
+import 'package:dronaidapp/Screens/Home/bottomNavbarpages/Doctor.dart';
 import 'package:dronaidapp/Screens/Shopping/screens/product_overview.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
@@ -22,7 +23,7 @@ class _ConsultationsState extends State<Consultations> {
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
     final user = auth.currentUser!.uid.toString();
-    final databaseRef = FirebaseDatabase.instance.ref('USERS'+'/'+user+'/'+'Order History');
+    final databaseRef = FirebaseDatabase.instance.ref('USERS'+'/'+user+'/'+'Consultations');
     return Column(
       mainAxisAlignment: MainAxisAlignment.start,
       children: [
@@ -70,7 +71,7 @@ class _ConsultationsState extends State<Consultations> {
                       Container(
                         child: TextButton(
                             onPressed: (){
-                              Navigator.push(context, MaterialPageRoute(builder: (context)=>ProductOverviewScreen()));
+                              Navigator.push(context, MaterialPageRoute(builder: (context)=>Doctor()));
                             }, child: Text('ORDER NOW',style: TextStyle(color: Colors.white),)),
                         color: Color(0xFFA888D5),
                         width: size.width*0.3,
