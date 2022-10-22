@@ -3,12 +3,12 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 
-class Orders extends StatefulWidget {
+class Diagnostics extends StatefulWidget {
   @override
-  State<Orders> createState() => _OrdersState();
+  State<Diagnostics> createState() => _DiagnosticsState();
 }
 
-class _OrdersState extends State<Orders> {
+class _DiagnosticsState extends State<Diagnostics> {
   final auth = FirebaseAuth.instance;
   // var databaseRef = FirebaseDatabase.instance.ref('USERS');
 
@@ -16,10 +16,6 @@ class _OrdersState extends State<Orders> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    // final user = auth.currentUser!.uid.toString();
-    // setState(() {
-    //   databaseRef = FirebaseDatabase.instance.ref("USERS/"+user);
-    // });
   }
 
   @override
@@ -31,43 +27,43 @@ class _OrdersState extends State<Orders> {
       mainAxisAlignment: MainAxisAlignment.start,
       children: [
         Expanded(
-            child: StreamBuilder(
-           stream: databaseRef.onValue,
-           builder: (context,AsyncSnapshot<DatabaseEvent> snapshot){
-            if(!snapshot.hasData){
-              return Center(child: CircularProgressIndicator(strokeWidth: 1.0,));
-            }
-            else {
-              try{
-                Map<dynamic,dynamic> map = snapshot.data!.snapshot.value as dynamic;
-                List<dynamic> list = [];
-                list = map.values.toList();
-                return ListView.builder(
-                    itemCount: snapshot.data!.snapshot.children.length,
-                    itemBuilder: (context, index) {
-                      return ListTile(
-                        title: Text(list[index]['Name'].toString()),
-                        subtitle: Text(list[index]['Status'].toString()),
-                      );
-                    });
+          child: StreamBuilder(
+            stream: databaseRef.onValue,
+            builder: (context,AsyncSnapshot<DatabaseEvent> snapshot){
+              if(!snapshot.hasData){
+                return Center(child: CircularProgressIndicator(strokeWidth: 1.0,));
               }
-              catch (error) {
-                return Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
+              else {
+                try{
+                  Map<dynamic,dynamic> map = snapshot.data!.snapshot.value as dynamic;
+                  List<dynamic> list = [];
+                  list = map.values.toList();
+                  return ListView.builder(
+                      itemCount: snapshot.data!.snapshot.children.length,
+                      itemBuilder: (context, index) {
+                        return ListTile(
+                          title: Text(list[index]['Name'].toString()),
+                          subtitle: Text(list[index]['Status'].toString()),
+                        );
+                      });
+                }
+                catch (error) {
+                  return Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Container(
-                        child: Image.asset('assets/images/NoOrders.png'),
+                        child: Image.asset('assets/images/My project-1.png',fit: BoxFit.cover,),
                         width: size.width*0.8,
-                        height: size.height*0.4,
+                        height: size.height*0.43,
                         decoration: BoxDecoration(
                           color: Colors.transparent,
                         ),
                       ),
-                      Text('No Orders Placed!',style: TextStyle(fontWeight: FontWeight.bold,fontSize: size.height*0.03),),
+                      Text('No Booking Till Date!',style: TextStyle(fontWeight: FontWeight.bold,fontSize: size.height*0.03),),
                       SizedBox(
                         height: size.height*0.01,
                       ),
-                      Text('Currently you don\'t have any Orders.'),
+                      Text('Currently you don\'t have any Appointments.'),
                       SizedBox(
                         height: size.height*0.02,
                       ),
@@ -76,15 +72,15 @@ class _OrdersState extends State<Orders> {
                             onPressed: (){
                               Navigator.push(context, MaterialPageRoute(builder: (context)=>ProductOverviewScreen()));
                             }, child: Text('ORDER NOW',style: TextStyle(color: Colors.white),)),
-                        color: Color(0xFF000161),
+                        color: Color(0xFF8895F3),
                         width: size.width*0.3,
-                      )
+                      ),
                     ],
                   );
+                }
               }
-            }
-          },
-         ),
+            },
+          ),
         ),
       ],
     );

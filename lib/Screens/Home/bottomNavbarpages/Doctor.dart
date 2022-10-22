@@ -15,68 +15,75 @@ class _DoctorState extends State<Doctor> {
     return Scaffold(
       body: SafeArea(
         child: SingleChildScrollView(
-          child: Padding(
-            padding: EdgeInsets.symmetric(horizontal: size.width*0.06),
-            child: Row(
-              children: [
-                Card(
-                  elevation: 5,
-                  clipBehavior: Clip.antiAlias,
-                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Image(
-                        fit: BoxFit.contain,
-                        height: size.height*0.1,
-                        image: AssetImage('assets/images/Online-Doctor-Consultation.jpeg'),
-                      ),
-                      Column(
+          child: Column(
+            children: [
+              Padding(
+                padding: EdgeInsets.symmetric(horizontal: size.width*0.04),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    Card(
+                      elevation: 5,
+                      clipBehavior: Clip.antiAlias,
+                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+                      child: Column(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          Text('Instant Video Consult',
-                            style: TextStyle(
-                                fontSize: size.width*0.03,
-                                fontWeight: FontWeight.bold),
+                          Image(
+                            fit: BoxFit.contain,
+                            height: size.height*0.1,
+                            image: AssetImage('assets/images/Online-Doctor-Consultation.jpeg'),
                           ),
-                          Text('Connect within 60 secs',style: TextStyle(
-                              fontSize: size.width*0.03,
-                              fontWeight: FontWeight.w300),),
-                        ],
-                      )
+                          Column(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Text('Instant Video Consult',
+                                style: TextStyle(
+                                    fontSize: size.width*0.03,
+                                    fontWeight: FontWeight.bold),
+                              ),
+                              Text('Connect within 60 secs',style: TextStyle(
+                                  fontSize: size.width*0.03,
+                                  fontWeight: FontWeight.w300),),
+                            ],
+                          )
 
-                    ],
-                  ),
-                ),
-                Card(
-                  elevation: 5,
-                  clipBehavior: Clip.antiAlias,
-                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
-                  child: Column(
-                    children: [
-                      Image(
-                        fit: BoxFit.contain,
-                        height: size.height*0.1,
-                        image: AssetImage('assets/images/Online-Doctor-Consultation.jpeg'),
+                        ],
                       ),
-                      Column(
+                    ),
+                    Card(
+                      elevation: 5,
+                      clipBehavior: Clip.antiAlias,
+                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+                      child: Column(
                         children: [
-                          Text('Medicines',
-                            style: TextStyle(
-                                fontSize: size.width*0.03,
-                                fontWeight: FontWeight.bold),
+                          Image(
+                            fit: BoxFit.contain,
+                            height: size.height*0.1,
+                            image: AssetImage('assets/images/OrderMedicine.png'),
                           ),
-                          Text('Essentials at your door steps',style: TextStyle(
-                              fontSize: size.width*0.03,
-                              fontWeight: FontWeight.w300),),
-                        ],
-                      )
+                          Column(
+                            children: [
+                              Text('Medicines',
+                                style: TextStyle(
+                                    fontSize: size.width*0.03,
+                                    fontWeight: FontWeight.bold),
+                              ),
+                              Text('Essentials at your door steps',style: TextStyle(
+                                  fontSize: size.width*0.03,
+                                  fontWeight: FontWeight.w300),),
+                            ],
+                          ),
 
-                    ],
-                  ),
+
+                        ],
+                      ),
+                    ),
+                  ],
                 ),
-              ],
-            ),
+              ),
+              ListTile()
+            ],
           ),
         ),
       ),

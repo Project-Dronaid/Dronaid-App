@@ -31,6 +31,9 @@ class MyApp extends StatelessWidget {
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
         theme: ThemeData(
+          appBarTheme: AppBarTheme(
+            backgroundColor: Color(0xFF8689C6),
+          ),
           iconTheme: IconThemeData(
             color: Colors.white,
           )

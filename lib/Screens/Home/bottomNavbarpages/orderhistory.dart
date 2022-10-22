@@ -1,4 +1,7 @@
+import 'package:dronaidapp/orders/tabs/Consultations.dart';
+import 'package:dronaidapp/orders/tabs/Diagnostics.dart';
 import 'package:dronaidapp/orders/tabs/Orders.dart';
+import 'package:dronaidapp/orders/tabs/Subscriptions.dart';
 import 'package:flutter/material.dart';
 
 
@@ -52,9 +55,9 @@ class _OrderHistoryState extends State<OrderHistory> {
             Expanded(
               child: TabBarView(children: [
                 Orders(),
-                SingleChildScrollView(),
-                SingleChildScrollView(),
-                SingleChildScrollView(),
+                Subscriptions(),
+                Diagnostics(),
+                Consultations(),
               ],),
             ),
           ],
