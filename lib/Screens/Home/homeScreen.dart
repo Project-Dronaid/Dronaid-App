@@ -44,7 +44,6 @@ class _HomeListViewState extends State<HomeListView> {
   }
   @override
   Widget build(BuildContext context) {
-    Size size = MediaQuery.of(context).size;
     final pages = [
       ProductOverviewScreen(),
       OrderHistory(),
@@ -57,9 +56,9 @@ class _HomeListViewState extends State<HomeListView> {
       body: pages[pageIndex],
       extendBody: true,
       bottomNavigationBar: BottomNavigationBar(
-        backgroundColor: Color(0xFF000161),
+        backgroundColor: Colors.white,
         currentIndex: pageIndex,
-        selectedItemColor: Colors.white,
+        selectedItemColor: Color(0xFF000161),
         unselectedItemColor: Color(0xFF8689C6),
         onTap: (value){
           setState(() {
