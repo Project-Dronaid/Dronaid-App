@@ -1,6 +1,8 @@
 //this is the product model class which contains the basic requirements of product widgets
 
-class Product{
+import 'package:flutter/cupertino.dart';
+
+class Product with ChangeNotifier{
   final String id;
   final String title;
   final String description;
