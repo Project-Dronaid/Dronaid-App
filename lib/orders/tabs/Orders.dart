@@ -10,16 +10,13 @@ class Orders extends StatefulWidget {
 
 class _OrdersState extends State<Orders> {
   final auth = FirebaseAuth.instance;
+  var TextColor = Colors.red;
   // var databaseRef = FirebaseDatabase.instance.ref('USERS');
 
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
-    // final user = auth.currentUser!.uid.toString();
-    // setState(() {
-    //   databaseRef = FirebaseDatabase.instance.ref("USERS/"+user);
-    // });
   }
 
   @override
@@ -28,7 +25,7 @@ class _OrdersState extends State<Orders> {
     final user = auth.currentUser!.uid.toString();
     final databaseRef = FirebaseDatabase.instance.ref('USERS'+'/'+user+'/'+'Order History');
     return Container(
-      color: Colors.white12,
+      color: Colors.grey.shade50,
       child: Column(
         mainAxisAlignment: MainAxisAlignment.start,
         children: [
@@ -37,7 +34,7 @@ class _OrdersState extends State<Orders> {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
-                Text('Your Previous Orders',style: TextStyle(color: Colors.black,fontWeight: FontWeight.bold,fontSize: size.height*0.015)),
+                Text('Your Previous Orders',style: TextStyle(color: Colors.black,fontWeight: FontWeight.w600,fontSize: size.height*0.022)),
               ],
             ),
           ),
@@ -56,25 +53,91 @@ class _OrdersState extends State<Orders> {
                   return ListView.builder(
                       itemCount: snapshot.data!.snapshot.children.length,
                       itemBuilder: (context, index) {
+                        var buttText = 'TRACK ORDER';
+                        list[index]['Status'].toString()=='Cancelled'? buttText = 'REORDER' : buttText = 'TRACK ORDER';
+                        list[index]['Status'].toString()=='Delivered'? TextColor = Colors.green: TextColor = Colors.red;
+                        var sizeofOrder = (list[index]['Items'] as Map<dynamic,dynamic>).length;
                         return Padding(
-                          padding: const EdgeInsets.all(8.0),
+                          padding: EdgeInsets.only(left: size.width*0.02,bottom: size.height*0.03),
                           child: Container(
-                            color: Colors.white,
+                            decoration: BoxDecoration(
+                              boxShadow: [
+                                BoxShadow(
+                                  offset: const Offset(
+                                    5.0,
+                                    5.0,
+                                  ),
+                                  color: Color(0xFF000161).withOpacity(0.2),
+                                  blurRadius: 10.0,
+                                  spreadRadius: 2.0,
+                                ), //BoxShadow
+                                BoxShadow(
+                                  color: Colors.white,
+                                  offset: const Offset(0.0, 0.0),
+                                  blurRadius: 0.0,
+                                  spreadRadius: 0.0,
+                                ), //BoxShadow
+                              ],
+                            ),
+                            // color: Colors.white,
                             child: Column(
                               children: [
-                                Row(
-                                  children: [
-                                    Text(list[index]['Name'].toString(),style: TextStyle(fontWeight: FontWeight.bold),),
-                                  ],
+                                Padding(
+                                  padding: EdgeInsets.only(left: size.width*0.05,bottom: size.height*0.01,top: size.height*0.02),
+                                  child: Row(
+                                    children: [
+                                      Text(list[index]['Name'].toString(),style: TextStyle(fontWeight: FontWeight.bold,fontSize: size.height*0.02),),
+                                    ],
+                                  ),
+                                ),
+                                Padding(
+                                  padding: EdgeInsets.only(left: size.width*0.05,bottom: size.height*0.01),
+                                  child: Row(
+                                    children: [
+                                      Text(list[index]['Status'].toString(),style: TextStyle(fontWeight: FontWeight.w500,color: TextColor,fontSize: size.height*0.018)),
+                                    ],
+                                  ),
                                 ),
                                 Row(
+                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                   children: [
-                                    Text(list[index]['Status'].toString(),style: TextStyle(fontWeight: FontWeight.w500)),
+                                    Padding(
+                                      padding: EdgeInsets.only(left: size.width*0.05),
+                                      child: Column(
+                                        crossAxisAlignment: CrossAxisAlignment.start,
+                                        children: (list[index]['Items'] as Map<dynamic,dynamic> ).values.map((e) => Padding(
+                                          padding: EdgeInsets.only(bottom: size.height*0.01),
+                                          child: Row(
+                                            children: [
+                                              Text(e,style: TextStyle(fontSize: size.height*0.017),),
+                                            ],
+                                          ),
+                                        )).toList()
+                                      ),
+                                    ),
                                   ],
                                 ),
-                                Column(
-                                  children: (list[index]['Items'] as Map<dynamic,dynamic> ).values.map((e) => Text(e)).toList()
-                                ),
+                                Padding(
+                                  padding: EdgeInsets.only(top: size.height*0.01, bottom: size.height*0.02),
+                                  child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                    children: [
+                                      Container(
+                                          child: TextButton(onPressed: (){}, child: Text('View Details',style: TextStyle(color: Colors.grey.shade700),),
+                                            clipBehavior: Clip.antiAlias,),
+                                      color: Colors.grey.shade200,
+                                      width: size.width*0.45,),
+                                      Container(
+                                          child: TextButton(
+                                            onPressed: (){}, child: Text(buttText,style: TextStyle(color: Colors.white),
+                                          ),
+                                          clipBehavior: Clip.antiAlias,),
+                                        color: Color(0xFF000161).withOpacity(0.7),
+                                          width: size.width*0.45,
+                                      ),
+                                    ],
+                                  ),
+                                )
                               ],
                             ),
                           ),
