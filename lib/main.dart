@@ -60,7 +60,7 @@ class MyApp extends StatelessWidget {
           Police.id: (context) => Police(),
           Emergency.id: (context) => Emergency(),
           '/':(context)=> ProductOverviewScreen(),
-          '/product_detail':(context)=>ProductDetailScreen( 'This')
+          '/product_detail':(context)=>ProductDetailScreen()
         },
       ),
     );
