@@ -3,14 +3,6 @@ import 'dart:collection';
 import 'dart:convert';
 import 'dart:ui' as ui;
 import 'package:custom_info_window/custom_info_window.dart';
-import 'package:dio/dio.dart';
-import 'package:dronaidapp/Screens/Helps/Ambulance.dart';
-import 'package:dronaidapp/Screens/Helps/Emergency.dart';
-import 'package:dronaidapp/Screens/Helps/Fire.dart';
-import 'package:dronaidapp/Screens/Helps/MedicalAid.dart';
-import 'package:dronaidapp/Screens/Helps/Police.dart';
-import 'package:dronaidapp/components/MyCardWidget.dart';
-import 'package:dronaidapp/components/url.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:geocoding/geocoding.dart';
@@ -68,7 +60,7 @@ class _HelpPageState extends State<HelpPage> {
     _determinePosition().then((value) async {
       lat = value.latitude.toString();
       lon = value.longitude.toString();
-      print(value.latitude.toString() + "  " +value.longitude.toString());
+      //print(value.latitude.toString() + "  " +value.longitude.toString());
       _marker.add(
         Marker(markerId: const MarkerId('0'),
           position: LatLng(value.latitude, value.longitude),

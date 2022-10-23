@@ -31,9 +31,11 @@ class MyApp extends StatelessWidget {
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
         theme: ThemeData(
+          primarySwatch: Colors.indigo,
           appBarTheme: AppBarTheme(
             backgroundColor: Color(0xFF8689C6),
           ),
+
           iconTheme: IconThemeData(
             color: Colors.white,
           )
@@ -62,7 +64,7 @@ class MyApp extends StatelessWidget {
           Police.id: (context) => Police(),
           Emergency.id: (context) => Emergency(),
           '/':(context)=> ProductOverviewScreen(),
-          '/product_detail':(context)=>ProductDetailScreen( 'This')
+          '/product_detail':(context)=>ProductDetailScreen()
         },
       ),
     );

@@ -1,5 +1,5 @@
 import 'package:flutter/cupertino.dart';
-import '../models/product.dart';
+import 'product.dart';
 
 // Here Product class is using mixin Chage Notifier
 class Products with ChangeNotifier{
@@ -12,6 +12,11 @@ class Products with ChangeNotifier{
   // this is the getter which is getting the data
   List<Product> get items{
     return [..._items];
+  }
+
+  //This method provides the product after searching by ID
+  Product findById(String id){
+    return _items.firstWhere((element) => element.id == id);
   }
 
   void addProduct(){
