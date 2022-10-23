@@ -32,6 +32,10 @@ class MyApp extends StatelessWidget {
         debugShowCheckedModeBanner: false,
         theme: ThemeData(
           primarySwatch: Colors.indigo,
+          appBarTheme: AppBarTheme(
+            backgroundColor: Color(0xFF8689C6),
+          ),
+
           iconTheme: IconThemeData(
             color: Colors.white,
           )
