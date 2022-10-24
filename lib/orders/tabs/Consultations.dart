@@ -72,7 +72,7 @@ class _ConsultationsState extends State<Consultations> {
                         child: TextButton(
                             onPressed: (){
                               Navigator.push(context, MaterialPageRoute(builder: (context)=>Doctor()));
-                            }, child: Text('ORDER NOW',style: TextStyle(color: Colors.white),)),
+                            }, child: Text('BOOk NOW',style: TextStyle(color: Colors.white),)),
                         color: Color(0xFFA888D5),
                         width: size.width*0.3,
                       ),

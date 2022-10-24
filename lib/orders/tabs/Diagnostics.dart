@@ -72,7 +72,7 @@ class _DiagnosticsState extends State<Diagnostics> {
                         child: TextButton(
                             onPressed: (){
                               Navigator.push(context, MaterialPageRoute(builder: (context)=>Doctor()));
-                            }, child: Text('ORDER NOW',style: TextStyle(color: Colors.white),)),
+                            }, child: Text('TRY NOW',style: TextStyle(color: Colors.white),)),
                         color: Color(0xFF8895F3),
                         width: size.width*0.3,
                       ),
