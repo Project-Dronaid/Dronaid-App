@@ -32,12 +32,14 @@ class _HelpPageState extends State<HelpPage> {
   loadImageData() async {
     for(int index = 1; index <images.length; index++){
       final Uint8List markerIcon = await getBytesFromAssets(images[index], 125,125);
-      _marker.add(
-        Marker(markerId: MarkerId(index.toString()),
+      setState(() {
+        _marker.add(
+          Marker(markerId: MarkerId(index.toString()),
             position: _latlng[index],
             icon: BitmapDescriptor.fromBytes(markerIcon),
-        ),
-      );
+          ),
+        );
+      });
     }
   }
   // Function for converting images to bytes for marker icon image.
