@@ -11,6 +11,6 @@ class Ambulance extends StatefulWidget {
 class _AmbulanceState extends State<Ambulance> {
   @override
   Widget build(BuildContext context) {
-    return Scaffold();
+    return const Scaffold();
   }
 }

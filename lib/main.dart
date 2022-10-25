@@ -3,11 +3,13 @@ import 'package:dronaidapp/Screens/Helps/Emergency.dart';
 import 'package:dronaidapp/Screens/Helps/Fire.dart';
 import 'package:dronaidapp/Screens/Helps/MedicalAid.dart';
 import 'package:dronaidapp/Screens/Helps/Police.dart';
+import 'package:dronaidapp/Screens/Shopping/screens/cart_screen.dart';
 import 'package:dronaidapp/Screens/WelcomeScreen/welcomeBack.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'Screens/Login/loginScreen.dart';
+import 'Screens/Shopping/provider/cart.dart';
 import 'Screens/Shopping/provider/products.dart';
 import 'Screens/Shopping/screens/product_detail.dart';
 import 'Screens/Shopping/screens/product_overview.dart';
@@ -26,17 +28,19 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ChangeNotifierProvider(
-      create: (ctx) => Products(),
+    return MultiProvider(providers: [
+        ChangeNotifierProvider(create:(ctx)=> Products()),
+        ChangeNotifierProvider(create:(ctx)=> Cart()),
+        ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
         theme: ThemeData(
           primarySwatch: Colors.indigo,
-          appBarTheme: AppBarTheme(
+          appBarTheme: const AppBarTheme(
             backgroundColor: Color(0xFF8689C6),
           ),
 
-          iconTheme: IconThemeData(
+          iconTheme: const IconThemeData(
             color: Colors.white,
           )
         ),
@@ -64,7 +68,8 @@ class MyApp extends StatelessWidget {
           Police.id: (context) => Police(),
           Emergency.id: (context) => Emergency(),
           '/':(context)=> ProductOverviewScreen(),
-          '/product_detail':(context)=>ProductDetailScreen()
+          '/product_detail':(context)=>ProductDetailScreen(),
+          CartScreen.routeName: (ctx)=> CartScreen(),
         },
       ),
     );

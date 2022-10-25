@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
+import '../provider/cart.dart';
 import '../provider/product.dart';
 class ProductItem extends StatelessWidget {
 
@@ -13,6 +14,7 @@ class ProductItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final product = Provider.of<Product>(context);
+    final cart = Provider.of<Cart>(context);
     return ClipRRect(
       borderRadius: BorderRadius.circular(10),
       child: GridTile(
@@ -22,7 +24,7 @@ class ProductItem extends StatelessWidget {
           // Here consumer is the replacement  of Provider.of and we can say it is an advance version to wrap only small piece of widget to prevent from building entire widget tree
           leading: Consumer<Product>(
             builder: (ctx, product, child) => IconButton(
-              icon: Icon(product.isFavourite?Icons.favorite_outline:Icons.favorite),
+              icon: Icon(product.isFavourite?Icons.favorite:Icons.favorite_outline),
               onPressed: (){
                 product.toggleFavouriteStatus();
               },
@@ -30,7 +32,9 @@ class ProductItem extends StatelessWidget {
             ),
           ),
           trailing: IconButton(icon: Icon(Icons.shopping_cart),
-            onPressed: (){},
+            onPressed: (){
+            cart.addItem(product.id, product.price, product.title);
+            },
             color: Colors.deepOrange,
           ),
         ),
