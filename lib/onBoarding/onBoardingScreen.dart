@@ -18,23 +18,6 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
     return Scaffold(
-      // appBar: AppBar(
-      //   elevation: 10,
-      //   toolbarHeight: size.height * 0.095,
-      //   flexibleSpace: Container(
-      //     decoration: const BoxDecoration(
-      //       gradient: LinearGradient(
-      //         colors: [
-      //           Color(0xff42AA8F),
-      //           Color(0xff466FA7),
-      //         ],
-      //         stops: [0.35,1],
-      //       ),
-      //     ),
-      //     width: size.width * 0.8,
-      //     child: Image.asset('assets/images/banner.png'),
-      //   ),
-      // ),
       body: Stack(
         children: [
           PageView(
