@@ -19,10 +19,15 @@ class ProductItem extends StatelessWidget {
         footer: GridTileBar(
           title: Text(product.title, textAlign: TextAlign.center,),
           backgroundColor: Colors.black87,
-          leading: IconButton(
-            icon: Icon(Icons.favorite_outline),
-            onPressed: (){},
-            color: Colors.deepOrange,
+          // Here consumer is the replacement  of Provider.of and we can say it is an advance version to wrap only small piece of widget to prevent from building entire widget tree
+          leading: Consumer<Product>(
+            builder: (ctx, product, child) => IconButton(
+              icon: Icon(product.isFavourite?Icons.favorite_outline:Icons.favorite),
+              onPressed: (){
+                product.toggleFavouriteStatus();
+              },
+              color: Colors.deepOrange,
+            ),
           ),
           trailing: IconButton(icon: Icon(Icons.shopping_cart),
             onPressed: (){},
