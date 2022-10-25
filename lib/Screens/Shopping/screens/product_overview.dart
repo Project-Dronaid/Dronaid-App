@@ -14,7 +14,7 @@ class ProductOverviewScreen extends StatelessWidget {
         title: Text('MyShop'),
         actions: <Widget>[
           PopupMenuButton(itemBuilder: (_)=>[
-            PopupMenuItem(child: Text("Only Favourites"), value: 0,,)
+            PopupMenuItem(child: Text("Only Favourites"), value: 0,)
           ])
         ]
       ),
