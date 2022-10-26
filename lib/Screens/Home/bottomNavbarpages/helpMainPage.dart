@@ -3,6 +3,8 @@ import 'dart:collection';
 import 'dart:convert';
 import 'dart:ui' as ui;
 import 'package:custom_info_window/custom_info_window.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:geocoding/geocoding.dart';
@@ -19,11 +21,10 @@ class HelpPage extends StatefulWidget {
 }
 
 class _HelpPageState extends State<HelpPage> {
-
-
   var lat;
   var lon;
-//Custom Info Window Controller Function//
+
+  //Custom Info Window Controller Function//
   //For Marker Icon Image
   Uint8List? markerImage;
   //Custom Info Window controller initializer
@@ -82,6 +83,7 @@ class _HelpPageState extends State<HelpPage> {
       });
     });
   }
+
   //Current Location Determination
   Future<Position> _determinePosition() async {
     bool serviceEnabled;
@@ -132,7 +134,6 @@ class _HelpPageState extends State<HelpPage> {
     String kPLACES_API_KEY = 'AIzaSyC1_U9ZJk98Su3FtNnSpnKeIJpTPEai06M';
     String baseURL = 'https://maps.googleapis.com/maps/api/place/autocomplete/json';
     String request = '$baseURL?input=$input&key=$kPLACES_API_KEY&sessiontoken=$_sessiontoken';
-
     var response = await http.get(Uri.parse(request));
     var data = response.body.toString();
     print(data);
@@ -193,9 +194,28 @@ class _HelpPageState extends State<HelpPage> {
      const LatLng(13.353193, 74.802395),
      const LatLng(13.344842, 74.786309),
   ];
+
+  // Future<StreamBuilder> buildPolyLines() async{
+  //   final user = auth.currentUser!.uid.toString();
+  //   DatabaseReference databaseReference = FirebaseDatabase.instance.ref('USERS'+'/'+user+'/'+'Order History');
+  //   return await StreamBuilder(
+  //     stream: databaseReference.onValue,
+  //     builder: (context,AsyncSnapshot<DatabaseEvent> snapshot){
+  //         Map<dynamic,dynamic> map = snapshot.data!.snapshot.value as dynamic;
+  //         List<dynamic> list = [];
+  //         list = map.values.toList();
+  //         print((list[2]['Items'] as Map<dynamic,dynamic> ));
+  //         return Text((list[2]['Items'] as Map<dynamic,dynamic>).values.toString());
+  //       }
+  //     },
+  //   );
+  // }
+
   List<LatLng> _polyLatlng = [
     const LatLng(13.3444152,74.7944426), const LatLng(13.35053, 74.793568),const LatLng(13.352987, 74.791623),const LatLng(13.3529363,74.7882884)
   ];
+
+  final auth = FirebaseAuth.instance;
 
   //InitState
   @override
@@ -239,6 +259,7 @@ class _HelpPageState extends State<HelpPage> {
             GoogleMap(
                 onTap: (position){
                   _customInfoWindowController.hideInfoWindow!();
+
                 },
                 mapToolbarEnabled: true,
                 // onCameraMove: (position){
@@ -326,8 +347,9 @@ class _HelpPageState extends State<HelpPage> {
             // PanelWidget(),
       ],
         ),
+        floatingActionButtonLocation: FloatingActionButtonLocation.startFloat,
         floatingActionButton: FloatingActionButton(
-          child: const Icon(Icons.location_on),
+          child: Icon(Icons.location_on),
           onPressed: () async {
             _determinePosition().then((value) async {
               print(value.latitude.toString() + "  " +value.longitude.toString());
@@ -341,6 +363,7 @@ class _HelpPageState extends State<HelpPage> {
               final GoogleMapController controller = await _controller.future;
               controller.animateCamera(CameraUpdate.newCameraPosition(cameraposition));
               setState(() {
+
               });
             });
           },
