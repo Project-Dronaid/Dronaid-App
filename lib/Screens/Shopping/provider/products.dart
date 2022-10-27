@@ -3,13 +3,13 @@ import 'product.dart';
 
 // Here Product class is using mixin Chage Notifier
 class Products with ChangeNotifier{
-  List<Product> _items = [
+   List<Product> _items = [
     Product(id: 'p1', title: 'Red shirt', description: 'A red shirt', price: 45245, imageUrl: 'https://cdn.pixabay.com/photo/2014/02/27/16/10/flowers-276014__340.jpg'),
     Product(id: 'p2', title: 'white shirt', description: 'This is a wite shirt', price: 63556, imageUrl: 'https://cdn.pixabay.com/photo/2014/02/27/16/10/flowers-276014__340.jpg'),
-    Product(id: 'p3', title: 'white shirt', description: 'This is a wite shirt', price: 63556, imageUrl: 'https://cdn.pixabay.com/photo/2014/02/27/16/10/flowers-276014__340.jpg'),
-    Product(id: 'p4', title: 'white shirt', description: 'This is a wite shirt', price: 63556, imageUrl: 'https://cdn.pixabay.com/photo/2014/02/27/16/10/flowers-276014__340.jpg'),
-    Product(id: 'p5', title: 'white shirt', description: 'This is a wite shirt', price: 63556, imageUrl: 'https://cdn.pixabay.com/photo/2014/02/27/16/10/flowers-276014__340.jpg'),
-    Product(id: 'p6', title: 'white shirt', description: 'This is a wite shirt', price: 63556, imageUrl: 'https://cdn.pixabay.com/photo/2014/02/27/16/10/flowers-276014__340.jpg'),
+    Product(id: 'p3', title: 'Pink shirt', description: 'This is a wite shirt', price: 63556, imageUrl: 'https://cdn.pixabay.com/photo/2014/02/27/16/10/flowers-276014__340.jpg'),
+    Product(id: 'p4', title: 'Blue shirt', description: 'This is a wite shirt', price: 63556, imageUrl: 'https://cdn.pixabay.com/photo/2014/02/27/16/10/flowers-276014__340.jpg'),
+    Product(id: 'p5', title: 'Yellow shirt', description: 'This is a wite shirt', price: 63556, imageUrl: 'https://cdn.pixabay.com/photo/2014/02/27/16/10/flowers-276014__340.jpg'),
+    Product(id: 'p6', title: 'Green shirt', description: 'This is a wite shirt', price: 63556, imageUrl: 'https://cdn.pixabay.com/photo/2014/02/27/16/10/flowers-276014__340.jpg'),
   ];
 
   var _showFavouriteOnly = false;
