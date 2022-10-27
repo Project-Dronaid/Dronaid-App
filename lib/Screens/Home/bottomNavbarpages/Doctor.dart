@@ -17,6 +17,7 @@ class _DoctorState extends State<Doctor> {
   var databaseRef1 = FirebaseDatabase.instance.ref('DOCTOR/SPECIALISTS');
   // final databaseRefDoc = FirebaseDatabase.instance.ref('DOCTOR/CONSULTED');
   var databaseRef2 = FirebaseDatabase.instance.ref('DOCTOR/CONSULTED');
+  var databaseRef3 = FirebaseDatabase.instance.ref('DOCTOR/FEATURED');
 
 
   @override
@@ -27,9 +28,10 @@ class _DoctorState extends State<Doctor> {
         body: SingleChildScrollView(
           scrollDirection: Axis.vertical,
           child: Column(
+            mainAxisSize: MainAxisSize.min,
             children: [
               Padding(
-                padding: EdgeInsets.symmetric(horizontal: size.width*0.01,vertical: size.height*0.02),
+                padding: EdgeInsets.symmetric(horizontal: size.width*0.03,vertical: size.height*0.02),
                 child: Container(
                     height: size.height*0.06,
                     decoration: BoxDecoration(borderRadius: BorderRadius.circular(25),
@@ -59,16 +61,17 @@ class _DoctorState extends State<Doctor> {
                 ),
               ),
               Column(
+                mainAxisSize: MainAxisSize.min,
                 children: [
                   Padding(
-                    padding: EdgeInsets.symmetric(horizontal: size.width*0.02),
+                    padding: EdgeInsets.symmetric(horizontal: size.width*0.04),
                     child: Row(
                       children: [
                         Expanded(
                           child: Container(
                             height: size.height*0.25,
                             decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(10),
+                              borderRadius: BorderRadius.circular(20),
                               boxShadow: [
                                 BoxShadow(
                                   offset: Offset(
@@ -126,7 +129,7 @@ class _DoctorState extends State<Doctor> {
                             child: Container(
                               height: size.height*0.25,
                               decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(10),
+                                borderRadius: BorderRadius.circular(20),
                                 boxShadow: [
                                   BoxShadow(
                                     offset: Offset(
@@ -181,7 +184,7 @@ class _DoctorState extends State<Doctor> {
                     ),
                   ),
                     Padding(
-                      padding: const EdgeInsets.all(8.0),
+                      padding: EdgeInsets.symmetric(horizontal: size.width*0.001,vertical: size.height*0.02),
                       child: Row(children: [
                         CircleAvatar(
                           backgroundColor: Colors.grey.shade200,
@@ -241,6 +244,97 @@ class _DoctorState extends State<Doctor> {
                       }
                       ),
                     ),
+                  Padding(
+                    padding: EdgeInsets.symmetric(vertical: size.height*0.01,),
+                    child: Padding(
+                      padding: EdgeInsets.symmetric(horizontal: size.width*0.08),
+                      child: Row(
+                        children: [
+                          CircleAvatar(
+                            backgroundColor: Colors.grey.shade200,
+                            child: Icon(Icons.star,color: Color(0xFF000161).withOpacity(0.7),),
+                          ),
+                          Padding(
+                            padding: EdgeInsets.symmetric(horizontal: size.width*0.1),
+                            child: Text('Featured Services',style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                                fontSize: size.height*0.022,
+                            ),),
+                          ),
+                        ],),
+                    ),
+                  ),
+                  Padding(
+                    padding: EdgeInsets.all(8.0),
+                    child: StreamBuilder(
+                        stream: databaseRef3.onValue,
+                        builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot)
+                        {
+                          if(!snapshot.hasData){
+                            return Center(child: CircularProgressIndicator(strokeWidth: 1.0));
+                          }
+                          else{
+                            try{
+                              Map<dynamic,dynamic> map = snapshot.data!.snapshot.value as dynamic;
+                              List<dynamic> list = [];
+                              list = map.values.toList();
+                              return SizedBox(
+                                height: size.height*0.3,
+                                child: ListView.builder(
+                                    physics: ClampingScrollPhysics(),
+                                    shrinkWrap: true,
+                                    scrollDirection: Axis.horizontal,
+                                    itemCount: snapshot.data!.snapshot.children.length,
+                                    itemBuilder: (context, index){
+                                      return Padding(
+                                        padding: EdgeInsets.symmetric(horizontal: size.width*0.03,vertical: size.height*0.01),
+                                        child: Container(
+                                          clipBehavior: Clip.antiAlias,
+                                          width: size.width*0.5,
+                                          decoration: BoxDecoration(
+                                            border:  Border.all(color: Colors.black12,),
+                                            borderRadius: BorderRadius.circular(25),
+                                            color: Colors.white,
+                                          ),
+                                          child: Padding(
+                                            padding: EdgeInsets.symmetric(horizontal: size.width*0.025,vertical: size.height*0.01),
+                                            child: Column(
+                                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                              crossAxisAlignment: CrossAxisAlignment.start,
+                                              children:[
+                                                Expanded(
+                                                  flex: 1,
+                                                    child: Row(
+                                                      children: [
+                                                        Expanded(child: Text(list[index]['Name'].toString(),style: TextStyle(color: Color(0xFF000161),fontWeight: FontWeight.bold,fontSize: size.height*0.02),)),
+                                                        Expanded(child: CircleAvatar(
+                                                          backgroundColor: Colors.grey.shade200,
+                                                          child: Icon(Icons.chevron_right,color: Color(0xFF000161),),
+                                                        ),
+                                                        ),
+                                                      ],
+                                                    )),
+                                                Expanded(
+                                                    flex: 2,
+                                                    child: Text(list[index]['Context'].toString(),style: TextStyle(color: Color(0xFF000161),fontSize: size.height*0.016))),
+                                                Expanded(
+                                                  flex: 5,
+                                                    child: Image.network(list[index]['ImgUrl'].toString()))
+                                              ]
+                                            ),
+                                          ),
+                                        ),
+                                      );
+                                    }),
+                              );
+                            }
+                            catch(e){
+                              return Text('Currently you don\'t have any Orders.',style: TextStyle(color: Colors.black,fontWeight: FontWeight.bold),);
+                            }
+                          }
+                        }
+                    ),
+                  ),
                     Padding(
                       padding: EdgeInsets.only(top: size.height*0.02),
                       child: Row(
@@ -482,49 +576,55 @@ class _DoctorState extends State<Doctor> {
                               gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 2,mainAxisExtent: size.height*0.35),
                               itemBuilder: (context,index)
                               {
-                                try{
-                                  return Padding(
-                                    padding: EdgeInsets.symmetric(horizontal: size.width*0.02),
-                                    child: Container(
-                                      decoration: BoxDecoration(
-                                        color: Colors.transparent,
-                                      ),
-                                      child: Column(
-                                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                                        children: [
-                                          Container(
-                                            height: size.height*0.15,
-                                            width: size.width*0.5,
-                                            child: Image.network(list[index]['ImgUrl'].toString(),fit: BoxFit.cover,),
-                                          ),
-                                          Padding(
-                                            padding: EdgeInsets.only(left: size.width*0.01),
-                                            child: Column(
-                                              crossAxisAlignment: CrossAxisAlignment.start,
-                                              children: [
-                                                Padding(
-                                                  padding: EdgeInsets.symmetric(vertical: size.height*0.005),
-                                                  child: Text(list[index]['Body'],style: TextStyle(fontWeight: FontWeight.bold,fontSize: size.height*0.017),),
-                                                ),
-                                                Padding(
-                                                  padding: EdgeInsets.symmetric(vertical: size.height*0.006),
-                                                  child: Text(list[index]['Head'],style: TextStyle(fontSize: size.height*0.015),),
-                                                ),
-                                                Padding(
-                                                  padding: EdgeInsets.symmetric(vertical: size.height*0.001),
-                                                  child: Text('Available in ' + (list[index]['AvailTime']/60).toString() + ' mins',style: TextStyle(color: Colors.green),),
-                                                ),
-                                              ],
+                                if(!snapshot.hasData){
+                                  return Center(child: CircularProgressIndicator(strokeWidth: 1.0));
+                                }
+                                else{
+                                  try{
+                                    return Padding(
+                                      padding: EdgeInsets.symmetric(horizontal: size.width*0.02),
+                                      child: Container(
+                                        decoration: BoxDecoration(
+                                          color: Colors.transparent,
+                                        ),
+                                        child: Column(
+                                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                          children: [
+                                            Container(
+                                              height: size.height*0.15,
+                                              width: size.width*0.5,
+                                              child: Image.network(list[index]['ImgUrl'].toString(),fit: BoxFit.cover,),
                                             ),
-                                          ),
-                                        ],
+                                            Padding(
+                                              padding: EdgeInsets.only(left: size.width*0.01),
+                                              child: Column(
+                                                crossAxisAlignment: CrossAxisAlignment.start,
+                                                children: [
+                                                  Padding(
+                                                    padding: EdgeInsets.symmetric(vertical: size.height*0.005),
+                                                    child: Text(list[index]['Body'],style: TextStyle(fontWeight: FontWeight.bold,fontSize: size.height*0.017),),
+                                                  ),
+                                                  Padding(
+                                                    padding: EdgeInsets.symmetric(vertical: size.height*0.006),
+                                                    child: Text(list[index]['Head'],style: TextStyle(fontSize: size.height*0.015),),
+                                                  ),
+                                                  Padding(
+                                                    padding: EdgeInsets.symmetric(vertical: size.height*0.001),
+                                                    child: Text('Available in ' + (list[index]['AvailTime']/60).toString() + ' mins',style: TextStyle(color: Colors.green),),
+                                                  ),
+                                                ],
+                                              ),
+                                            ),
+                                          ],
+                                        ),
                                       ),
-                                    ),
-                                  );
+                                    );
+                                  }
+                                  catch(e){
+                                    return CircularProgressIndicator();
+                                  }
                                 }
-                                 catch(e){
-                                   return CircularProgressIndicator();
-                                }
+
                               });
                         },
 
