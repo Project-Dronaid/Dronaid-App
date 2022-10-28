@@ -17,12 +17,30 @@ class ProductOverviewScreen extends StatefulWidget {
   const ProductOverviewScreen({super.key});
 
 
+
   @override
   State<ProductOverviewScreen> createState() => _ProductOverviewScreenState();
 }
 
 class _ProductOverviewScreenState extends State<ProductOverviewScreen> {
   var isFavourite = false;
+  var isnit = true;
+  @override
+  void initState() {
+    //print('This executed');
+    Provider.of<Products>(context, listen: false).fetchAndSetProduct();
+    super.initState();
+  }
+
+  // void didChangeDependencies() {
+  //   print('This executed');
+  //   if(isnit){
+  //     Provider.of<Products>(context, listen: false).fetchAndSetProduct();
+  //   }
+  //   isnit =false;
+  //   super.didChangeDependencies();
+  // }
+
   @override
   Widget build(BuildContext context) {
     // Here I have made listen false because here we dont need to listen to data change we are just interested in the container of product widget
