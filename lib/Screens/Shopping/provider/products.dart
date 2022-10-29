@@ -40,7 +40,7 @@ class Products with ChangeNotifier{
           notifyListeners();
         }
         catch(e){
-          print('Error occured');
+          print('Error occured in fetching!');
         };
    }
 
