@@ -61,7 +61,7 @@ class _ProfilePageState extends State<ProfilePage> {
         shrinkWrap: false,
         children: [
           Padding(
-            padding: const EdgeInsets.only(top: 10,left: 30, right: 30,),
+            padding: EdgeInsets.only(top: 15,left: 30, right: 30),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
@@ -69,7 +69,7 @@ class _ProfilePageState extends State<ProfilePage> {
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: const [
                     CircleAvatar(
-                      radius: 50.0,
+                      radius: 75.0,
                       backgroundImage:
                           AssetImage('assets/images/profilepicture.png'),
                     ),
