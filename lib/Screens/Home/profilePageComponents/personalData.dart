@@ -106,58 +106,78 @@ class _PersonalDataState extends State<PersonalData> {
           builder: (BuildContext context){
             return AlertDialog(
               title: Text('Update',style: blueTextStyle,),
-              content: Container(
-                width: size.width*0.8,
+              content: SingleChildScrollView(
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
-                    TextField(
-                      controller: editControllername,
-                      decoration: InputDecoration(
-                        hintText: 'Edit',
-                        border: OutlineInputBorder(),
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: TextField(
+                        controller: editControllername,
+                        decoration: InputDecoration(
+                          hintText: 'Edit',
+                          border: OutlineInputBorder(),
+                        ),
                       ),
                     ),
-                    TextField(
-                      controller: editControllerph,
-                      decoration: InputDecoration(
-                        hintText: 'Edit',
-                        border: OutlineInputBorder(),
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: TextField(
+                        controller: editControllerph,
+                        decoration: InputDecoration(
+                          hintText: 'Edit',
+                          border: OutlineInputBorder(),
+                        ),
                       ),
                     ),
-                    TextField(
-                      controller: editControllerage,
-                      decoration: InputDecoration(
-                        hintText: 'Edit',
-                        border: OutlineInputBorder(),
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: TextField(
+                        controller: editControllerage,
+                        decoration: InputDecoration(
+                          hintText: 'Edit',
+                          border: OutlineInputBorder(),
+                        ),
                       ),
                     ),
-                    TextField(
-                      controller: editControllerbg,
-                      decoration: InputDecoration(
-                        hintText: 'Edit',
-                        border: OutlineInputBorder(),
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: TextField(
+                        controller: editControllerbg,
+                        decoration: InputDecoration(
+                          hintText: 'Edit',
+                          border: OutlineInputBorder(),
+                        ),
                       ),
                     ),
-                    TextField(
-                      controller: editControllerg,
-                      decoration: InputDecoration(
-                        hintText: 'Edit',
-                        border: OutlineInputBorder(),
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: TextField(
+                        controller: editControllerg,
+                        decoration: InputDecoration(
+                          hintText: 'Edit',
+                          border: OutlineInputBorder(),
+                        ),
                       ),
                     ),
-                    TextField(
-                      controller: editControllerh,
-                      decoration: InputDecoration(
-                        hintText: 'Edit',
-                        border: OutlineInputBorder(),
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: TextField(
+                        controller: editControllerh,
+                        decoration: InputDecoration(
+                          hintText: 'Edit',
+                          border: OutlineInputBorder(),
+                        ),
                       ),
                     ),
-                    TextField(
-                      controller: editControllerw,
-                      decoration: InputDecoration(
-                        hintText: 'Edit',
-                        border: OutlineInputBorder(),
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: TextField(
+                        controller: editControllerw,
+                        decoration: InputDecoration(
+                          hintText: 'Edit',
+                          border: OutlineInputBorder(),
+                        ),
                       ),
                     ),
 
@@ -209,6 +229,17 @@ class _PersonalDataState extends State<PersonalData> {
       tag: 'Personal Data',
       child: Scaffold(
         appBar: AppBar(
+          actions: [
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: IconButton(
+                icon: Icon(Icons.edit,color: Color(0xff000162),),
+                onPressed: (){
+                  showMyDialog();
+                }
+              ),
+            ),
+          ],
           leading: GestureDetector(
             onTap: () {
               Navigator.of(context).pop();
@@ -383,36 +414,6 @@ class _PersonalDataState extends State<PersonalData> {
                     ),
                   ],
                 ),
-                Column(
-                  children: [
-                    Container(
-                      margin: const EdgeInsets.symmetric(vertical: 8),
-                      width: MediaQuery.of(context).size.width/3.5,
-                      height: MediaQuery.of(context).size.height/13,
-                      decoration: BoxDecoration(
-                        color: Color(0xff00078B),
-                        borderRadius: const BorderRadius.all(Radius.circular(10)),
-                        border: Border.all(
-                          color: const Color(0xff8689C6),
-                        ),
-                      ),
-                      padding: const EdgeInsets.symmetric(
-                        horizontal: 1,
-                        vertical: 1,
-                      ),
-                        child: TextButton(
-                            onPressed: (){
-                          showMyDialog();
-                        }, child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                          children: [
-                            Icon(Icons.edit,color: Colors.white,),
-                            Text('EDIT',style: TextStyle(color: Colors.white,fontSize: MediaQuery.of(context).size.height*0.023)),
-                          ],
-                        ),),
-                    ),
-                  ],
-                )
                 // Container(
                 //   margin: const EdgeInsets.symmetric(vertical: 8),
                 //   width: MediaQuery.of(context).size.width/2.5,
