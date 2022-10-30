@@ -88,11 +88,11 @@ class _PersonalDataState extends State<PersonalData> {
     // TODO: implement initState
     super.initState();
     showDetailsUser();
-    // getuserdetail();
   }
 
   @override
   Widget build(BuildContext context) {
+    Size size = MediaQuery.of(context).size;
     Future<void> showMyDialog() async {
       editControllername.text = name;
       editControllerph.text = phonenumber;
@@ -105,75 +105,64 @@ class _PersonalDataState extends State<PersonalData> {
           context: context,
           builder: (BuildContext context){
             return AlertDialog(
-              title: Text('Update'),
-              content: Column(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
-                  Container(
-                    child: TextField(
+              title: Text('Update',style: blueTextStyle,),
+              content: Container(
+                width: size.width*0.8,
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    TextField(
                       controller: editControllername,
                       decoration: InputDecoration(
                         hintText: 'Edit',
                         border: OutlineInputBorder(),
                       ),
                     ),
-                  ),
-                  Container(
-                    child: TextField(
+                    TextField(
                       controller: editControllerph,
                       decoration: InputDecoration(
                         hintText: 'Edit',
                         border: OutlineInputBorder(),
                       ),
                     ),
-                  ),
-                  Container(
-                    child: TextField(
+                    TextField(
                       controller: editControllerage,
                       decoration: InputDecoration(
                         hintText: 'Edit',
                         border: OutlineInputBorder(),
                       ),
                     ),
-                  ),
-                  Container(
-                    child: TextField(
+                    TextField(
                       controller: editControllerbg,
                       decoration: InputDecoration(
                         hintText: 'Edit',
                         border: OutlineInputBorder(),
                       ),
                     ),
-                  ),
-                  Container(
-                    child: TextField(
+                    TextField(
                       controller: editControllerg,
                       decoration: InputDecoration(
                         hintText: 'Edit',
                         border: OutlineInputBorder(),
                       ),
                     ),
-                  ),
-                  Container(
-                    child: TextField(
+                    TextField(
                       controller: editControllerh,
                       decoration: InputDecoration(
                         hintText: 'Edit',
                         border: OutlineInputBorder(),
                       ),
                     ),
-                  ),
-                  Container(
-                    child: TextField(
+                    TextField(
                       controller: editControllerw,
                       decoration: InputDecoration(
                         hintText: 'Edit',
                         border: OutlineInputBorder(),
                       ),
                     ),
-                  ),
 
-                ],
+                  ],
+                ),
               ),
               actions: [
                 TextButton(
@@ -245,19 +234,28 @@ class _PersonalDataState extends State<PersonalData> {
           padding: const EdgeInsets.symmetric(horizontal: 30),
           shrinkWrap: true,
           children: [
-            Column(
-              children: [
-                CircleAvatar(
-                  radius: 50,
-                  backgroundImage: image!=null ? FileImage(image!): AssetImage('assets/images/profilepicture.png') as ImageProvider,
-                  // image!= null? Image.file(image!) : Image.asset('assets/images/profilepicture.png'),
-                ),
-                IconButton(onPressed: () => pickImage(ImageSource.gallery), icon: Icon(Icons.edit)),
-                SizedBox(
-                  height: 20.0,
-                  width: 250.0,
-                ),
-              ],
+            Center(
+              child: Stack(
+                children: [
+                  CircleAvatar(
+                    radius: 100,
+                    backgroundImage: image!=null ? FileImage(image!): AssetImage('assets/images/profilepicture.png') as ImageProvider,
+                    // image!= null? Image.file(image!) : Image.asset('assets/images/profilepicture.png'),
+                  ),
+                  Positioned(
+                      bottom: 20,
+                      right: 10,
+                      child: CircleAvatar(
+                        radius: 25,
+                        child: IconButton(
+                            onPressed: () => pickImage(ImageSource.gallery), icon: Icon(Icons.edit,size: size.height*0.025)),
+                      )),
+
+                ],
+              ),
+            ),
+            SizedBox(
+              height: MediaQuery.of(context).size.height*0.04,
             ),
             const Text(
               "Your Name",
@@ -389,7 +387,7 @@ class _PersonalDataState extends State<PersonalData> {
                   children: [
                     Container(
                       margin: const EdgeInsets.symmetric(vertical: 8),
-                      width: MediaQuery.of(context).size.width/2.5,
+                      width: MediaQuery.of(context).size.width/3.5,
                       height: MediaQuery.of(context).size.height/13,
                       decoration: BoxDecoration(
                         color: Color(0xff00078B),
@@ -399,13 +397,19 @@ class _PersonalDataState extends State<PersonalData> {
                         ),
                       ),
                       padding: const EdgeInsets.symmetric(
-                        horizontal: 21,
-                        vertical: 16,
+                        horizontal: 1,
+                        vertical: 1,
                       ),
                         child: TextButton(
                             onPressed: (){
                           showMyDialog();
-                        }, child: Text('EDIT',style: TextStyle(color: Colors.white,fontSize: MediaQuery.of(context).size.height*0.023)),),
+                        }, child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          children: [
+                            Icon(Icons.edit,color: Colors.white,),
+                            Text('EDIT',style: TextStyle(color: Colors.white,fontSize: MediaQuery.of(context).size.height*0.023)),
+                          ],
+                        ),),
                     ),
                   ],
                 )
