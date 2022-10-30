@@ -18,6 +18,8 @@ class _DoctorState extends State<Doctor> {
   // final databaseRefDoc = FirebaseDatabase.instance.ref('DOCTOR/CONSULTED');
   var databaseRef2 = FirebaseDatabase.instance.ref('DOCTOR/CONSULTED');
   var databaseRef3 = FirebaseDatabase.instance.ref('DOCTOR/FEATURED');
+  var databaseRef4 = FirebaseDatabase.instance.ref('DOCTOR/STATS');
+
 
 
   @override
@@ -303,11 +305,15 @@ class _DoctorState extends State<Doctor> {
                                               crossAxisAlignment: CrossAxisAlignment.start,
                                               children:[
                                                 Expanded(
-                                                  flex: 1,
+                                                  flex: 2,
                                                     child: Row(
                                                       children: [
-                                                        Expanded(child: Text(list[index]['Name'].toString(),style: TextStyle(color: Color(0xFF000161),fontWeight: FontWeight.bold,fontSize: size.height*0.02),)),
-                                                        Expanded(child: CircleAvatar(
+                                                        Expanded(
+                                                          flex: 3,
+                                                            child: Text(list[index]['Name'].toString(),style: TextStyle(color: Color(0xFF000161),fontWeight: FontWeight.bold,fontSize: size.height*0.02),)),
+                                                        Expanded(
+                                                          flex: 1,
+                                                          child: CircleAvatar(
                                                           backgroundColor: Colors.grey.shade200,
                                                           child: Icon(Icons.chevron_right,color: Color(0xFF000161),),
                                                         ),
@@ -337,28 +343,32 @@ class _DoctorState extends State<Doctor> {
                   ),
                     Padding(
                       padding: EdgeInsets.only(top: size.height*0.02),
-                      child: Row(
-                        children: [
-                        CircleAvatar(
-                          backgroundColor: Colors.grey.shade200,
-                          child: Icon(Icons.video_call,color: Color(0xFF000161).withOpacity(0.7),),
-                        ),
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
+                      child: Padding(
+                        padding: EdgeInsets.symmetric(horizontal: size.width*0.08),
+                        child: Row(
                           children: [
-                            Text('Not Feeling too well ?',style: TextStyle(
-                                fontWeight: FontWeight.bold,
-                                fontSize: size.height*0.02
-                            ),),
-                            Text('Treat common symptoms with top specialists',style: TextStyle(
-                                fontWeight: FontWeight.w400,
-                                fontSize: size.height*0.014
-                            ),),
-                          ],
-                        ),
-
-                      ],
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,),
+                          CircleAvatar(
+                            backgroundColor: Colors.grey.shade200,
+                            child: Icon(Icons.video_call,color: Color(0xFF000161).withOpacity(0.7),),
+                          ),
+                          Padding(
+                            padding: EdgeInsets.symmetric(horizontal: size.width*0.05),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text('Not Feeling too well ?',style: TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: size.height*0.022
+                                ),),
+                                Text('Treat common symptoms with top specialists',style: TextStyle(
+                                    fontWeight: FontWeight.w400,
+                                    fontSize: size.height*0.014
+                                ),),
+                              ],
+                            ),
+                          ),
+                        ],),
+                      ),
                     ),
                     Flex(
                       direction: Axis.horizontal,
@@ -540,8 +550,201 @@ class _DoctorState extends State<Doctor> {
                         ),
                       ),
                     ),
+                  Container(
+                    height: size.height*0.4,
+                    color: Color(0xFF000161),
+                    child: Column(
+                      children: [
+                        Padding(
+                          padding: EdgeInsets.only(top: size.height*0.02),
+                          child: Padding(
+                            padding: EdgeInsets.symmetric(horizontal: size.width*0.08),
+                            child: Row(
+                              children: [
+                                CircleAvatar(
+                                  backgroundColor: Colors.grey.shade200,
+                                  child: Icon(Icons.video_call,color: Color(0xFF000161).withOpacity(0.7),),
+                                ),
+                                Padding(
+                                  padding: EdgeInsets.symmetric(horizontal: size.width*0.035),
+                                  child: Column(
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: [
+                                      Text('Best Offers',style: TextStyle(
+                                        color: Colors.white,
+                                          fontWeight: FontWeight.bold,
+                                          fontSize: size.height*0.022
+                                      ),),
+                                      Text('Explore deals, offers, health updates, and more',style: TextStyle(
+                                          color: Colors.white,
+                                          fontWeight: FontWeight.w400,
+                                          fontSize: size.height*0.014
+                                      ),),
+                                    ],
+                                  ),
+                                ),
+                              ],),
+                          ),
+                        ),
+                        Padding(
+                          padding: EdgeInsets.symmetric(vertical: size.height*0.025),
+                          child: SizedBox(
+                            height: size.height*0.23,
+                            child: ListView(
+                              shrinkWrap: true,
+                              physics: ClampingScrollPhysics(),
+                              scrollDirection: Axis.horizontal,
+                              children: [
+                                Padding(
+                                  padding: EdgeInsets.symmetric(horizontal: size.width*0.025),
+                                  child: Container(
+                                    width: size.width*0.85,
+                                    decoration: BoxDecoration(
+                                      color: Colors.blueAccent.shade700,
+                                      borderRadius: BorderRadius.all(
+                                        Radius.circular(10.0)
+                                    ),
+                                    ),
+                                      child: Row(
+                                        children: [
+                                          Expanded(
+                                            child: Padding(
+                                              padding: EdgeInsets.only(left: size.width*0.05,top: size.height*0.01,bottom: size.height*0.01),
+                                              child: Column(
+                                                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                                crossAxisAlignment: CrossAxisAlignment.start,
+                                              children: [
+                                                Text('Acc AID | INSURANCE',style: TextStyle(color: Colors.white,fontSize: size.height*0.0267),),
+                                                Expanded(child: Text('Stay Protected for a lifetime',style: TextStyle(color: Colors.white,fontSize: size.height*0.02,fontWeight: FontWeight.bold),)),
+                                                Text('Get insured up to the age of 100',style: TextStyle(color: Colors.white),),
+                                                Container(
+                                                  decoration: BoxDecoration(
+                                                    color: Colors.white,
+                                                    borderRadius: BorderRadius.all(
+                                                        Radius.circular(10.0)
+                                                    ),
+                                                  ),
+                                                  child: TextButton(
+                                                      onPressed: (){},
+                                                      child: Text('KNOW MORE',),
+                                                  ),
+                                                ),
+                                              ],
+                                    ),
+                                            ),
+                                          ),
+                                          Expanded(
+                                              child: Image.asset('assets/images/AccAid+.png'))
+                                        ],
+                                      ),
+                                  ),
+                                ),
+                                Padding(
+                                  padding: EdgeInsets.symmetric(horizontal: size.width*0.025),
+                                  child: Container(
+                                    width: size.width*0.85,
+                                    decoration: BoxDecoration(
+                                      color: Colors.white,
+                                      borderRadius: BorderRadius.all(
+                                          Radius.circular(10.0)
+                                      ),
+                                    ),
+                                    child: Row(
+                                      children: [
+                                        Expanded(
+                                          child: Padding(
+                                            padding: EdgeInsets.only(left: size.width*0.05,top: size.height*0.01,bottom: size.height*0.01),
+                                            child: Column(
+                                              crossAxisAlignment: CrossAxisAlignment.start,
+                                              children: [
+                                                Text('GET',style: TextStyle(color: Colors.black,fontSize: size.height*0.015,fontWeight: FontWeight.bold),),
+                                                Row(
+                                                  children: [
+                                                    Text('40%',style: TextStyle(color: Colors.black,fontSize: size.height*0.025,fontWeight: FontWeight.bold)),
+                                                    Text('OFF',style: TextStyle(color: Colors.black,fontSize: size.height*0.016,fontWeight: FontWeight.bold),),
+                                                  ],
+                                                ),
+                                                Text('+50% Health Cash',style: TextStyle(color: Colors.black,fontSize: size.height*0.018,fontWeight: FontWeight.w400),),
+                                                Expanded(
+                                                  child:
+                                                  Text('On your FIRST video consultation',style: TextStyle(color: Colors.black,fontSize: size.height*0.022,fontWeight: FontWeight.bold),),),
+                                                Container(
+                                                  decoration: BoxDecoration(
+                                                    color: Colors.blue,
+                                                    borderRadius: BorderRadius.all(
+                                                        Radius.circular(10.0)
+                                                    ),
+                                                  ),
+                                                  child: TextButton(
+                                                    onPressed: (){},
+                                                    child: Text('COUPON FIRST 10',style: TextStyle(color: Colors.white,fontSize: size.height*0.01,fontWeight: FontWeight.w500),),
+                                                  ),
+                                                )
+                                              ],
+                                            ),
+                                          ),
+                                        ),
+                                        Expanded(child: Image.asset('assets/images/FirstDocOnline.png'))
+                                      ],
+                                    ),
+                                  ),
+                                ),
+                                Padding(
+                                  padding: EdgeInsets.symmetric(horizontal: size.width*0.025),
+                                  child: Container(
+                                    width: size.width*0.85,
+                                    decoration: BoxDecoration(
+                                      color: Colors.white,
+                                      borderRadius: BorderRadius.all(
+                                          Radius.circular(10.0)
+                                      ),
+                                    ),
+                                    child: Row(
+                                      children: [
+                                        Expanded(
+                                          child: Padding(
+                                            padding: EdgeInsets.only(left: size.width*0.05,top: size.height*0.01,bottom: size.height*0.01),
+                                            child: Column(
+                                              crossAxisAlignment: CrossAxisAlignment.start,
+                                              children: [
+                                                Text('UPTO',style: TextStyle(color: Colors.black,fontSize: size.height*0.016,fontWeight: FontWeight.bold),),
+                                                Row(
+                                                  children: [
+                                                    Text('30%',style: TextStyle(color: Colors.black,fontSize: size.height*0.025,fontWeight: FontWeight.bold)),
+                                                    Text('OFF',style: TextStyle(color: Colors.black,fontSize: size.height*0.020,fontWeight: FontWeight.bold),),
+                                                  ],
+                                                ),
+                                                Expanded(child: Text('On your FIRST video consultation',style: TextStyle(color: Colors.black,fontSize: size.height*0.020,fontWeight: FontWeight.bold),),),
+                                                Container(
+                                                  decoration: BoxDecoration(
+                                                    color: Colors.blue,
+                                                    borderRadius: BorderRadius.all(
+                                                        Radius.circular(10.0)
+                                                    ),
+                                                  ),
+                                                  child: TextButton(
+                                                    onPressed: (){},
+                                                    child: Text('CONSULT NOW',style: TextStyle(color: Colors.white,fontSize: size.height*0.013,fontWeight: FontWeight.w500),),
+                                                  ),
+                                                )
+                                              ],
+                                            ),
+                                          ),
+                                        ),
+                                        Expanded(child: Image.asset('assets/images/online-medical-consultation-concept-with-doctor-mobile-phone-screen-online-medical-services-app-remote-consultations-appointment-cartoon-vector-illustration-isolated-white-background_605858-501.jpg'))
+                                      ],
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        )
+                      ],
+                    ),
+                  ),
                   Padding(
-                    padding: const EdgeInsets.all(8.0),
+                    padding: EdgeInsets.symmetric(horizontal: size.width*0.05,vertical: size.height*0.02),
                     child: Row(
                       children: [
                       CircleAvatar(
@@ -558,8 +761,7 @@ class _DoctorState extends State<Doctor> {
                         ),),
                       ),
 
-                    ],
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,),
+                    ],),
                   ),
                     Padding(
                       padding: EdgeInsets.symmetric(horizontal: size.width*0.001,vertical: size.height*0.02),
@@ -686,6 +888,91 @@ class _DoctorState extends State<Doctor> {
                     ),
                   ),
                   Container(
+                    height: size.height*0.65,
+                    color: Color(0xFF8689C6).withOpacity(0.1),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Expanded(
+                          flex: 1,
+                          child: Padding(
+                            padding: EdgeInsets.symmetric(horizontal: size.width*0.03,vertical: size.height*0.005),
+                            child: Text('Our Community of doctors and patients drive us to create technologies for better and affordable healthcare',
+                              style: TextStyle(fontSize: size.height*0.025),),
+                          ),
+                        ),
+                        Expanded(
+                          flex: 4,
+                          child: StreamBuilder(
+                            stream: databaseRef4.onValue,
+                            builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
+                              Map<dynamic,dynamic> map = snapshot.data!.snapshot.value as dynamic;
+                              List<dynamic> list = [];
+                              list = map.values.toList();
+                              return GridView.builder(
+                                  shrinkWrap: true,
+                                  physics: NeverScrollableScrollPhysics(),
+                                  itemCount: snapshot.data!.snapshot.children.length,
+                                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 2,mainAxisExtent: size.height*0.25),
+                                  itemBuilder: (context,index)
+                                  {
+                                    if(!snapshot.hasData){
+                                      return Center(child: CircularProgressIndicator(strokeWidth: 1.0));
+                                    }
+                                    else{
+                                      try{
+                                        return Padding(
+                                          padding: EdgeInsets.symmetric(horizontal: size.width*0.02,vertical: size.height*0.01),
+                                          child: Container(
+                                            decoration: BoxDecoration(
+                                              borderRadius: BorderRadius.circular(25),
+                                              color: Colors.transparent,
+                                            ),
+                                            child: Column(
+                                              children: [
+                                                Padding(
+                                                  padding: EdgeInsets.symmetric(horizontal: size.width*0.01,vertical: size.height*0.001),
+                                                  child: SizedBox(
+                                                    height: size.height*0.15,
+                                                    width: size.width*0.5,
+                                                    child: Image.network(list[index]['Icon'].toString(),fit: BoxFit.contain,),
+                                                  ),
+                                                ),
+                                                Padding(
+                                                  padding: EdgeInsets.only(left: size.width*0.01),
+                                                  child: Column(
+                                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                                    children: [
+                                                      Padding(
+                                                        padding: EdgeInsets.symmetric(vertical: size.height*0.006),
+                                                        child: Text(list[index]['Head'],style: TextStyle(fontSize: size.height*0.018),),
+                                                      ),
+                                                      Padding(
+                                                        padding: EdgeInsets.symmetric(vertical: size.height*0.001),
+                                                        child: Text(list[index]['Val'],style: TextStyle(fontSize: size.height*0.025,fontWeight: FontWeight.bold),),
+                                                      ),
+                                                    ],
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
+                                          ),
+                                        );
+                                      }
+                                      catch(e){
+                                        return CircularProgressIndicator();
+                                      }
+                                    }
+
+                                  });
+                            },
+
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  Container(
                     height: size.height*0.3,
                     decoration: BoxDecoration(color: Color(0xFF000161)),
                     child: Padding(
@@ -705,7 +992,7 @@ class _DoctorState extends State<Doctor> {
                         ],
                       ),
                     ),
-                  )
+                  ),
                 ],
               ),
             ],
