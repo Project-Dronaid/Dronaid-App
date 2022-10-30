@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:dronaidapp/Utils/Utils.dart';
 import 'package:dronaidapp/components/personalDataContainers.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
@@ -70,8 +71,18 @@ class _PersonalDataState extends State<PersonalData> {
       height = parent.child('Height').value.toString();
       weight =  parent.child('Weight').value.toString();
       gender = parent.child('Gender').value.toString();
+      phonenumber = parent.child('Phone').value.toString();
     });
   }
+  final editControllername = TextEditingController();
+  final editControllerph = TextEditingController();
+  final editControllerage = TextEditingController();
+  final editControllerbg = TextEditingController();
+  final editControllerg = TextEditingController();
+  final editControllerh = TextEditingController();
+  final editControllerw = TextEditingController();
+  final databaseRef = FirebaseDatabase.instance.ref("USERS");
+
   @override
   void initState() {
     // TODO: implement initState
@@ -82,6 +93,129 @@ class _PersonalDataState extends State<PersonalData> {
 
   @override
   Widget build(BuildContext context) {
+    Future<void> showMyDialog() async {
+      editControllername.text = name;
+      editControllerph.text = phonenumber;
+      editControllerage.text = age;
+      editControllerbg.text = bloodgroup;
+      editControllerg.text = gender;
+      editControllerh.text = height;
+      editControllerw.text = weight;
+      return showDialog(
+          context: context,
+          builder: (BuildContext context){
+            return AlertDialog(
+              title: Text('Update'),
+              content: Column(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  Container(
+                    child: TextField(
+                      controller: editControllername,
+                      decoration: InputDecoration(
+                        hintText: 'Edit',
+                        border: OutlineInputBorder(),
+                      ),
+                    ),
+                  ),
+                  Container(
+                    child: TextField(
+                      controller: editControllerph,
+                      decoration: InputDecoration(
+                        hintText: 'Edit',
+                        border: OutlineInputBorder(),
+                      ),
+                    ),
+                  ),
+                  Container(
+                    child: TextField(
+                      controller: editControllerage,
+                      decoration: InputDecoration(
+                        hintText: 'Edit',
+                        border: OutlineInputBorder(),
+                      ),
+                    ),
+                  ),
+                  Container(
+                    child: TextField(
+                      controller: editControllerbg,
+                      decoration: InputDecoration(
+                        hintText: 'Edit',
+                        border: OutlineInputBorder(),
+                      ),
+                    ),
+                  ),
+                  Container(
+                    child: TextField(
+                      controller: editControllerg,
+                      decoration: InputDecoration(
+                        hintText: 'Edit',
+                        border: OutlineInputBorder(),
+                      ),
+                    ),
+                  ),
+                  Container(
+                    child: TextField(
+                      controller: editControllerh,
+                      decoration: InputDecoration(
+                        hintText: 'Edit',
+                        border: OutlineInputBorder(),
+                      ),
+                    ),
+                  ),
+                  Container(
+                    child: TextField(
+                      controller: editControllerw,
+                      decoration: InputDecoration(
+                        hintText: 'Edit',
+                        border: OutlineInputBorder(),
+                      ),
+                    ),
+                  ),
+
+                ],
+              ),
+              actions: [
+                TextButton(
+                    onPressed: () async {
+                      final user = auth.currentUser!.uid.toString();
+                      final databaseRef = FirebaseDatabase.instance.ref("USERS/"+user+"/Profile Info");
+                      databaseRef.update({
+                        'Name' : editControllername.text.toString(),
+                        'Phone' : editControllerph.text.toString(),
+                        'Age': editControllerage.text.toString(),
+                        'Blood-Group': editControllerbg.text.toString(),
+                        'Gender': editControllerg.text.toString(),
+                        'Height': editControllerh.text.toString(),
+                        'Weight': editControllerw.text.toString(),
+                      }).then((value) async {
+                        final databaseRef1 = FirebaseDatabase.instance.ref("USERS");
+                        final user = auth.currentUser!.uid.toString();
+                        DatabaseEvent event = await databaseRef1.once();
+                        var parent = event.snapshot.child(user+'/Profile Info');
+                        setState(() {
+                          name = parent.child('Name').value.toString();
+                          age = parent.child('Age').value.toString();
+                          bloodgroup = parent.child('Blood-Group').value.toString();
+                          height = parent.child('Height').value.toString();
+                          weight =  parent.child('Weight').value.toString();
+                          gender = parent.child('Gender').value.toString();
+                          phonenumber = parent.child('Phone').value.toString();
+                        });
+                        Utils().toastmessage('Updated');
+                        Navigator.pop(context);
+                      }).onError((error, stackTrace){
+                        Utils().toastmessage(error.toString());
+                      });
+                    }, child: Text('Update')),
+                TextButton(onPressed: (){
+                  Navigator.pop(context);
+                }, child: Text('Cancel')),
+              ],
+            );
+          }
+      );
+    }
     return Hero(
       tag: 'Personal Data',
       child: Scaffold(
@@ -191,33 +325,6 @@ class _PersonalDataState extends State<PersonalData> {
                       ),
                       num: 2.5,
                     ),
-                    // DataContainer(
-                    //   num: 2.5,
-                    //   childOfContainer: DropdownButton(
-                    //     isExpanded: true,
-                    //     underline: const SizedBox(),
-                    //     isDense: true,
-                    //     icon: const Icon(
-                    //       Icons.keyboard_arrow_down,
-                    //       color: Color(0xff00078B),
-                    //     ),
-                    //     value: dropDownValue,
-                    //     items: items
-                    //         .map((e) => DropdownMenuItem(
-                    //               value: e,
-                    //               child: Text(
-                    //                 e,
-                    //                 style: blueTextStyle,
-                    //               ),
-                    //             ))
-                    //         .toList(),
-                    //     onChanged: (String? newValue) {
-                    //       setState(() {
-                    //         dropDownValue = newValue;
-                    //       });
-                    //     },
-                    //   ),
-                    // ),
                   ],
                 ),
               ],
@@ -245,7 +352,7 @@ class _PersonalDataState extends State<PersonalData> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     const Text(
-                      "Height",
+                      "Height (cm)",
                       style: lightBlueTextStyle,
                     ),
                     DataContainer(
@@ -266,7 +373,7 @@ class _PersonalDataState extends State<PersonalData> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     const Text(
-                      "Weight",
+                      "Weight (kg)",
                       style: lightBlueTextStyle,
                     ),
                     DataContainer(
@@ -278,25 +385,58 @@ class _PersonalDataState extends State<PersonalData> {
                     ),
                   ],
                 ),
+                Column(
+                  children: [
+                    Container(
+                      margin: const EdgeInsets.symmetric(vertical: 8),
+                      width: MediaQuery.of(context).size.width/2.5,
+                      height: MediaQuery.of(context).size.height/13,
+                      decoration: BoxDecoration(
+                        color: Color(0xff00078B),
+                        borderRadius: const BorderRadius.all(Radius.circular(10)),
+                        border: Border.all(
+                          color: const Color(0xff8689C6),
+                        ),
+                      ),
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 21,
+                        vertical: 16,
+                      ),
+                        child: TextButton(
+                            onPressed: (){
+                          showMyDialog();
+                        }, child: Text('EDIT',style: TextStyle(color: Colors.white,fontSize: MediaQuery.of(context).size.height*0.023)),),
+                    ),
+                  ],
+                )
+                // Container(
+                //   margin: const EdgeInsets.symmetric(vertical: 8),
+                //   width: MediaQuery.of(context).size.width/2.5,
+                //   decoration: BoxDecoration(
+                //     borderRadius: const BorderRadius.all(Radius.circular(10)),
+                //     border: Border.all(
+                //       color: const Color(0xff8689C6),
+                //     ),
+                //   ),
+                //   padding: const EdgeInsets.symmetric(
+                //     horizontal: 21,
+                //     vertical: 16,
+                //   ),
+                //   child: TextButton(
+                //       onPressed: (){
+                //     showMyDialog();
+                //   }, child: Text('Edit info!',style: TextStyle(
+                //     color: Color(0xff000162),
+                //   ),)),
+                // )
+
               ],
             ),
-
-
-            // Row(
-            //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            //   children: [
-            //     DataContainer(
-            //       childOfContainer: const Text(
-            //         "Other",
-            //         style: blueTextStyle,
-            //       ),
-            //       num: 2.5,
-            //     ),
-            //   ],
-            // )
           ],
         ),
       ),
     );
+
   }
+
 }
