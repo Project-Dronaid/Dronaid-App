@@ -1,4 +1,5 @@
 import 'package:animated_text_kit/animated_text_kit.dart';
+import 'package:dronaidapp/Screens/Home/bottomNavbarpages/InsideDoctor/ConsultADoctor.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
@@ -70,56 +71,61 @@ class _DoctorState extends State<Doctor> {
                     child: Row(
                       children: [
                         Expanded(
-                          child: Container(
-                            height: size.height*0.25,
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(20),
-                              boxShadow: [
-                                BoxShadow(
-                                  offset: Offset(
-                                    1.0,
-                                    1.0,
-                                  ),
-                                  color: Color(0xFF000161).withOpacity(0.2),
-                                  blurRadius: 4.0,
-                                  spreadRadius: 0.5,
-                                ), //BoxShadow
-                                BoxShadow(
-                                  color: Colors.white,
-                                  offset: const Offset(0.0, 0.0),
-                                  blurRadius: 0.0,
-                                  spreadRadius: 0.0,
-                                ), //BoxShadow
-                              ],
-                            ),
-                            child: Column(
-                            children: [
-                              Image(
-                                image: AssetImage('assets/images/Online-Doctor-Consultation.jpeg'),
-                                fit: BoxFit.fill,
-                                height: size.height*0.16,
-                              ),
-                              Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Padding(
-                                    padding: EdgeInsets.symmetric(vertical: size.height*0.0055,horizontal: size.width*0.03),
-                                    child: Text('Instant Video Consult',
-                                      style: TextStyle(
-                                          fontSize: size.height*0.016,
-                                          fontWeight: FontWeight.bold),
+                          child: GestureDetector(
+                            onTap: (){
+                              Navigator.push(context, MaterialPageRoute(builder: (context)=> ConsultaDoctor()));
+                            },
+                            child: Container(
+                              height: size.height*0.25,
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(20),
+                                boxShadow: [
+                                  BoxShadow(
+                                    offset: Offset(
+                                      1.0,
+                                      1.0,
                                     ),
-                                  ),
-                                  Padding(
-                                    padding: EdgeInsets.symmetric(vertical: size.height*0.001,horizontal: size.width*0.03),
-                                    child: Text('Connect within 60 secs',style: TextStyle(
-                                        fontSize: size.height*0.013,
-                                        fontWeight: FontWeight.w200),),
-                                  ),
+                                    color: Color(0xFF000161).withOpacity(0.2),
+                                    blurRadius: 4.0,
+                                    spreadRadius: 0.5,
+                                  ), //BoxShadow
+                                  BoxShadow(
+                                    color: Colors.white,
+                                    offset: const Offset(0.0, 0.0),
+                                    blurRadius: 0.0,
+                                    spreadRadius: 0.0,
+                                  ), //BoxShadow
                                 ],
                               ),
-                            ],
-                          ),
+                              child: Column(
+                              children: [
+                                Image(
+                                  image: AssetImage('assets/images/Online-Doctor-Consultation.jpeg'),
+                                  fit: BoxFit.fill,
+                                  height: size.height*0.16,
+                                ),
+                                Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Padding(
+                                      padding: EdgeInsets.symmetric(vertical: size.height*0.0055,horizontal: size.width*0.03),
+                                      child: Text('Instant Video Consult',
+                                        style: TextStyle(
+                                            fontSize: size.height*0.016,
+                                            fontWeight: FontWeight.bold),
+                                      ),
+                                    ),
+                                    Padding(
+                                      padding: EdgeInsets.symmetric(vertical: size.height*0.001,horizontal: size.width*0.03),
+                                      child: Text('Connect within 60 secs',style: TextStyle(
+                                          fontSize: size.height*0.013,
+                                          fontWeight: FontWeight.w200),),
+                                    ),
+                                  ],
+                                ),
+                              ],
+                            ),
+                            ),
                           ),
                         ),
                         SizedBox(
@@ -731,7 +737,7 @@ class _DoctorState extends State<Doctor> {
                                             ),
                                           ),
                                         ),
-                                        Expanded(child: Image.asset('assets/images/online-medical-consultation-concept-with-doctor-mobile-phone-screen-online-medical-services-app-remote-consultations-appointment-cartoon-vector-illustration-isolated-white-background_605858-501.jpg'))
+                                        Expanded(child: Image.asset('assets/images/omc.jpg'))
                                       ],
                                     ),
                                   ),
@@ -963,10 +969,8 @@ class _DoctorState extends State<Doctor> {
                                         return CircularProgressIndicator();
                                       }
                                     }
-
                                   });
                             },
-
                           ),
                         ),
                       ],
