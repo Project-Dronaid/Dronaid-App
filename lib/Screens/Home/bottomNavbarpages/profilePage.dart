@@ -26,9 +26,10 @@ class ProfilePage extends StatefulWidget {
 }
 
 class _ProfilePageState extends State<ProfilePage> {
-
   final auth = FirebaseAuth.instance;
   var name;
+  String? profileUrl;
+
   @override
   void initState() {
     // TODO: implement initState
@@ -36,15 +37,21 @@ class _ProfilePageState extends State<ProfilePage> {
     showDetails();
     // getuserdetail();
   }
-  Future <void> showDetails() async {
+
+  Future<void> showDetails() async {
     final databaseRef = FirebaseDatabase.instance.ref("USERS");
     final user = auth.currentUser!.uid.toString();
     DatabaseEvent event = await databaseRef.once();
     var parent = event.snapshot.child(user + '/Profile Info');
+    final userr = await FirebaseAuth.instance.currentUser;
+    for (final providerProfile in userr!.providerData) {
+      profileUrl = providerProfile.photoURL;
+    }
     setState(() {
       name = parent.child('Name').value.toString();
     });
   }
+
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
@@ -61,17 +68,19 @@ class _ProfilePageState extends State<ProfilePage> {
         shrinkWrap: false,
         children: [
           Padding(
-            padding: EdgeInsets.only(top: 15,left: 30, right: 30),
+            padding: EdgeInsets.only(top: 15, left: 30, right: 30),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.center,
-                  children: const [
+                  children: [
                     CircleAvatar(
                       radius: 75.0,
-                      backgroundImage:
-                          AssetImage('assets/images/profilepicture.png'),
+                      backgroundImage: profileUrl != null
+                          ? NetworkImage(profileUrl!)
+                          : AssetImage('assets/images/profilepicture.png')
+                              as ImageProvider,
                     ),
                   ],
                 ),
@@ -83,42 +92,49 @@ class _ProfilePageState extends State<ProfilePage> {
                 Column(
                   // crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                  Hero(
-              tag: 'Personal Data',
-              child: GestureDetector(
-                onTap: () {
-                  Navigator.push(context, MaterialPageRoute(builder: (context) => PersonalData()));
-                },
-                child: Card(
-                  elevation: 0,
-                  color: Colors.transparent,
-                  child: ListTile(
-                    // dense: true,
-                    leading: Container(
-                      // width: double.infinity,
-                      padding: EdgeInsets.all(10),
-                      decoration: BoxDecoration(
-                        borderRadius: const BorderRadius.all(Radius.circular(10)),
-                        border: Border.all(
-                          color: const Color(0xff8689C6),
+                    Hero(
+                      tag: 'Personal Data',
+                      child: GestureDetector(
+                        onTap: () {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => PersonalData()));
+                        },
+                        child: Card(
+                          elevation: 0,
+                          color: Colors.transparent,
+                          child: ListTile(
+                            // dense: true,
+                            leading: Container(
+                              // width: double.infinity,
+                              padding: EdgeInsets.all(10),
+                              decoration: BoxDecoration(
+                                borderRadius:
+                                    const BorderRadius.all(Radius.circular(10)),
+                                border: Border.all(
+                                  color: const Color(0xff8689C6),
+                                ),
+                              ),
+                              child: Icon(
+                                Icons.person,
+                                color: Color(0xFF8689C6),
+                              ),
+                            ),
+                            title: Text(
+                              'Personal Data',
+                              style: kProfileStyle,
+                            ),
+                          ),
                         ),
                       ),
-                      child: Icon(
-                        Icons.person,
-                        color: Color(0xFF8689C6),
-                      ),
                     ),
-                    title: Text(
-                      'Personal Data',
-                      style: kProfileStyle,
-                    ),
-                  ),
-                ),
-              ),
-            ),
                     GestureDetector(
                       onTap: () {
-                        Navigator.push(context, MaterialPageRoute(builder: (context) => MedicalHistory()));
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => MedicalHistory()));
                       },
                       child: Card(
                         elevation: 0,
@@ -129,7 +145,8 @@ class _ProfilePageState extends State<ProfilePage> {
                             // width: double.infinity,
                             padding: EdgeInsets.all(10),
                             decoration: BoxDecoration(
-                              borderRadius: const BorderRadius.all(Radius.circular(10)),
+                              borderRadius:
+                                  const BorderRadius.all(Radius.circular(10)),
                               border: Border.all(
                                 color: const Color(0xff8689C6),
                               ),
@@ -148,7 +165,10 @@ class _ProfilePageState extends State<ProfilePage> {
                     ),
                     GestureDetector(
                       onTap: () {
-                        Navigator.push(context, MaterialPageRoute(builder: (context) => MedicalHistory()));
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => MedicalHistory()));
                       },
                       child: Card(
                         elevation: 0,
@@ -159,7 +179,8 @@ class _ProfilePageState extends State<ProfilePage> {
                             // width: double.infinity,
                             padding: EdgeInsets.all(10),
                             decoration: BoxDecoration(
-                              borderRadius: const BorderRadius.all(Radius.circular(10)),
+                              borderRadius:
+                                  const BorderRadius.all(Radius.circular(10)),
                               border: Border.all(
                                 color: const Color(0xff8689C6),
                               ),
@@ -178,7 +199,10 @@ class _ProfilePageState extends State<ProfilePage> {
                     ),
                     GestureDetector(
                       onTap: () {
-                        Navigator.push(context, MaterialPageRoute(builder: (context) => Settings()));
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => Settings()));
                       },
                       child: Card(
                         elevation: 0,
@@ -189,7 +213,8 @@ class _ProfilePageState extends State<ProfilePage> {
                             // width: double.infinity,
                             padding: EdgeInsets.all(10),
                             decoration: BoxDecoration(
-                              borderRadius: const BorderRadius.all(Radius.circular(10)),
+                              borderRadius:
+                                  const BorderRadius.all(Radius.circular(10)),
                               border: Border.all(
                                 color: const Color(0xff8689C6),
                               ),
@@ -209,7 +234,8 @@ class _ProfilePageState extends State<ProfilePage> {
                     const Divider(),
                     GestureDetector(
                       onTap: () {
-                        Navigator.push(context, MaterialPageRoute(builder: (context) => Faq()));
+                        Navigator.push(context,
+                            MaterialPageRoute(builder: (context) => Faq()));
                       },
                       child: Card(
                         elevation: 0,
@@ -220,7 +246,8 @@ class _ProfilePageState extends State<ProfilePage> {
                             // width: double.infinity,
                             padding: EdgeInsets.all(10),
                             decoration: BoxDecoration(
-                              borderRadius: const BorderRadius.all(Radius.circular(10)),
+                              borderRadius:
+                                  const BorderRadius.all(Radius.circular(10)),
                               border: Border.all(
                                 color: const Color(0xff8689C6),
                               ),
@@ -239,7 +266,10 @@ class _ProfilePageState extends State<ProfilePage> {
                     ),
                     GestureDetector(
                       onTap: () {
-                        Navigator.push(context, MaterialPageRoute(builder: (context) => Community()));
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => Community()));
                       },
                       child: Card(
                         elevation: 0,
@@ -250,7 +280,8 @@ class _ProfilePageState extends State<ProfilePage> {
                             // width: double.infinity,
                             padding: EdgeInsets.all(10),
                             decoration: BoxDecoration(
-                              borderRadius: const BorderRadius.all(Radius.circular(10)),
+                              borderRadius:
+                                  const BorderRadius.all(Radius.circular(10)),
                               border: Border.all(
                                 color: const Color(0xff8689C6),
                               ),
@@ -269,7 +300,8 @@ class _ProfilePageState extends State<ProfilePage> {
                     ),
                     GestureDetector(
                       onTap: () {
-                        Navigator.push(context, MaterialPageRoute(builder: (context) => License()));
+                        Navigator.push(context,
+                            MaterialPageRoute(builder: (context) => License()));
                       },
                       child: Card(
                         elevation: 0,
@@ -280,7 +312,8 @@ class _ProfilePageState extends State<ProfilePage> {
                             // width: double.infinity,
                             padding: EdgeInsets.all(10),
                             decoration: BoxDecoration(
-                              borderRadius: const BorderRadius.all(Radius.circular(10)),
+                              borderRadius:
+                                  const BorderRadius.all(Radius.circular(10)),
                               border: Border.all(
                                 color: const Color(0xff8689C6),
                               ),
@@ -299,7 +332,8 @@ class _ProfilePageState extends State<ProfilePage> {
                     ),
                     GestureDetector(
                       onTap: () {
-                        Navigator.push(context, MaterialPageRoute(builder: (context) => Support()));
+                        Navigator.push(context,
+                            MaterialPageRoute(builder: (context) => Support()));
                       },
                       child: Card(
                         elevation: 0,
@@ -310,7 +344,8 @@ class _ProfilePageState extends State<ProfilePage> {
                             // width: double.infinity,
                             padding: EdgeInsets.all(10),
                             decoration: BoxDecoration(
-                              borderRadius: const BorderRadius.all(Radius.circular(10)),
+                              borderRadius:
+                                  const BorderRadius.all(Radius.circular(10)),
                               border: Border.all(
                                 color: const Color(0xff8689C6),
                               ),
@@ -329,8 +364,11 @@ class _ProfilePageState extends State<ProfilePage> {
                     ),
                     GestureDetector(
                       onTap: () {
-                        auth.signOut().then((value){
-                          Navigator.push(context, MaterialPageRoute(builder: (context) => LoginScreen()));
+                        auth.signOut().then((value) {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => LoginScreen()));
                         }).onError((error, stackTrace) {
                           Utils().toastmessage(error.toString());
                         });
@@ -344,7 +382,8 @@ class _ProfilePageState extends State<ProfilePage> {
                             // width: double.infinity,
                             padding: EdgeInsets.all(10),
                             decoration: BoxDecoration(
-                              borderRadius: const BorderRadius.all(Radius.circular(10)),
+                              borderRadius:
+                                  const BorderRadius.all(Radius.circular(10)),
                               border: Border.all(
                                 color: const Color(0xff8689C6),
                               ),
@@ -362,7 +401,7 @@ class _ProfilePageState extends State<ProfilePage> {
                       ),
                     ),
                     SizedBox(
-                      height: size.height*0.1,
+                      height: size.height * 0.1,
                     ),
                   ],
                 ),
@@ -374,5 +413,3 @@ class _ProfilePageState extends State<ProfilePage> {
     );
   }
 }
-
-
