@@ -1,12 +1,14 @@
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dronaidapp/Utils/Utils.dart';
 import 'package:dronaidapp/components/personalDataContainers.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:dronaidapp/components/url.dart';
 import 'package:dronaidapp/constants.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:http/http.dart';
@@ -18,6 +20,7 @@ import '../../../components/profileCardWidget.dart';
 
 class PersonalData extends StatefulWidget {
   static const String id = "personalData";
+
   // String gender = "m";
   @override
   State<PersonalData> createState() => _PersonalDataState();
@@ -33,23 +36,28 @@ class _PersonalDataState extends State<PersonalData> {
   var height;
   var weight;
   File? image;
+  String? profileImg;
   Future pickImage(ImageSource source) async {
+    final databaseRef = FirebaseDatabase.instance.ref("USERS");
+    final user = auth.currentUser!.uid.toString();
     try {
-      final pImage = await ImagePicker().pickImage(
-          source: source);
-      if (pImage == null)
-        return;
+      final pImage = await ImagePicker().pickImage(source: source);
+      if (pImage == null) return;
       final imageTemp = File(pImage.path);
+      String profileURL = await uploadImage(imageTemp, user);
+
+      await FirebaseAuth.instance.currentUser?.updatePhotoURL(profileURL);
       //  final imagePermanent = saveImagePermanently(pImage.path);
       setState(() {
         image = imageTemp;
+        profileImg = profileURL;
       });
     } on PlatformException catch (e) {
       print('Failed to pick image : $e');
     }
   }
 
-  Future saveImagePermanently(String imagePath) async{
+  Future saveImagePermanently(String imagePath) async {
     final directory = await getApplicationDocumentsDirectory();
     final name = basename(imagePath);
     final image = File('${directory.path}/$name');
@@ -61,19 +69,25 @@ class _PersonalDataState extends State<PersonalData> {
   Future<void> showDetailsUser() async {
     final databaseRef = FirebaseDatabase.instance.ref("USERS");
     final user = auth.currentUser!.uid.toString();
-    DatabaseEvent  event = await databaseRef.once();
-    var parent = event.snapshot.child(user+'/Profile Info');
+
+    DatabaseEvent event = await databaseRef.once();
+    var parent = event.snapshot.child(user + '/Profile Info');
+    final userr = await FirebaseAuth.instance.currentUser;
+    for (final providerProfile in userr!.providerData) {
+      profileImg = providerProfile.photoURL;
+    }
     setState(() {
       name = parent.child('Name').value.toString();
       email = parent.child('Email').value.toString();
       age = parent.child('Age').value.toString();
       bloodgroup = parent.child('Blood-Group').value.toString();
       height = parent.child('Height').value.toString();
-      weight =  parent.child('Weight').value.toString();
+      weight = parent.child('Weight').value.toString();
       gender = parent.child('Gender').value.toString();
       phonenumber = parent.child('Phone').value.toString();
     });
   }
+
   final editControllername = TextEditingController();
   final editControllerph = TextEditingController();
   final editControllerage = TextEditingController();
@@ -82,6 +96,14 @@ class _PersonalDataState extends State<PersonalData> {
   final editControllerh = TextEditingController();
   final editControllerw = TextEditingController();
   final databaseRef = FirebaseDatabase.instance.ref("USERS");
+
+  final fs = FirebaseStorage.instance;
+
+  Future<String> uploadImage(File? image, String id) async {
+    var snapShot = await fs.ref().child('userImages/$id').putFile(image!);
+    var downloadUrl = await snapShot.ref.getDownloadURL();
+    return downloadUrl;
+  }
 
   @override
   void initState() {
@@ -103,9 +125,12 @@ class _PersonalDataState extends State<PersonalData> {
       editControllerw.text = weight;
       return showDialog(
           context: context,
-          builder: (BuildContext context){
+          builder: (BuildContext context) {
             return AlertDialog(
-              title: Text('Update',style: blueTextStyle,),
+              title: Text(
+                'Update',
+                style: blueTextStyle,
+              ),
               content: SingleChildScrollView(
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -180,7 +205,6 @@ class _PersonalDataState extends State<PersonalData> {
                         ),
                       ),
                     ),
-
                   ],
                 ),
               ),
@@ -188,43 +212,50 @@ class _PersonalDataState extends State<PersonalData> {
                 TextButton(
                     onPressed: () async {
                       final user = auth.currentUser!.uid.toString();
-                      final databaseRef = FirebaseDatabase.instance.ref("USERS/"+user+"/Profile Info");
+                      final databaseRef = FirebaseDatabase.instance
+                          .ref("USERS/" + user + "/Profile Info");
                       databaseRef.update({
-                        'Name' : editControllername.text.toString(),
-                        'Phone' : editControllerph.text.toString(),
+                        'Name': editControllername.text.toString(),
+                        'Phone': editControllerph.text.toString(),
                         'Age': editControllerage.text.toString(),
                         'Blood-Group': editControllerbg.text.toString(),
                         'Gender': editControllerg.text.toString(),
                         'Height': editControllerh.text.toString(),
                         'Weight': editControllerw.text.toString(),
                       }).then((value) async {
-                        final databaseRef1 = FirebaseDatabase.instance.ref("USERS");
+                        final databaseRef1 =
+                            FirebaseDatabase.instance.ref("USERS");
                         final user = auth.currentUser!.uid.toString();
                         DatabaseEvent event = await databaseRef1.once();
-                        var parent = event.snapshot.child(user+'/Profile Info');
+                        var parent =
+                            event.snapshot.child(user + '/Profile Info');
                         setState(() {
                           name = parent.child('Name').value.toString();
                           age = parent.child('Age').value.toString();
-                          bloodgroup = parent.child('Blood-Group').value.toString();
+                          bloodgroup =
+                              parent.child('Blood-Group').value.toString();
                           height = parent.child('Height').value.toString();
-                          weight =  parent.child('Weight').value.toString();
+                          weight = parent.child('Weight').value.toString();
                           gender = parent.child('Gender').value.toString();
                           phonenumber = parent.child('Phone').value.toString();
                         });
                         Utils().toastmessage('Updated');
                         Navigator.pop(context);
-                      }).onError((error, stackTrace){
+                      }).onError((error, stackTrace) {
                         Utils().toastmessage(error.toString());
                       });
-                    }, child: Text('Update')),
-                TextButton(onPressed: (){
-                  Navigator.pop(context);
-                }, child: Text('Cancel')),
+                    },
+                    child: Text('Update')),
+                TextButton(
+                    onPressed: () {
+                      Navigator.pop(context);
+                    },
+                    child: Text('Cancel')),
               ],
             );
-          }
-      );
+          });
     }
+
     return Hero(
       tag: 'Personal Data',
       child: Scaffold(
@@ -233,11 +264,13 @@ class _PersonalDataState extends State<PersonalData> {
             Padding(
               padding: const EdgeInsets.all(8.0),
               child: IconButton(
-                icon: Icon(Icons.edit,color: Color(0xff000162),),
-                onPressed: (){
-                  showMyDialog();
-                }
-              ),
+                  icon: Icon(
+                    Icons.edit,
+                    color: Color(0xff000162),
+                  ),
+                  onPressed: () {
+                    showMyDialog();
+                  }),
             ),
           ],
           leading: GestureDetector(
@@ -270,7 +303,10 @@ class _PersonalDataState extends State<PersonalData> {
                 children: [
                   CircleAvatar(
                     radius: 100,
-                    backgroundImage: image!=null ? FileImage(image!): AssetImage('assets/images/profilepicture.png') as ImageProvider,
+                    backgroundImage: profileImg != null
+                        ? NetworkImage(profileImg!)
+                        : AssetImage('assets/images/profilepicture.png')
+                            as ImageProvider,
                     // image!= null? Image.file(image!) : Image.asset('assets/images/profilepicture.png'),
                   ),
                   Positioned(
@@ -279,14 +315,14 @@ class _PersonalDataState extends State<PersonalData> {
                       child: CircleAvatar(
                         radius: 25,
                         child: IconButton(
-                            onPressed: () => pickImage(ImageSource.gallery), icon: Icon(Icons.edit,size: size.height*0.025)),
+                            onPressed: () => pickImage(ImageSource.gallery),
+                            icon: Icon(Icons.edit, size: size.height * 0.025)),
                       )),
-
                 ],
               ),
             ),
             SizedBox(
-              height: MediaQuery.of(context).size.height*0.04,
+              height: MediaQuery.of(context).size.height * 0.04,
             ),
             const Text(
               "Your Name",
@@ -434,14 +470,11 @@ class _PersonalDataState extends State<PersonalData> {
                 //     color: Color(0xff000162),
                 //   ),)),
                 // )
-
               ],
             ),
           ],
         ),
       ),
     );
-
   }
-
 }
