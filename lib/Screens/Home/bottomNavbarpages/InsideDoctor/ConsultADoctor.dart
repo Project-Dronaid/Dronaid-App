@@ -13,6 +13,7 @@ class _ConsultaDoctorState extends State<ConsultaDoctor> {
   var databaseRef1 = FirebaseDatabase.instance.ref('DOCTOR/SPECIALITIES');
   var databaseRef2 = FirebaseDatabase.instance.ref('DOCTOR/CONSULTED');
   var databaseRef3 = FirebaseDatabase.instance.ref('DOCTOR/SYMPTOMS');
+  var databaseRef4 = FirebaseDatabase.instance.ref('DOCTOR/HEALTHISSUES');
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
@@ -385,6 +386,61 @@ class _ConsultaDoctorState extends State<ConsultaDoctor> {
             ),
             Padding(
               padding: EdgeInsets.symmetric(horizontal: size.width*0.05),
+              child: Text('Common Health Issues',style: TextStyle(
+                  fontWeight: FontWeight.w500,
+                  fontSize: size.height*0.025
+              ),),
+            ),
+            Padding(
+              padding: EdgeInsets.symmetric(horizontal: size.width*0.005,vertical: size.height*0.02),
+              child: StreamBuilder(
+                stream: databaseRef4.onValue,
+                builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
+                  Map<dynamic,dynamic> map = snapshot.data!.snapshot.value as dynamic;
+                  List<dynamic> list = [];
+                  list = map.values.toList();
+                  return GridView.builder(
+                      shrinkWrap: true,
+                      physics: NeverScrollableScrollPhysics(),
+                      itemCount: snapshot.data!.snapshot.children.length,
+                      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 4,mainAxisExtent: size.height*0.165),
+                      itemBuilder: (context,index)
+                      {
+                        if(!snapshot.hasData){
+                          return Center(child: CircularProgressIndicator(strokeWidth: 1.0));
+                        }
+                        else{
+                          try{
+                            return Padding(
+                              padding: EdgeInsets.symmetric(horizontal: size.width*0.025),
+                              child: Column(
+                                children: [
+                                  Padding(
+                                    padding: EdgeInsets.symmetric(vertical: size.height*0.03),
+                                    child: CircleAvatar(
+                                      radius: 40.0,
+                                      backgroundColor: Color(0xFF8689C6).withOpacity(0.2),
+                                      backgroundImage: NetworkImage(list[index]['Img'].toString()),
+                                    ),
+                                  ),
+                                  Expanded(
+                                      child: Text(list[index]['Text'],style: TextStyle(fontWeight: FontWeight.w500,fontSize: size.height*0.014),)),
+                                ],
+                              ),
+                            );
+                          }
+                          catch(e){
+                            return CircularProgressIndicator();
+                          }
+                        }
+
+                      });
+                },
+
+              ),
+            ),
+            Padding(
+              padding: EdgeInsets.symmetric(horizontal: size.width*0.05),
               child: Text('Symptoms relevant to you',style: TextStyle(
                   fontWeight: FontWeight.w500,
                   fontSize: size.height*0.025
@@ -402,7 +458,7 @@ class _ConsultaDoctorState extends State<ConsultaDoctor> {
                       shrinkWrap: true,
                       physics: NeverScrollableScrollPhysics(),
                       itemCount: snapshot.data!.snapshot.children.length,
-                      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 4,mainAxisExtent: size.height*0.18),
+                      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 4,mainAxisExtent: size.height*0.165),
                       itemBuilder: (context,index)
                       {
                         if(!snapshot.hasData){
