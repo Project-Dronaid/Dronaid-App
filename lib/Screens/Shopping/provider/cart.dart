@@ -5,7 +5,7 @@ class CartItem {
   final String id;
   final String title;
   final int quantity;
-  final double price;
+  final int price;
 
   CartItem({required this.id, required this.title, required this.price, required this.quantity});
 }
@@ -20,7 +20,7 @@ class Cart with ChangeNotifier{
       return _items == null?0:_items.length;
     }
 
-    void addItem(String productId, double price, String title){
+    void addItem(String productId, int price, String title){
       if(_items.containsKey(productId)){
         // Chhange the quantity
         _items.update(productId, (existingCartItem) => CartItem(id: existingCartItem.id, title: existingCartItem.title, price: existingCartItem.price, quantity: existingCartItem.quantity+1));

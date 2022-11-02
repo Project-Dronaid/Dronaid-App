@@ -6,7 +6,7 @@ class Product with ChangeNotifier {
   final String id;
   final String title;
   final String description;
-  final double price ;
+  final int price ;
   final String imageUrl;
   bool isFavourite;
 
@@ -14,7 +14,7 @@ class Product with ChangeNotifier {
     required this.id,
     required this.title,
     required this.description,
-    this.price= 5,
+    required this.price,
     required this.imageUrl,
     this.isFavourite = false});
 
