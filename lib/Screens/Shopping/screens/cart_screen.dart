@@ -2,10 +2,19 @@ import 'package:dronaidapp/Screens/Shopping/provider/cart.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../widgets/cart_item.dart';
+import '../Razorpay/razor.dart';
 
-class CartScreen extends StatelessWidget {
+class CartScreen extends StatefulWidget {
   const CartScreen({Key? key}) : super(key: key);
   static const routeName = '/Cart';
+
+  @override
+  State<CartScreen> createState() => _CartScreenState();
+}
+
+class _CartScreenState extends State<CartScreen> {
+
+
   @override
   Widget build(BuildContext context) {
     final cart = Provider.of<Cart>(context);
@@ -23,7 +32,12 @@ class CartScreen extends StatelessWidget {
                 Text('Total', style: TextStyle(fontSize: 20)),
                 Spacer(),
                 Chip(label: Text('\$${cart.totalAmount}', style: TextStyle(color: Colors.white),),backgroundColor: Theme.of(context).primaryColor, ),
-                TextButton(onPressed: (){}, child: const Text('ORDER NOW'),),
+                TextButton(onPressed: (){
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) =>  RazorPayClass(Amount:(cart.totalAmount).round())),
+                  );
+                }, child: const Text('ORDER NOW'),),
               ],
             ),
           ),
