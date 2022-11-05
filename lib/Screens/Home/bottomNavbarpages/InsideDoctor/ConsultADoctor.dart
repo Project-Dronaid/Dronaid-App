@@ -403,7 +403,7 @@ class _ConsultaDoctorState extends State<ConsultaDoctor> {
                       shrinkWrap: true,
                       physics: NeverScrollableScrollPhysics(),
                       itemCount: snapshot.data!.snapshot.children.length,
-                      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 4,mainAxisExtent: size.height*0.18),
+                      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 4,mainAxisExtent: size.height*0.165),
                       itemBuilder: (context,index)
                       {
                         if(!snapshot.hasData){

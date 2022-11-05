@@ -4,7 +4,7 @@ import 'package:dronaidapp/Screens/Shopping/widgets/badge.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../provider/cart.dart';
-import '../provider/product.dart';
+import 'package:carousel_slider/carousel_slider.dart';
 import '../widgets/product_grid.dart';
 import '../widgets/product_items.dart';
 
@@ -32,15 +32,6 @@ class _ProductOverviewScreenState extends State<ProductOverviewScreen> {
     super.initState();
   }
 
-  // void didChangeDependencies() {
-  //   print('This executed');
-  //   if(isnit){
-  //     Provider.of<Products>(context, listen: false).fetchAndSetProduct();
-  //   }
-  //   isnit =false;
-  //   super.didChangeDependencies();
-  // }
-
   @override
   Widget build(BuildContext context) {
     // Here I have made listen false because here we dont need to listen to data change we are just interested in the container of product widget
@@ -61,16 +52,50 @@ class _ProductOverviewScreenState extends State<ProductOverviewScreen> {
                 });
 
               },
-              icon: Icon(Icons.more_vert),
+              icon: const Icon(Icons.more_vert),
               itemBuilder: (_)=>[
-            PopupMenuItem(child: Text("Only Favourites"), value: FilterOptions.favourites,),
-            PopupMenuItem(child: Text("Show all"), value: FilterOptions.All,),
+            const PopupMenuItem(value: FilterOptions.favourites,child: Text("Only Favourites"),),
+            const PopupMenuItem(value: FilterOptions.All,child: Text("Show all"),),
             
           ]),
           Consumer<Cart>(builder: (_, cart, ch)=>Badge(value: cart.itemCount.toString(),child: ch as Widget,),child: IconButton(icon: const Icon(Icons.shopping_cart), onPressed: () { Navigator.of(context).pushNamed(CartScreen.routeName); }, ))
         ]
       ),
-      body: ProductGrid(showFavs: isFavourite),
+      body: StreamBuilder<Object>(
+        stream: null,
+        builder: (context, snapshot) {
+          return Column(
+            children: [
+              Padding(
+                padding: const EdgeInsets.only(top: 14, bottom: 14),
+                child: CarouselSlider(
+                  options: CarouselOptions(height: 200.0),
+                  items: [1,2,3,4,5].map((i) {
+                    return Builder(
+                      builder: (BuildContext context) {
+                        return Container(
+                            width: MediaQuery.of(context).size.width,
+                            margin: EdgeInsets.symmetric(horizontal: 5.0),
+                            decoration: BoxDecoration(
+                                color: Colors.amber,
+                              borderRadius: BorderRadius.circular(8)
+                            ),
+                            child: Text('text $i', style: TextStyle(fontSize: 16.0),)
+                        );
+                      },
+                    );
+                  }).toList(),
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.only(left: 16),
+                child: Container(child: const Text("Our Products", style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),), alignment: Alignment.centerLeft,),
+              ),
+              Expanded(child: ProductGrid(showFavs: isFavourite)),
+            ],
+          );
+        }
+      ),
     );
   }
 }

@@ -48,6 +48,7 @@ class _PersonalDataState extends State<PersonalData> {
       await FirebaseAuth.instance.currentUser?.updatePhotoURL(profileURL);
       //  final imagePermanent = saveImagePermanently(pImage.path);
       setState(() {
+        image = imageTemp;
         profileImg = profileURL;
       });
     } on PlatformException catch (e) {
