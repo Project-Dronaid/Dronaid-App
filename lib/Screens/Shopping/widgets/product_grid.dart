@@ -12,7 +12,9 @@ class ProductGrid extends StatelessWidget {
     final productsData = Provider.of<Products>(context);
     final products = showFavs?productsData.favourite:productsData.items;
     return GridView.builder(
-      padding: const EdgeInsets.all(10.0),
+      shrinkWrap: true,
+      physics: NeverScrollableScrollPhysics(),
+      padding: EdgeInsets.all(10.0),
       itemCount: products.length,
       // This defines how every items is build and it takes context and index as argument.
       //Here using changeNotifier we are checking for the any change in every productItem.
