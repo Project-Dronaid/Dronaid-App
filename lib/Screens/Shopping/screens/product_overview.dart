@@ -29,6 +29,7 @@ class _ProductOverviewScreenState extends State<ProductOverviewScreen> {
   var isnit = true;
 
   var databaseRef1 = FirebaseDatabase.instance.ref('HOME/OPTIONS');
+  var databaseRef2 = FirebaseDatabase.instance.ref('HOME/TYPES');
 
   @override
   void initState() {
@@ -106,94 +107,203 @@ class _ProductOverviewScreenState extends State<ProductOverviewScreen> {
       body: SingleChildScrollView(
         scrollDirection: Axis.vertical,
         physics: AlwaysScrollableScrollPhysics(),
-        child: Column(
-          children:[
-            Padding(
-              padding: EdgeInsets.symmetric(vertical: size.height*0.01),
-              child: StreamBuilder(
-                  stream: databaseRef1.onValue,
-                  builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot)
-                  {
-                    if(!snapshot.hasData){
-                      return Center(child: CircularProgressIndicator(strokeWidth: 1.0));
-                    }
-                    else{
-                      try{
-                        Map<dynamic,dynamic> map = snapshot.data!.snapshot.value as dynamic;
-                        List<dynamic> list = [];
-                        list = map.values.toList();
-                        return SizedBox(
-                          height: size.height*0.18,
-                          child: ListView.builder(
-                              physics: NeverScrollableScrollPhysics(),
-                              shrinkWrap: true,
-                              scrollDirection: Axis.horizontal,
-                              itemCount: snapshot.data!.snapshot.children.length,
-                              itemBuilder: (context, index){
-                                return Column(
-                                  children: [
-                                    Expanded(
-                                      child: Padding(
-                                        padding: EdgeInsets.symmetric(horizontal: size.width*0.015),
-                                        child: Container(
-                                          clipBehavior: Clip.antiAlias,
-                                          width: size.width*0.2,
-                                          decoration: BoxDecoration(
-                                            border:  Border.all(color: Colors.black12,),
-                                            borderRadius: BorderRadius.circular(22),
-                                            color: Colors.white,
+        child: Container(
+          height: size.height*1,
+          color: Color(0xFF8689C6).withOpacity(0.03),
+          child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children:[
+                Padding(
+                  padding: EdgeInsets.symmetric(vertical: size.height*0.015),
+                  child: StreamBuilder(
+                      stream: databaseRef1.onValue,
+                      builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot)
+                      {
+                        if(!snapshot.hasData){
+                          return Center(child: CircularProgressIndicator(strokeWidth: 1.0));
+                        }
+                        else{
+                          try{
+                            Map<dynamic,dynamic> map = snapshot.data!.snapshot.value as dynamic;
+                            List<dynamic> list = [];
+                            list = map.values.toList();
+                            return SizedBox(
+                              height: size.height*0.1,
+                              child: ListView.builder(
+                                  physics: NeverScrollableScrollPhysics(),
+                                  shrinkWrap: true,
+                                  scrollDirection: Axis.horizontal,
+                                  itemCount: snapshot.data!.snapshot.children.length,
+                                  itemBuilder: (context, index){
+                                    return Column(
+                                      children: [
+                                        Expanded(
+                                          flex:2,
+                                          child: Padding(
+                                            padding: EdgeInsets.symmetric(horizontal: size.width*0.015),
+                                            child: Container(
+                                              clipBehavior: Clip.antiAlias,
+                                              width: size.width*0.2,
+                                              decoration: BoxDecoration(
+                                                border:  Border.all(color: Colors.black12,),
+                                                borderRadius: BorderRadius.circular(22),
+                                                color: Colors.white,
+                                              ),
+                                              child: Image.network(list[index]['IMG'].toString(),fit: BoxFit.cover,),
+                                            ),
                                           ),
-                                          child: Image.network(list[index]['IMG'].toString(),fit: BoxFit.cover,),
                                         ),
-                                      ),
-                                    ),
-                                    Expanded(child: Padding(
-                                      padding: EdgeInsets.symmetric(vertical: size.height*0.005),
-                                      child: Text(list[index]['TEXT'].toString(),style: TextStyle(color: Color(0xFF000161),fontSize: size.height*0.016)),
-                                    )),
-                                  ],
-                                );
-                              }),
-                        );
+                                        Expanded(
+                                            flex: 1,
+                                            child: Padding(
+                                              padding: EdgeInsets.symmetric(vertical: size.height*0.005),
+                                              child: Text(list[index]['TEXT'].toString(),style: TextStyle(color: Color(0xFF000161),fontSize: size.height*0.0165)),
+                                            )),
+                                      ],
+                                    );
+                                  }),
+                            );
+                          }
+                          catch(e){
+                            return Text('Currently you don\'t have any Orders.',style: TextStyle(color: Colors.black,fontWeight: FontWeight.bold),);
+                          }
+                        }
                       }
-                      catch(e){
-                        return Text('Currently you don\'t have any Orders.',style: TextStyle(color: Colors.black,fontWeight: FontWeight.bold),);
+                  ),
+                ),
+                StreamBuilder(
+                    stream: databaseRef1.onValue,
+                    builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot)
+                    {
+                      if(!snapshot.hasData){
+                        return Center(child: CircularProgressIndicator(strokeWidth: 1.0));
+                      }
+                      else{
+                        try{
+                          Map<dynamic,dynamic> map = snapshot.data!.snapshot.value as dynamic;
+                          List<dynamic> list = [];
+                          list = map.values.toList();
+                          return CarouselSlider.builder(
+                            itemCount: snapshot.data!.snapshot.children.length,
+                            itemBuilder: (BuildContext context, int itemIndex, int pageViewIndex) =>
+                                Container(
+                                  width: size.width*0.78,
+                                  child: Image.network(list[itemIndex]['IMG'],fit: BoxFit.fitWidth,),
+                                ), options: CarouselOptions(height: size.height*0.22,autoPlay: true,),
+                          );
+                        }
+                        catch(e){
+                          return Text('Currently you don\'t have any Orders.',style: TextStyle(color: Colors.black,fontWeight: FontWeight.bold),);
+                        }
                       }
                     }
-                  }
-              ),
-            ),
-            StreamBuilder(
-                stream: databaseRef1.onValue,
-                builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot)
-                {
-                  if(!snapshot.hasData){
-                    return Center(child: CircularProgressIndicator(strokeWidth: 1.0));
-                  }
-                  else{
-                    try{
-                      Map<dynamic,dynamic> map = snapshot.data!.snapshot.value as dynamic;
-                      List<dynamic> list = [];
-                      list = map.values.toList();
-                      return CarouselSlider.builder(
-                        itemCount: snapshot.data!.snapshot.children.length,
-                        itemBuilder: (BuildContext context, int itemIndex, int pageViewIndex) =>
-                            Container(
-                              width: size.width*0.78,
-                              child: Image.network(list[itemIndex]['IMG'],fit: BoxFit.fitWidth,),
-                            ), options: CarouselOptions(height: size.height*0.22,autoPlay: true,),
-                      );
-                    }
-                    catch(e){
-                      return Text('Currently you don\'t have any Orders.',style: TextStyle(color: Colors.black,fontWeight: FontWeight.bold),);
-                    }
-                  }
-                }
-            ),
-            ProductGrid(
-                showFavs: isFavourite
-            ),
-          ]
+                ),
+                Padding(
+                  padding: EdgeInsets.symmetric(vertical: size.height*0.025),
+                  child: Container(
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.black.withOpacity(0.4),
+                          blurStyle: BlurStyle.solid,
+                          blurRadius: 2.5,
+                        ),
+                      ],
+                    ),
+                    width: double.infinity,
+                    height: size.height*0.1,
+                    child: Row(
+                      children: [
+                        Expanded(
+                          child: Column(
+                            children: [
+                              Text('FREE HOME DELIVERY',style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                              ),),
+                              Container(
+                                color: Color(0xFF8689C6).withOpacity(0.7),
+                                child: Text(' NO MINIMUM ORDER ',style: TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    color: Colors.white
+                                ),),
+                              )
+                            ],
+                            mainAxisAlignment: MainAxisAlignment.center,
+                          ),
+                        ),
+                        Expanded(
+                          child: Padding(
+                              padding: EdgeInsets.symmetric(),
+                              child: Image.network('https://img.freepik.com/premium-vector/drone-delivery-2d-vector-isolated-illustration-carry-cardboard-box-fast-flying-shipment-online-order-flat-scene-cartoon-background-automated-transportation-colourful-scene_151150-7857.jpg?w=1380',fit: BoxFit.cover,)),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+                ProductGrid(
+                    showFavs: isFavourite
+                ),
+                Padding(
+                  padding: EdgeInsets.symmetric(vertical: size.height*0.01),
+                  child: StreamBuilder(
+                      stream: databaseRef2.onValue,
+                      builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot)
+                      {
+                        if(!snapshot.hasData){
+                          return Center(child: CircularProgressIndicator(strokeWidth: 1.0));
+                        }
+                        else{
+                          try{
+                            Map<dynamic,dynamic> map = snapshot.data!.snapshot.value as dynamic;
+                            List<dynamic> list = [];
+                            list = map.values.toList();
+                            return SizedBox(
+                              height: size.height*0.11,
+                              child: ListView.builder(
+                                  physics: ClampingScrollPhysics(),
+                                  shrinkWrap: true,
+                                  scrollDirection: Axis.horizontal,
+                                  itemCount: snapshot.data!.snapshot.children.length,
+                                  itemBuilder: (context, index){
+                                    return Column(
+                                      children: [
+                                        Expanded(
+                                          flex:3,
+                                          child: Padding(
+                                            padding: EdgeInsets.symmetric(horizontal: size.width*0.038),
+                                            child: Container(
+                                              clipBehavior: Clip.antiAlias,
+                                              width: size.width*0.2,
+                                              decoration: BoxDecoration(
+                                                border:  Border.all(color: Colors.black12,),
+                                                borderRadius: BorderRadius.circular(10),
+                                                color: Colors.transparent,
+                                              ),
+                                              child: Image.network(list[index]['IMG'].toString(),fit: BoxFit.cover,),
+                                            ),
+                                          ),
+                                        ),
+                                        Expanded(
+                                            flex: 1,
+                                            child: Padding(
+                                              padding: EdgeInsets.symmetric(vertical: size.height*0.005),
+                                              child: Text(list[index]['TEXT'].toString(),style: TextStyle(color: Color(0xFF000161),fontSize: size.height*0.0165)),
+                                            )),
+                                      ],
+                                    );
+                                  }),
+                            );
+                          }
+                          catch(e){
+                            return Text('Currently you don\'t have any Orders.',style: TextStyle(color: Colors.black,fontWeight: FontWeight.bold),);
+                          }
+                        }
+                      }
+                  ),
+                ),
+              ]
+          ),
         ),
       ),
     );
