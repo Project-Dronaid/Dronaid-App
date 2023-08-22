@@ -9,15 +9,13 @@ class Community extends StatefulWidget {
 }
 
 class _CommunityState extends State<Community> {
-
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
-    setState(() {
-
-    });
+    setState(() {});
   }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
