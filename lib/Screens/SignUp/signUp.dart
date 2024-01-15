@@ -1,6 +1,5 @@
+import 'package:dronaidapp/Screens/Login/body.dart';
 import 'package:flutter/material.dart';
-
-import '../SignUp//body.dart';
 
 class SignUp extends StatelessWidget {
   static const String id = 'Signup';

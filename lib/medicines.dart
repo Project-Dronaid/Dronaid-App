@@ -1,0 +1,78 @@
+import 'Screens/Shopping/provider/product.dart';
+
+List<Product> medicines = [
+  Product(
+    id: "product1",
+    title: "Product A",
+    description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
+    price: 1999,
+    imageUrl: "https://example.com/product-a.jpg",
+    isFavourite: true,
+  ),
+  Product(
+    id: "product2",
+    title: "Product B",
+    description: "Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+    price: 2999,
+    imageUrl: "https://example.com/product-b.jpg",
+  ),
+  Product(
+    id: "product3",
+    title: "Product C",
+    description: "Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris.",
+    price: 1499,
+    imageUrl: "https://example.com/product-c.jpg",
+    isFavourite: true,
+  ),
+  Product(
+    id: "product4",
+    title: "Product D",
+    description: "Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.",
+    price: 2499,
+    imageUrl: "https://example.com/product-d.jpg",
+  ),
+  Product(
+    id: "product5",
+    title: "Product E",
+    description: "Consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+    price: 1999,
+    imageUrl: "https://example.com/product-e.jpg",
+  ),
+  Product(
+    id: "product6",
+    title: "Product F",
+    description: "Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
+    price: 1199,
+    imageUrl: "https://example.com/product-f.jpg",
+  ),
+  Product(
+    id: "product7",
+    title: "Product G",
+    description: "Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam.",
+    price: 799,
+    imageUrl: "https://example.com/product-g.jpg",
+    isFavourite: true,
+  ),
+  Product(
+    id: "product8",
+    title: "Product H",
+    description: "At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum deleniti atque corrupti quos dolores et quas molestias excepturi sint occaecati cupiditate non provident, similique sunt in culpa qui officia deserunt mollitia animi.",
+    price: 399,
+    imageUrl: "https://example.com/product-h.jpg",
+  ),
+  Product(
+    id: "product9",
+    title: "Product I",
+    description: "Nam libero tempore, cum soluta nobis est eligendi optio cumque nihil impedit quo minus id quod maxime placeat facere possimus, omnis voluptas assumenda est, omnis dolor repellendus.",
+    price: 1699,
+    imageUrl: "https://example.com/product-i.jpg",
+    isFavourite: true,
+  ),
+  Product(
+    id: "product10",
+    title: "Product J",
+    description: "Temporibus autem quibusdam et aut officiis debitis aut rerum necessitatibus saepe eveniet ut et voluptates repudiandae sint et molestiae non recusandae.",
+    price: 1499,
+    imageUrl: "https://example.com/product-j.jpg",
+  ),
+];

@@ -13,8 +13,6 @@ class CartScreen extends StatefulWidget {
 }
 
 class _CartScreenState extends State<CartScreen> {
-
-
   @override
   Widget build(BuildContext context) {
     final cart = Provider.of<Cart>(context);
@@ -22,30 +20,55 @@ class _CartScreenState extends State<CartScreen> {
       appBar: AppBar(
         title: Text('Your Cart'),
       ),
-      body: Column(children: <Widget>[
-        Card(
-          margin: EdgeInsets.all(15),
-          child: Padding(
-            padding: EdgeInsets.all(8),
-            child: Row(mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Text('Total', style: TextStyle(fontSize: 20)),
-                Spacer(),
-                Chip(label: Text('\$${cart.totalAmount}', style: TextStyle(color: Colors.white),),backgroundColor: Theme.of(context).primaryColor, ),
-                TextButton(onPressed: (){
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) =>  RazorPayClass(Amount:(cart.totalAmount).round())),
-                  );
-                }, child: const Text('ORDER NOW'),),
-              ],
+      body: Column(
+        children: <Widget>[
+          Card(
+            margin: EdgeInsets.all(15),
+            child: Padding(
+              padding: EdgeInsets.all(8),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text('Total', style: TextStyle(fontSize: 20)),
+                  Spacer(),
+                  Chip(
+                    label: Text(
+                      '\$${cart.totalAmount}',
+                      style: TextStyle(color: Colors.white),
+                    ),
+                    backgroundColor: Theme.of(context).primaryColor,
+                  ),
+                  TextButton(
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => RazorPayClass(
+                                Amount: (cart.totalAmount).round())),
+                      );
+                    },
+                    child: const Text('ORDER NOW'),
+                  ),
+                ],
+              ),
             ),
           ),
-        ),
-        SizedBox(height: 10,),
-        Expanded(child: ListView.builder(itemBuilder: (ctx, id)=> CartItems(id: cart.items.values.toList()[id].id, productId: cart.items.keys.toList()[id], title: cart.items.values.toList()[id].title, price: cart.items.values.toList()[id].price, quantity: cart.items.values.toList()[id].quantity), itemCount: cart.itemCount,),),
-
-      ],),
+          SizedBox(
+            height: 10,
+          ),
+          Expanded(
+            child: ListView.builder(
+              itemBuilder: (ctx, id) => CartItems(
+                  id: cart.items.values.toList()[id].id,
+                  productId: cart.items.keys.toList()[id],
+                  title: cart.items.values.toList()[id].title,
+                  price: cart.items.values.toList()[id].price,
+                  quantity: cart.items.values.toList()[id].quantity),
+              itemCount: cart.itemCount,
+            ),
+          ),
+        ],
+      ),
     );
   }
 }

@@ -9,6 +9,15 @@ class Community extends StatefulWidget {
 }
 
 class _CommunityState extends State<Community> {
+  final controller = WebViewController()
+    ..setJavaScriptMode(JavaScriptMode.unrestricted)
+    ..setNavigationDelegate(NavigationDelegate(
+      onNavigationRequest: (request) {
+        return NavigationDecision.navigate;
+      },
+    ))
+    ..loadRequest(Uri.parse('https://dronaid.in/'));
+
   @override
   void initState() {
     // TODO: implement initState
@@ -19,13 +28,14 @@ class _CommunityState extends State<Community> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: WebView(
-        initialUrl: 'https://dronaid.in/',
-        javascriptMode: JavascriptMode.unrestricted,
-        navigationDelegate: (NavigationRequest request) {
-          return NavigationDecision.navigate;
-        },
-      ),
+      body: WebViewWidget(controller: controller),
+      // body: WebView(
+      //   initialUrl: 'https://dronaid.in/',
+      //   javascriptMode: JavaScriptMode.unrestricted,
+      //   navigationDelegate: (NavigationRequest request) {
+      //     return NavigationDecision.navigate;
+      //   },
+      // ),
       appBar: AppBar(
         leading: GestureDetector(
           onTap: () {
