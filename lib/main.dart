@@ -3,6 +3,7 @@ import 'package:dronaidapp/Screens/Helps/Emergency.dart';
 import 'package:dronaidapp/Screens/Helps/Fire.dart';
 import 'package:dronaidapp/Screens/Helps/MedicalAid.dart';
 import 'package:dronaidapp/Screens/Helps/Police.dart';
+import 'package:dronaidapp/Screens/Products/ProductPage.dart';
 import 'package:dronaidapp/Screens/Shopping/screens/cart_screen.dart';
 import 'package:dronaidapp/Screens/WelcomeScreen/welcomeBack.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -70,6 +71,7 @@ class MyApp extends StatelessWidget {
           '/':(context)=> ProductOverviewScreen(),
           '/product_detail':(context)=>ProductDetailScreen(),
           CartScreen.routeName: (ctx)=> CartScreen(),
+          ProductPage.routeName: (context) => ProductPage(),
         },
       ),
     );

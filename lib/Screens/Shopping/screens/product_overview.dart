@@ -1,4 +1,5 @@
 import 'package:animated_text_kit/animated_text_kit.dart';
+import 'package:dronaidapp/Screens/Products/ProductPage.dart';
 import 'package:dronaidapp/Screens/Shopping/provider/products.dart';
 import 'package:dronaidapp/Screens/Shopping/screens/cart_screen.dart';
 import 'package:dronaidapp/Screens/Shopping/widgets/badge.dart' as badge;
@@ -156,20 +157,23 @@ class _ProductOverviewScreenState extends State<ProductOverviewScreen> {
                                       child: Padding(
                                         padding: EdgeInsets.symmetric(
                                             horizontal: size.width * 0.015),
-                                        child: Container(
-                                          clipBehavior: Clip.antiAlias,
-                                          width: size.width * 0.2,
-                                          decoration: BoxDecoration(
-                                            border: Border.all(
-                                              color: Colors.black12,
+                                        child: InkWell(
+                                          onTap: () => Navigator.of(context).pushNamed(ProductPage.routeName),
+                                          child: Container(
+                                            clipBehavior: Clip.antiAlias,
+                                            width: size.width * 0.2,
+                                            decoration: BoxDecoration(
+                                              border: Border.all(
+                                                color: Colors.black12,
+                                              ),
+                                              borderRadius:
+                                                  BorderRadius.circular(22),
+                                              color: Colors.white,
                                             ),
-                                            borderRadius:
-                                                BorderRadius.circular(22),
-                                            color: Colors.white,
-                                          ),
-                                          child: Image.network(
-                                            list[index]['IMG'].toString(),
-                                            fit: BoxFit.cover,
+                                            child: Image.network(
+                                              list[index]['IMG'].toString(),
+                                              fit: BoxFit.cover,
+                                            ),
                                           ),
                                         ),
                                       ),
