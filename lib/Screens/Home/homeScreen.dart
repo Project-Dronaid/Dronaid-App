@@ -1,4 +1,5 @@
 import 'package:dronaidapp/Screens/Home/bottomNavbarpages/Doctor.dart';
+import 'package:dronaidapp/Screens/Home/bottomNavbarpages/emergencyView.dart';
 import 'package:dronaidapp/Screens/Home/bottomNavbarpages/helpMainPage.dart';
 import 'package:dronaidapp/Screens/Home/bottomNavbarpages/orderhistory.dart';
 import 'package:dronaidapp/Screens/Shopping/screens/product_overview.dart';
@@ -47,7 +48,8 @@ class _HomeListViewState extends State<HomeListView> {
     final pages = [
       ProductOverviewScreen(),
       OrderHistory(),
-      HelpPage(),
+      EmergencyView(),
+      // HelpPage(),
       Doctor(),
       ProfilePage(),
     ];
