@@ -37,6 +37,7 @@ class _ProductPageState extends State<ProductPage> {
 
     return Scaffold(
         appBar: AppBar(
+          automaticallyImplyLeading: false,
           toolbarHeight: size.height * 0.15,
           backgroundColor: Colors.transparent,
           shadowColor: Colors.white.withOpacity(0.0),
@@ -50,7 +51,7 @@ class _ProductPageState extends State<ProductPage> {
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   Image.asset('assets/images/banner.png',
-                      width: size.width * 0.55),
+                      width: size.width * 0.40),
                   PopupMenuButton(
                       onSelected: (FilterOptions selectedValue) {
                         setState(() {
@@ -80,6 +81,7 @@ class _ProductPageState extends State<ProductPage> {
                     builder: (_, cart, ch) => badge.Badge(
                       value: cart.itemCount.toString(),
                       child: ch as Widget,
+
                     ),
                     child: IconButton(
                       icon: Icon(Icons.shopping_cart,
