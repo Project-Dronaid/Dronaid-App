@@ -120,27 +120,29 @@ class _EmergencyViewState extends State<EmergencyView> {
       )
           : Stack(
         children: [
-          GoogleMap(
-              zoomControlsEnabled: false,
-              myLocationEnabled: true,
-              myLocationButtonEnabled: true,
-              mapType: MapType.normal,
-              initialCameraPosition: CameraPosition(
-                  target: LatLng(currentLocation!.latitude!,
-                      currentLocation!.longitude!),
-                  zoom: 14),
-              onMapCreated: (controller) {
-                setState(() {
-                  _controller = controller;
-                });
-              },
-              markers: markers,
-              polylines: {
-                Polyline(
-                    polylineId: const PolylineId("Live route"),
-                    points: route,
-                    zIndex: 5),
-              }),
+          Expanded(
+            child: GoogleMap(
+                zoomControlsEnabled: false,
+                myLocationEnabled: true,
+                myLocationButtonEnabled: true,
+                mapType: MapType.normal,
+                initialCameraPosition: CameraPosition(
+                    target: LatLng(currentLocation!.latitude!,
+                        currentLocation!.longitude!),
+                    zoom: 14),
+                onMapCreated: (controller) {
+                  setState(() {
+                    _controller = controller;
+                  });
+                },
+                markers: markers,
+                polylines: {
+                  Polyline(
+                      polylineId: const PolylineId("Live route"),
+                      points: route,
+                      zIndex: 5),
+                }),
+          ),
           // Positioned(
           //   width: 50,
           //   height: 25,
