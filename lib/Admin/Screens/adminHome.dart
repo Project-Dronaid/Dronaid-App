@@ -1,41 +1,30 @@
-import 'package:dronaidapp/Screens/Home/bottomNavbarpages/Doctor.dart';
-import 'package:dronaidapp/Screens/Home/bottomNavbarpages/helpMainPage.dart';
-import 'package:dronaidapp/Screens/Home/bottomNavbarpages/orderhistory.dart';
-import 'package:dronaidapp/Screens/Shopping/screens/product_overview.dart';
+import 'dart:convert';
+import 'package:dio/dio.dart';
+import 'package:dronaidapp/Admin/Screens/adminHome.dart';
+import 'package:dronaidapp/Screens/Home/homeScreen.dart';
+import 'package:dronaidapp/Screens/Login/loginScreen.dart';
+import 'package:dronaidapp/Screens/Login/login_with_phonenumber.dart';
+import 'package:dronaidapp/Utils/Utils.dart';
+import 'package:dronaidapp/components/url.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_tabler_icons/flutter_tabler_icons.dart';
-import 'package:provider/provider.dart';
-import 'bottomNavbarpages/profilePage.dart';
+import 'package:flutter_svg/svg.dart';
+import 'package:dronaidapp/components/AlreadyHaveAnAccountCheck.dart';
+import 'package:dronaidapp/components/RoundInputField.dart';
+import 'package:dronaidapp/constants.dart';
+import 'package:dronaidapp/Screens/SignUp/signUp.dart';
+import 'package:dronaidapp/Screens/WelcomeScreen/background.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
-import '../Shopping/provider/products.dart';
-import 'package:path_provider/path_provider.dart';
 
-class HomeScreen extends StatefulWidget {
-  static const String id = "HomeScreen";
+class adminHome extends StatefulWidget {
+  const adminHome({super.key});
+  static const String id= 'adminHome';
   @override
-  _HomeScreenState createState() => _HomeScreenState();
+  State<adminHome> createState() => _adminHomeState();
 }
 
-class _HomeScreenState extends State<HomeScreen> {
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      resizeToAvoidBottomInset: false,
-      body: HomeListView(),
-    );
-  }
-}
-
-class HomeListView extends StatefulWidget {
-  @override
-  State<HomeListView> createState() => _HomeListViewState();
-}
-
-class _HomeListViewState extends State<HomeListView> {
+class _adminHomeState extends State<adminHome> {
   int pageIndex = 0;
-
-  // var idVal = widget.user_id!;
-  @override
   void initState() {
     // TODO: implement initState
     super.initState();
@@ -43,17 +32,13 @@ class _HomeListViewState extends State<HomeListView> {
 
     });
   }
-
   @override
+
+  final pages = [
+
+  ];
   Widget build(BuildContext context) {
-    final pages = [
-      ProductOverviewScreen(),
-      OrderHistory(),
-      HelpPage(),
-      Doctor(),
-      ProfilePage(),
-    ];
-    return Scaffold(
+    return const Scaffold(
       backgroundColor: Colors.transparent,
       body: pages[pageIndex],
       extendBody: true,
@@ -88,7 +73,6 @@ class _HomeListViewState extends State<HomeListView> {
       ),
     );
   }
-
   Widget buildMyNavBar(BuildContext context) {
     Size size = MediaQuery
         .of(context)
@@ -179,4 +163,5 @@ class _HomeListViewState extends State<HomeListView> {
       ),
     );
   }
+
 }

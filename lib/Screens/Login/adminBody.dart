@@ -1,8 +1,8 @@
 import 'dart:convert';
 import 'package:dio/dio.dart';
+import 'package:dronaidapp/Admin/Screens/adminHome.dart';
 import 'package:dronaidapp/Screens/Home/homeScreen.dart';
-import 'package:dronaidapp/Screens/Login/adminBody.dart';
-import 'package:dronaidapp/Screens/Login/adminLogin.dart';
+import 'package:dronaidapp/Screens/Login/loginScreen.dart';
 import 'package:dronaidapp/Screens/Login/login_with_phonenumber.dart';
 import 'package:dronaidapp/Utils/Utils.dart';
 import 'package:dronaidapp/components/url.dart';
@@ -15,66 +15,23 @@ import 'package:dronaidapp/constants.dart';
 import 'package:dronaidapp/Screens/SignUp/signUp.dart';
 import 'package:dronaidapp/Screens/WelcomeScreen/background.dart';
 
-class Body extends StatefulWidget {
+class adminBody extends StatefulWidget {
+  static const String id = "adminBody";
   @override
-  State<Body> createState() => _BodyState();
+  State<adminBody> createState() => _adminBodyState();
 }
 
-class _BodyState extends State<Body> {
+class _adminBodyState extends State<adminBody> {
   TextEditingController emailcontroller = TextEditingController();
   TextEditingController passwordcontroller = TextEditingController();
   final _formKey = GlobalKey<FormState>();
-  // String ?user_id;
-  // String url=PROD_URL+"/user/loginuser";
+
   bool obscureText = true;
   bool loading = false;
   FirebaseAuth _auth = FirebaseAuth.instance;
   Utils utils = Utils();
-  // void postdata() async{
-  //   var dio= Dio();
-  //   var body=jsonEncode({
-  //     "email": emailcontroller.text.toString(),
-  //     "password": passwordcontroller.text.toString(),
-  //   });
-  //
-  //   try {
-  //     Response response = await dio.post(url, data: body);
-  //     print(response.data);
-  //     setState((){
-  //       user_id=response.data["_id"];
-  //       print(user_id);
-  //     });
-  //
-  //     if(response.statusCode==200){
-  //       Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context)=>HomeScreen()));
-  //     }
-  //     else if(response.statusCode==400){
-  //       print(response.statusCode);
-  //     }
-  //   }catch(err){
-  //     print(err);
-  //   }
-  // }
-  void login(){
-    setState(() {
-      loading = true;
-    });
-    _auth.signInWithEmailAndPassword(
-        email: emailcontroller.text,
-        password: passwordcontroller.text.toString()).then((value){
-      utils.toastmessage('User Login Successfully');
-      Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder:(context) => HomeScreen()),ModalRoute.withName('/'));
-      setState(() {
-        loading = false;
-      });
-    }).onError((error, stackTrace){
-      debugPrint(error.toString());
-      utils.toastmessage(error.toString());
-      setState(() {
-        loading = false;
-      });
-    });
-  }
+
+
 
   @override
   void initState() {
@@ -87,12 +44,13 @@ class _BodyState extends State<Body> {
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
     return Background(
+
       child: SingleChildScrollView(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             const Text(
-              'LOGIN',
+              'ADMIN LOGIN',
               style: TextStyle(
                 fontWeight: FontWeight.bold,
               ),
@@ -174,9 +132,10 @@ class _BodyState extends State<Body> {
               padding: EdgeInsets.symmetric(horizontal: size.width*0.1,vertical: size.height*0.015),
               child: InkWell(
                 onTap: (){
-                  if(_formKey.currentState!.validate()){
-                    login();
-                  }
+                  print(passwordcontroller.text);
+                  print(emailcontroller.text);
+                  Navigator.pushNamedAndRemoveUntil(context, adminHome.id,ModalRoute.withName('/'));
+                  utils.toastmessage("Welcome Admin");
                 },
                 child: Container(
                   height: 50,
@@ -198,37 +157,13 @@ class _BodyState extends State<Body> {
             SizedBox(
               height: size.height * 0.001,
             ),
-            // Padding(
-            //   padding: EdgeInsets.symmetric(horizontal: size.width*0.1,vertical: size.height*0.015),
-            //   child: InkWell(
-            //     onTap: (){
-            //       Navigator.push(context, MaterialPageRoute(builder: (context)=> LoginWithPhoneNumber()));
-            //     },
-            //     child: Container(
-            //       height: 50,
-            //       decoration: BoxDecoration(
-            //         borderRadius: BorderRadius.circular(50),
-            //         border: Border.all(
-            //           color: Colors.black,
-            //         ),
-            //       ),
-            //       child: Center(
-            //         child: Text('Login with phone'),
-            //       ),
-            //     ),
-            //   ),
-            // ),
-            AlreadyHaveAnAccountCheck(
-              press: () {
-                Navigator.pushNamed(context, SignUp.id);
-              },
-            ),
+
 
             GestureDetector(
               onTap: (){
-                Navigator.pushNamed(context, adminLogin.id);
+                  Navigator.pop(context);
               },
-              child: Text("Click here for Admin login",
+              child: Text("Click here for Customer login",
                 style: TextStyle(
                   color: kPrimaryColor,
                   fontWeight: FontWeight.w700,
