@@ -9,6 +9,7 @@ import 'package:dronaidapp/Screens/Login/adminLogin.dart';
 import 'package:dronaidapp/Screens/Products/ProductPage.dart';
 import 'package:dronaidapp/Screens/Shopping/screens/cart_screen.dart';
 import 'package:dronaidapp/Screens/WelcomeScreen/welcomeBack.dart';
+import 'package:dronaidapp/Screens/tracking.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -62,6 +63,7 @@ class MyApp extends StatelessWidget {
           adminBody.id: (context) => adminBody(),
           adminLogin.id: (context) => adminLogin(),
           adminHome.id: (context) => adminHome(),
+
           // HomeScreen.id : (context) => HomeScreen(),
           // PersonalData.id: (context) => PersonalData(),
           // MedicalHistory.id: (context) => MedicalHistory(),
@@ -79,6 +81,8 @@ class MyApp extends StatelessWidget {
           '/product_detail':(context)=>ProductDetailScreen(),
           CartScreen.routeName: (ctx)=> CartScreen(),
           ProductPage.routeName: (context) => ProductPage(),
+          Tracking.routeName: (context) => Tracking(),
+
 
         },
       ),
