@@ -1,8 +1,11 @@
+import 'package:dronaidapp/Admin/Screens/adminHome.dart';
 import 'package:dronaidapp/Screens/Helps/Ambulance.dart';
 import 'package:dronaidapp/Screens/Helps/Emergency.dart';
 import 'package:dronaidapp/Screens/Helps/Fire.dart';
 import 'package:dronaidapp/Screens/Helps/MedicalAid.dart';
 import 'package:dronaidapp/Screens/Helps/Police.dart';
+import 'package:dronaidapp/Screens/Login/adminBody.dart';
+import 'package:dronaidapp/Screens/Login/adminLogin.dart';
 import 'package:dronaidapp/Screens/Products/ProductPage.dart';
 import 'package:dronaidapp/Screens/Shopping/screens/cart_screen.dart';
 import 'package:dronaidapp/Screens/WelcomeScreen/welcomeBack.dart';
@@ -17,6 +20,7 @@ import 'Screens/Shopping/screens/product_overview.dart';
 import 'Screens/SignUp/signUp.dart';
 import 'introScreens/splashScreen.dart';
 import 'onBoarding/onBoardingScreen.dart';
+import 'Screens/Login/adminBody.dart';
 
 void main() async{
   WidgetsFlutterBinding.ensureInitialized();
@@ -55,6 +59,9 @@ class MyApp extends StatelessWidget {
           SplashScreen.id: (context) => SplashScreen(),
           LoginScreen.id: (context) => LoginScreen(),
           SignUp.id: (context) => SignUp(),
+          adminBody.id: (context) => adminBody(),
+          adminLogin.id: (context) => adminLogin(),
+          adminHome.id: (context) => adminHome(),
           // HomeScreen.id : (context) => HomeScreen(),
           // PersonalData.id: (context) => PersonalData(),
           // MedicalHistory.id: (context) => MedicalHistory(),
@@ -72,6 +79,7 @@ class MyApp extends StatelessWidget {
           '/product_detail':(context)=>ProductDetailScreen(),
           CartScreen.routeName: (ctx)=> CartScreen(),
           ProductPage.routeName: (context) => ProductPage(),
+
         },
       ),
     );
