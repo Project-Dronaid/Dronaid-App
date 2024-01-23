@@ -1,4 +1,5 @@
 import 'package:dronaidapp/Screens/Shopping/provider/cart.dart';
+import 'package:dronaidapp/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../widgets/cart_item.dart';
@@ -18,6 +19,7 @@ class _CartScreenState extends State<CartScreen> {
     final cart = Provider.of<Cart>(context);
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: Colors.transparent,
         title: Text('Your Cart'),
       ),
       body: Column(

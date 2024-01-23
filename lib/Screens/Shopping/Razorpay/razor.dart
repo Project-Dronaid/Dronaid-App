@@ -1,3 +1,4 @@
+import 'package:dronaidapp/Screens/tracking.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:razorpay_flutter/razorpay_flutter.dart';
@@ -27,11 +28,14 @@ class _HomePageState extends State<RazorPayClass> {
 
   void _handlePaymentSuccess(PaymentSuccessResponse response) {
     // Do something when payment succeeds
+    Navigator.pushReplacementNamed(context, Tracking.routeName);
+
     print("Payment Done");
   }
 
   void _handlePaymentError(PaymentFailureResponse response) {
     // Do something when payment fails
+
     print("Payment Fail");
   }
 
