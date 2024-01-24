@@ -35,7 +35,7 @@ class _CartScreenState extends State<CartScreen> {
                   Spacer(),
                   Chip(
                     label: Text(
-                      '\$${cart.totalAmount}',
+                      '₹${cart.totalAmount}',
                       style: TextStyle(color: Colors.white),
                     ),
                     backgroundColor: Theme.of(context).primaryColor,

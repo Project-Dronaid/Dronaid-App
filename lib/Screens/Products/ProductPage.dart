@@ -28,6 +28,7 @@ class _ProductPageState extends State<ProductPage> {
 
   @override
   Widget build(BuildContext context) {
+    var height= MediaQuery.sizeOf(context).height;
     final cart = Provider.of<Cart>(context);
 
     final List productList = medicines;
@@ -94,9 +95,9 @@ class _ProductPageState extends State<ProductPage> {
                 ],
               ),
               Padding(
-                padding: EdgeInsets.all(8.0),
+                padding: EdgeInsets.symmetric(horizontal: 8.0, vertical: 0),
                 child: Container(
-                  height: size.height * 0.06,
+                  height: size.height * 0,
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(18),
                     color: Color(0xFF8689C6).withOpacity(0.2),
@@ -107,11 +108,11 @@ class _ProductPageState extends State<ProductPage> {
                       padding: EdgeInsets.all(8.0),
                       child: Row(
                         children: [
-                          Icon(Icons.search),
+                          //Icon(Icons.search),
                           SizedBox(
                             width: size.width * 0.03,
                           ),
-                          Text('Search Medicine & Wellness products...'),
+                          Text(''),
                         ],
                       ),
                     ),
@@ -140,10 +141,15 @@ class _ProductPageState extends State<ProductPage> {
                     ),
                     Expanded(
                       child: Padding(
-                        padding: EdgeInsets.all(10),
+                        padding: EdgeInsets.symmetric(vertical: 10, horizontal: 40),
                         child: Column(
+
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: <Widget>[
+                            SizedBox(
+                              height: height*0.02,
+
+                            ),
                             Text(
                               productList[index].title,
                               style: TextStyle(
@@ -151,18 +157,12 @@ class _ProductPageState extends State<ProductPage> {
                                 fontWeight: FontWeight.bold,
                               ),
                             ),
+
                             Text(
-                              "Manufacturer: ",
-                              style: TextStyle(fontSize: 14),
-                            ),
-                            Text(
-                              "Price: ",
+                              "Price: " + productList[index].price.toString(),
                               style: TextStyle(fontSize: 16),
                             ),
-                            Text(
-                              "Prescription Required: }",
-                              style: TextStyle(fontSize: 14),
-                            ),
+
                             ElevatedButton(onPressed: () {
                               cart.addItem(productList[index].id, productList[index].price, productList[index].title);
                             }, child: Icon(Icons.shopping_cart))
