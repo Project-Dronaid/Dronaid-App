@@ -4,6 +4,7 @@ import 'package:dronaidapp/Screens/Helps/Emergency.dart';
 import 'package:dronaidapp/Screens/Helps/Fire.dart';
 import 'package:dronaidapp/Screens/Helps/MedicalAid.dart';
 import 'package:dronaidapp/Screens/Helps/Police.dart';
+import 'package:dronaidapp/Screens/Home/bottomNavbarpages/helpMainPage.dart';
 import 'package:dronaidapp/Screens/Login/adminBody.dart';
 import 'package:dronaidapp/Screens/Login/adminLogin.dart';
 import 'package:dronaidapp/Screens/Products/ProductPage.dart';
@@ -23,7 +24,7 @@ import 'introScreens/splashScreen.dart';
 import 'onBoarding/onBoardingScreen.dart';
 import 'Screens/Login/adminBody.dart';
 
-void main() async{
+void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
   runApp(MyApp());
@@ -34,29 +35,28 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MultiProvider(providers: [
-        ChangeNotifierProvider(create:(ctx)=> Products()),
-        ChangeNotifierProvider(create:(ctx)=> Cart()),
-        ],
+    return MultiProvider(
+      providers: [
+        ChangeNotifierProvider(create: (ctx) => Products()),
+        ChangeNotifierProvider(create: (ctx) => Cart()),
+      ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
         theme: ThemeData(
-          primarySwatch: Colors.indigo,
-          appBarTheme: const AppBarTheme(
-            backgroundColor: Color(0xFF8689C6),
-          ),
-
-          iconTheme: const IconThemeData(
-            color: Colors.white,
-          )
-        ),
+            primarySwatch: Colors.indigo,
+            appBarTheme: const AppBarTheme(
+              backgroundColor: Color(0xFF8689C6),
+            ),
+            iconTheme: const IconThemeData(
+              color: Colors.white,
+            )),
         // theme: ThemeData(
         //   primarySwatch: Colors.deepPurple,
         // ),
-        initialRoute: Tracking.routeName,
-        // initialRoute: SplashScreen.id,
+        // initialRoute: Tracking.routeName,
+        initialRoute: SplashScreen.id,
         routes: {
-          OnBoardingScreen.id : (context) => OnBoardingScreen(),
+          OnBoardingScreen.id: (context) => OnBoardingScreen(),
           WelcomeBack.id: (context) => WelcomeBack(),
           SplashScreen.id: (context) => SplashScreen(),
           LoginScreen.id: (context) => LoginScreen(),
@@ -73,18 +73,16 @@ class MyApp extends StatelessWidget {
           // Community.id: (context) => Community(),
           // License.id: (context) => License(),
           // Support.id: (context) => Support(),
-          MedicalAidMarket.id : (context) => MedicalAidMarket(),
-          Fire.id:  (context) => Fire(),
+          MedicalAidMarket.id: (context) => MedicalAidMarket(),
+          Fire.id: (context) => Fire(),
           Ambulance.id: (context) => Ambulance(),
           Police.id: (context) => Police(),
           Emergency.id: (context) => Emergency(),
-          '/':(context)=> ProductOverviewScreen(),
-          '/product_detail':(context)=>ProductDetailScreen(),
-          CartScreen.routeName: (ctx)=> CartScreen(),
+          '/': (context) => ProductOverviewScreen(),
+          '/product_detail': (context) => ProductDetailScreen(),
+          CartScreen.routeName: (ctx) => CartScreen(),
           ProductPage.routeName: (context) => ProductPage(),
           Tracking.routeName: (context) => Tracking(),
-
-
         },
       ),
     );
