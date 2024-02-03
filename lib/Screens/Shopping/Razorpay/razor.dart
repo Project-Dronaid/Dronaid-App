@@ -3,6 +3,7 @@ import 'package:dronaidapp/constants.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/utils.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:marquee/marquee.dart';
 import 'package:provider/provider.dart';
 import 'package:razorpay_flutter/razorpay_flutter.dart';
@@ -13,7 +14,8 @@ import '../widgets/cart_item.dart';
 
 class RazorPayClass extends StatefulWidget {
   final int Amount;
-  RazorPayClass({required this.Amount});
+  final LatLng? destination;
+  RazorPayClass({required this.Amount, required this.destination});
 
   @override
   _HomePageState createState() => _HomePageState();
@@ -35,7 +37,7 @@ class _HomePageState extends State<RazorPayClass> {
 
   void _handlePaymentSuccess(PaymentSuccessResponse response) {
     // Do something when payment succeeds
-    Navigator.pushReplacementNamed(context, Tracking.routeName);
+    Navigator.push(context, MaterialPageRoute(builder: (context) => Tracking(destination: widget.destination),),);
 
     print("Payment Done");
   }

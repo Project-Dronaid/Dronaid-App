@@ -1,4 +1,5 @@
 import 'package:dronaidapp/Screens/Shopping/provider/cart.dart';
+import 'package:dronaidapp/Screens/Shopping/screens/confirmDetails.dart';
 import 'package:dronaidapp/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -45,8 +46,9 @@ class _CartScreenState extends State<CartScreen> {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                            builder: (context) => RazorPayClass(
-                                Amount: (cart.totalAmount).round())),
+                            builder: (context) => const ConfirmDetails(),)
+                                // RazorPayClass(
+                                // Amount: (cart.totalAmount).round())),
                       );
                     },
                     child: const Text('ORDER NOW'),
