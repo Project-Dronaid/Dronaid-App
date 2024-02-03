@@ -9,10 +9,12 @@ import 'package:dronaidapp/Screens/Login/adminBody.dart';
 import 'package:dronaidapp/Screens/Login/adminLogin.dart';
 import 'package:dronaidapp/Screens/Products/ProductPage.dart';
 import 'package:dronaidapp/Screens/Shopping/screens/cart_screen.dart';
+import 'package:dronaidapp/Screens/Shopping/screens/confirmDetails.dart';
 import 'package:dronaidapp/Screens/WelcomeScreen/welcomeBack.dart';
 import 'package:dronaidapp/Screens/tracking.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:provider/provider.dart';
 import 'Screens/Login/loginScreen.dart';
 import 'Screens/Shopping/provider/cart.dart';
@@ -83,6 +85,7 @@ class MyApp extends StatelessWidget {
           CartScreen.routeName: (ctx) => CartScreen(),
           ProductPage.routeName: (context) => ProductPage(),
           Tracking.routeName: (context) => Tracking(),
+          ConfirmDetails.routeName: (context) => ConfirmDetails(),
         },
       ),
     );

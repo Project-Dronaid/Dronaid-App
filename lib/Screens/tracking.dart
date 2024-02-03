@@ -5,8 +5,12 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:location/location.dart';
 
 class Tracking extends StatefulWidget {
-  const Tracking({super.key});
+  const Tracking({ super.key, this.destination});
   static const routeName = 'Tracking';
+  final LatLng? destination;
+
+
+
 
   @override
   State<Tracking> createState() => _TrackingState();
@@ -14,41 +18,45 @@ class Tracking extends StatefulWidget {
 
 class _TrackingState extends State<Tracking> {
   GoogleMapController? _controller;
-  LocationData? currentLocation;
+  // LocationData? currentLocation;
   Map? droneLiveLocation;
-  Map? destinationData;
   DatabaseReference db = FirebaseDatabase.instance.ref();
   String? status;
   int? statusCode;
 
-  double? latitude;
-  double? longitude;
+
+  double? droneLatitude;
+  double? droneLongitude;
+  double? destinationLatitude;
+  double? destinationLongitude;
 
   Set<Marker> markers = {};
   List<LatLng> route = [];
 
-  Future getCurrentLocation() async {
-    Location location = Location();
-    await location.getLocation().then((location) => currentLocation = location);
-
-    markers.add(
-      Marker(
-        markerId: const MarkerId("Destination"),
-        position: LatLng(currentLocation!.latitude!, currentLocation!.longitude!),
-      ),);
-
-
-    setState(() {});
-  }
+  // Future getCurrentLocation() async {
+  //   Location location = Location();
+  //   LatLng destination;
+  //   await location.getLocation().then((location) => currentLocation = location);
+  //
+  //   markers.add(
+  //     Marker(
+  //       markerId: const MarkerId("Destination"),
+  //       position:
+  //           LatLng(currentLocation!.latitude!, currentLocation!.longitude!),
+  //     ),
+  //   );
+  //
+  //   setState(() {});
+  // }
 
   Future getDroneData() async {
     db.child("DRONE/Drone1/").onValue.listen((DatabaseEvent event) {
       if (event.snapshot.value != null) {
         droneLiveLocation = event.snapshot.value as Map;
-        latitude = droneLiveLocation!['live']!['latitude'];
-        longitude = droneLiveLocation!['live']!['longitude'];
+        droneLatitude = droneLiveLocation!['live']!['latitude'];
+        droneLongitude = droneLiveLocation!['live']!['longitude'];
         statusCode = droneLiveLocation!['destination']!['status'];
-        print("${latitude!}  ,  ${longitude!}");
+
         // _controller!.animateCamera(
         //   CameraUpdate.newLatLng(
         //     LatLng(latitude, longitude),
@@ -56,28 +64,30 @@ class _TrackingState extends State<Tracking> {
         // );
 
         setState(() {
-          if (statusCode == 0){
+          if (statusCode == 0) {
             status = "In Transit";
-          } else if (statusCode == 1){
+          } else if (statusCode == 1) {
             status = "On the way";
-          } else if (statusCode == 2){
+          } else if (statusCode == 2) {
             status = "Delivered";
           }
           markers.clear();
           markers.add(Marker(
             markerId: const MarkerId("Drone 1"),
-            position: LatLng(latitude!, longitude!),
+            position: LatLng(droneLatitude!, droneLongitude!),
             icon: BitmapDescriptor.defaultMarker,
           ));
           markers.add(
-              Marker(
-                markerId: const MarkerId("Destination"),
-                position: LatLng(currentLocation!.latitude!, currentLocation!.longitude!),
-              ),);
+            Marker(
+              markerId: const MarkerId("Destination"),
+              position: LatLng(
+                  destinationLatitude!, destinationLongitude!),
+            ),
+          );
           route = [
-            LatLng(latitude!, longitude!),
-            LatLng(
-                currentLocation!.latitude ?? 0.0, currentLocation!.longitude ?? 0.0),
+            LatLng(droneLatitude!, droneLongitude!),
+            LatLng(destinationLatitude!, destinationLongitude!
+                ),
           ];
         });
       } else if (event.snapshot.value == null) {
@@ -86,18 +96,28 @@ class _TrackingState extends State<Tracking> {
     });
   }
 
+  void updateDestination() async {
+    try{
+      await db.child("DRONE/Drone1/destination").update({
+        // "latitude": currentLocation!.latitude,
+        // "longitude": currentLocation!.longitude,
+        "latitude" :destinationLatitude!,
+        "longitude":destinationLongitude!,
+        "take-off": 1,
+      });
+    } catch (e){
+      print("error");
+    }
+  }
+
   void confirmRoute() async {
     await getDroneData();
-    await getCurrentLocation();
+    // await getCurrentLocation();
     route = [
-      LatLng(13.352584272921971, 74.79290286436944),
+      LatLng(droneLatitude!, droneLongitude!),
       LatLng(
-          currentLocation!.latitude ?? 0.0, currentLocation!.longitude ?? 0.0),
+          destinationLatitude!, destinationLongitude!),
     ];
-    await db.child("DRONE/Drone1/destination").update({
-      "latitude": currentLocation!.latitude,
-      "longitude": currentLocation!.longitude,
-    });
   }
 
 //   Future deliveryStatus() async {
@@ -118,21 +138,30 @@ class _TrackingState extends State<Tracking> {
 
   @override
   void initState() {
-    confirmRoute();
+
+    destinationLatitude = widget.destination!.latitude;
+    destinationLongitude = widget.destination!.longitude;
     route = [];
+    confirmRoute();
+    updateDestination();
+
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
+
     return Scaffold(
       appBar: AppBar(
         iconTheme: const IconThemeData(
           color: Colors.white,
         ),
-        title: const Text("Delivery Status", style: TextStyle(color: Colors.white),),
+        title: const Text(
+          "Delivery Status",
+          style: TextStyle(color: Colors.white),
+        ),
       ),
-      body: (latitude == null || longitude == null)
+      body: (destinationLatitude == null || destinationLongitude == null)
           ? const Center(
               child: CircularProgressIndicator(),
             )
@@ -143,8 +172,8 @@ class _TrackingState extends State<Tracking> {
                       target: LatLng(
                         // currentLocation!.latitude!,
                         // currentLocation!.longitude!,
-                        latitude!,
-                        longitude!,
+                        destinationLatitude!,
+                        destinationLongitude!,
                       ),
                       zoom: 15,
                     ),
@@ -172,7 +201,7 @@ class _TrackingState extends State<Tracking> {
                     decoration: BoxDecoration(
                       color: Colors.white,
                       borderRadius: BorderRadius.circular(16.0),
-                      boxShadow: [
+                      boxShadow: const [
                         BoxShadow(
                           color: Colors.black26,
                           offset: Offset(0.0, 2.0),
@@ -188,7 +217,6 @@ class _TrackingState extends State<Tracking> {
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
-
                               Text(
                                 'Order #123456',
                                 style: TextStyle(
@@ -252,7 +280,6 @@ class _TrackingState extends State<Tracking> {
                                           "MIT QUADRANGLE, Eshwar Nagar, Manipal, Karnataka 576104",
                                           overflow: TextOverflow.ellipsis,
                                           style: TextStyle(
-
                                               overflow: TextOverflow.ellipsis,
                                               fontSize: 16.0,
                                               fontWeight: FontWeight.w500),
@@ -269,11 +296,8 @@ class _TrackingState extends State<Tracking> {
                           ),
                         ),
                         Container(
-
-
                           padding: const EdgeInsets.all(16),
                           child: Center(
-
                             child: ElevatedButton.icon(
                               icon: const Icon(
                                 Icons.phone_in_talk_sharp,
@@ -281,10 +305,9 @@ class _TrackingState extends State<Tracking> {
                                 color: Colors.white,
                               ),
                               style: ElevatedButton.styleFrom(
-                                minimumSize: const Size(330, 60),
-                                elevation: 4,
-                                  backgroundColor:
-                                  const Color(0xFF8689C6),
+                                  minimumSize: const Size(330, 60),
+                                  elevation: 4,
+                                  backgroundColor: const Color(0xFF8689C6),
                                   shape: RoundedRectangleBorder(
                                       borderRadius:
                                           BorderRadius.circular(60.0))),
@@ -305,101 +328,6 @@ class _TrackingState extends State<Tracking> {
                     ),
                   ),
                 ),
-
-                //       Container(
-                //         padding: const EdgeInsets.only(left: 99),
-                //         child: const Text(
-                //           "09:13",
-                //           style: TextStyle(
-                //             fontSize: 25.0,
-                //             color: Color.fromARGB(255, 23, 228, 33),
-                //             fontWeight: FontWeight.bold,
-                //           ),
-                //         ),
-                //       ),
-                //       Container(
-                //         padding: const EdgeInsets.only(left: 114),
-                //         child: const Text(
-                //           "1.5km",
-                //           style: TextStyle(
-                //               fontSize: 25.0,
-                //               color: Color.fromARGB(255, 23, 228, 33),
-                //               fontWeight: FontWeight.bold),
-                //         ),
-                //       ),
-                //
-                //
-                //
-                // Container(
-                //   padding: EdgeInsets.only(top: 640),
-                //   child: Column(
-                //     children: [
-                //       Container(
-                //         width: double.infinity,
-                //         padding: const EdgeInsets.only(left: 40.0),
-                //         child: const Text(
-                //           "ORDER:",
-                //           style: TextStyle(fontSize: 15.0),
-                //         ),
-                //       ),
-                //       Container(
-                //         width: double.infinity,
-                //         padding: const EdgeInsets.only(left: 40.0),
-                //         child: const Text(
-                //           "Grill Sandwich",
-                //           style:
-                //           TextStyle(fontSize: 25.0, fontWeight: FontWeight.w500),
-                //         ),
-                //       ),
-                //       const SizedBox(
-                //         height: 20,
-                //       ),
-                //       Container(
-                //         width: double.infinity,
-                //         padding: const EdgeInsets.only(left: 40.0),
-                //         child: const Text(
-                //           "ADDRESS:",
-                //           style: TextStyle(fontSize: 15.0),
-                //         ),
-                //       ),
-                //       Container(
-                //         width: double.infinity,
-                //         padding: const EdgeInsets.only(left: 40.0),
-                //         child: const Text(
-                //           "MIT, Eshwar Nagar, Manipal, Karnataka 576104",
-                //           style:
-                //           TextStyle(fontSize: 25.0, fontWeight: FontWeight.w500),
-                //         ),
-                //       ),
-                //       const SizedBox(
-                //         height: 20,
-                //       ),
-                //     ],
-                //   ),
-                // ),
-                // Container(
-                //   padding: const EdgeInsets.only(top: 760),
-                //   child: Center(
-                //     child: ElevatedButton.icon(
-                //       icon: const Icon(
-                //         Icons.phone_in_talk_sharp,
-                //         size: 20.0,
-                //         color: Colors.white,
-                //       ),
-                //       style: ElevatedButton.styleFrom(
-                //           backgroundColor: const Color.fromARGB(255, 23, 228, 33),
-                //           shape: RoundedRectangleBorder(
-                //               borderRadius: BorderRadius.circular(20.0))),
-                //       onPressed: () {
-                //         debugPrint('pushed');
-                //       },
-                //       label: const Text(
-                //         'Call Support',
-                //         style: TextStyle(fontSize: 18, color: Colors.white),
-                //       ),
-                //     ),
-                //   ),
-                // ),
               ],
             ),
     );
