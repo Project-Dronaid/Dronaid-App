@@ -55,7 +55,7 @@ class MyApp extends StatelessWidget {
         // theme: ThemeData(
         //   primarySwatch: Colors.deepPurple,
         // ),
-        // initialRoute: Tracking.routeName,
+        // initialRoute: ConfirmDetails.routeName,
         initialRoute: SplashScreen.id,
         routes: {
           OnBoardingScreen.id: (context) => OnBoardingScreen(),
