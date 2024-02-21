@@ -2,6 +2,7 @@ import 'package:dronaidapp/Screens/Home/bottomNavbarpages/Doctor.dart';
 import 'package:dronaidapp/Screens/Home/bottomNavbarpages/emergencyView.dart';
 import 'package:dronaidapp/Screens/Home/bottomNavbarpages/helpMainPage.dart';
 import 'package:dronaidapp/Screens/Home/bottomNavbarpages/orderhistory.dart';
+import 'package:dronaidapp/Screens/Products/ProductPage.dart';
 import 'package:dronaidapp/Screens/Shopping/screens/product_overview.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_tabler_icons/flutter_tabler_icons.dart';
@@ -52,7 +53,8 @@ class _HomeListViewState extends State<HomeListView> {
       OrderHistory(),
       EmergencyView(),
       // HelpPage(),
-      Doctor(),
+      //Doctor(),
+      ProductPage(),
       ProfilePage(),
     ];
     return Scaffold(
@@ -81,7 +83,7 @@ class _HomeListViewState extends State<HomeListView> {
             icon: Icon(Icons.emergency), label: "Emergency",
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.medical_information), label: "Doctor",
+            icon: Icon(Icons.store), label: "Store",
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.account_box), label: "Account",

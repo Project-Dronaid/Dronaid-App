@@ -3,6 +3,7 @@ import 'package:dronaidapp/Screens/Products/ProductPage.dart';
 import 'package:dronaidapp/Screens/Shopping/provider/products.dart';
 import 'package:dronaidapp/Screens/Shopping/screens/cart_screen.dart';
 import 'package:dronaidapp/Screens/Shopping/widgets/badge.dart' as badge;
+import 'package:dronaidapp/test_insta.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -74,11 +75,12 @@ class _ProductOverviewScreenState extends State<ProductOverviewScreen> {
           ),
         ),
       ),
+      backgroundColor: Color(0xFF8689C6).withOpacity(0.03),
       body: SingleChildScrollView(
         scrollDirection: Axis.vertical,
         physics: AlwaysScrollableScrollPhysics(),
         child: Container(
-          height: size.height * 1,
+
           color: Color(0xFF8689C6).withOpacity(0.03),
           child: Column(mainAxisSize: MainAxisSize.min, children: [
             Padding(
@@ -117,6 +119,7 @@ class _ProductOverviewScreenState extends State<ProductOverviewScreen> {
                           InkWell(
                             onTap: (){
                               Navigator.of(context).pushNamed(ProductPage.routeName);
+                              //Navigator.push(context, MaterialPageRoute(builder: (context) => InstagramCarouselScreen()));
                             },
                             child: Container(
                               padding: EdgeInsets.symmetric(horizontal: width*0.09, vertical: height*0.003),
@@ -230,75 +233,61 @@ class _ProductOverviewScreenState extends State<ProductOverviewScreen> {
                     // }
                   }),
             ),
-            StreamBuilder(
-                stream: databaseRef1.onValue,
-                builder:
-                    (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
-                  if (!snapshot.hasData) {
-                    return Center(
-                        child: CircularProgressIndicator(strokeWidth: 1.0));
-                  } else {
-                    try {
-                      Map<dynamic, dynamic> map =
-                          snapshot.data!.snapshot.value as dynamic;
-                      List<dynamic> list = [];
-                      list = map.values.toList();
-                      return CarouselSlider.builder(
-                        itemCount: snapshot.data!.snapshot.children.length,
-                        itemBuilder: (BuildContext context, int itemIndex,
-                                int pageViewIndex) =>
-                            Container(
-                          width: size.width * 0.78,
-                          child: Image.network(
-                            list[itemIndex]['IMG'],
-                            fit: BoxFit.fitWidth,
-                          ),
-                        ),
-                        options: CarouselOptions(
-                          height: size.height * 0.2,
-                          autoPlay: true,
-                        ),
-                      );
-                    } catch (e) {
-                      return Text(
-                        'Currently you don\'t have any Orders.',
-                        style: TextStyle(
-                            color: Colors.black, fontWeight: FontWeight.bold),
-                      );
-                    }
-                  }
-                }),
+
 
             SizedBox(
-              height: height*0.2,
+              height: height*0.25,
               child: CarouselSlider.builder(
                 itemCount: list.length,
                   itemBuilder: (BuildContext context, int itemIndex,
                       int pageViewIndex) =>
                       Container(
                         width: MediaQuery.of(context).size.width,
-
                         margin: EdgeInsets.symmetric(horizontal: 5.0),
                         decoration: BoxDecoration(
-                            color: Colors.amber
+                          // Add any additional decoration properties if needed
                         ),
-                        child: Stack(
-                          children: [
-                            Image.asset(list[itemIndex][1],
-                              fit: BoxFit.fitWidth,
-                            ),
-                            Text(list[itemIndex][0])
-
-                          ],
+                        child: SizedBox(
+                          width: MediaQuery.of(context).size.width, // Ensure SizedBox width matches the container width
+                          child: Stack(
+                            children: [
+                              Image.asset(
+                                list[itemIndex][1],
+                                width: MediaQuery.of(context).size.width, // Set the image width to the container width
+                                fit: BoxFit.fitWidth,
+                              ),
+                              Positioned(
+                                bottom: 0,
+                                left: 0,
+                                right: 0,
+                                child: Container(
+                                  color: Colors.black.withOpacity(0.5), // Optional: Add a semi-transparent background for better text readability
+                                  padding: EdgeInsets.all(8.0), // Optional: Add padding for text
+                                  child: Text(
+                                    list[itemIndex][0],
+                                    style: TextStyle(
+                                      color: Colors.white,
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: width*0.04
+                                      // Optional: Set text color
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
                         ),
                       ),
+
                 options: CarouselOptions(height: 400.0,
-                enlargeCenterPage: false,
+                enlargeCenterPage: true,
                   autoPlay: true
                 ),
 
               ),
             ),
+
+
 
             Padding(
               padding: EdgeInsets.only(bottom: size.height * 0.025, top: height*0.025),
@@ -352,82 +341,6 @@ class _ProductOverviewScreenState extends State<ProductOverviewScreen> {
               ),
             ),
 
-            ProductGrid(showFavs: isFavourite),
-            // Padding(
-            //   padding: EdgeInsets.symmetric(vertical: size.height * 0.01),
-            //   child: StreamBuilder(
-            //       stream: databaseRef2.onValue,
-            //       builder:
-            //           (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
-            //         if (!snapshot.hasData) {
-            //           return Center(
-            //               child: CircularProgressIndicator(strokeWidth: 1.0));
-            //         } else {
-            //           try {
-            //             Map<dynamic, dynamic> map =
-            //                 snapshot.data!.snapshot.value as dynamic;
-            //             List<dynamic> list = [];
-            //             list = map.values.toList();
-            //             return SizedBox(
-            //               height: size.height * 0.11,
-            //               child: ListView.builder(
-            //                   physics: ClampingScrollPhysics(),
-            //                   shrinkWrap: true,
-            //                   scrollDirection: Axis.horizontal,
-            //                   itemCount:
-            //                       snapshot.data!.snapshot.children.length,
-            //                   itemBuilder: (context, index) {
-            //                     return Column(
-            //                       children: [
-            //                         Expanded(
-            //                           flex: 3,
-            //                           child: Padding(
-            //                             padding: EdgeInsets.symmetric(
-            //                                 horizontal: size.width * 0.038),
-            //                             child: Container(
-            //                               clipBehavior: Clip.antiAlias,
-            //                               width: size.width * 0.2,
-            //                               decoration: BoxDecoration(
-            //                                 border: Border.all(
-            //                                   color: Colors.black12,
-            //                                 ),
-            //                                 borderRadius:
-            //                                     BorderRadius.circular(10),
-            //                                 color: Colors.transparent,
-            //                               ),
-            //                               child: Image.network(
-            //                                 list[index]['IMG'].toString(),
-            //                                 fit: BoxFit.cover,
-            //                               ),
-            //                             ),
-            //                           ),
-            //                         ),
-            //                         Expanded(
-            //                             flex: 1,
-            //                             child: Padding(
-            //                               padding: EdgeInsets.symmetric(
-            //                                   vertical: size.height * 0.005),
-            //                               child: Text(
-            //                                   list[index]['TEXT'].toString(),
-            //                                   style: TextStyle(
-            //                                       color: Color(0xFF000161),
-            //                                       fontSize:
-            //                                           size.height * 0.0165)),
-            //                             )),
-            //                       ],
-            //                     );
-            //                   }),
-            //             );
-            //           } catch (e) {
-            //             return Text(
-            //               'Currently you don\'t have any Orders.',
-            //               style: TextStyle(
-            //                   color: Colors.black, fontWeight: FontWeight.bold),
-            //             );
-            //           }
-            //         }
-            //       }),
-            // ),
 
           ]),
         ),
