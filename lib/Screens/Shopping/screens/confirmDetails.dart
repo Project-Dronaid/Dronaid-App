@@ -1,8 +1,12 @@
+import 'dart:convert';
+
 import 'package:dronaidapp/Screens/Shopping/Razorpay/razor.dart';
 import 'package:flutter/material.dart';
+import 'package:geocoding/geocoding.dart' as geo;
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:location/location.dart';
 import 'package:provider/provider.dart';
+import 'package:http/http.dart' as http;
 
 import '../provider/cart.dart';
 
@@ -20,25 +24,41 @@ class _ConfirmDetailsState extends State<ConfirmDetails> {
   LatLng? confirmDestination;
   double? destinationLatitude;
   double? destinationLongitude;
+  String locationAddress = "";
 
   Future getCurrentLocation() async {
     Location location = Location();
     await location.getLocation().then((location) => currentLocation = location);
 
-    markers.add(
-      Marker(
-        markerId: const MarkerId("Destination"),
-        position:
-            LatLng(currentLocation!.latitude!, currentLocation!.longitude!),
-      ),
-    );
+    // markers.add(
+    //   Marker(
+    //     markerId: const MarkerId("Destination"),
+    //     position:
+    //         LatLng(currentLocation!.latitude!, currentLocation!.longitude!),
+    //   ),
+    // );
+    await getAddress(currentLocation!.latitude!, currentLocation!.longitude!);
 
     setState(() {});
+  }
+
+  Future getAddress(double latitude, double longitude) async {
+    String key = "AIzaSyC1_U9ZJk98Su3FtNnSpnKeIJpTPEai06M";
+    http.Response res = await http.get(Uri.parse(
+        "https://maps.googleapis.com/maps/api/geocode/json?latlng=$latitude,$longitude&key=$key"));
+    var data = res.body.toString();
+    print(data);
+    setState(() {
+      locationAddress = jsonDecode(data)["results"][0]["formatted_address"];
+      confirmDestination =
+          LatLng(currentLocation!.latitude!, currentLocation!.longitude!);
+    });
   }
 
   @override
   void initState() {
     getCurrentLocation();
+
     super.initState();
   }
 
@@ -63,11 +83,13 @@ class _ConfirmDetailsState extends State<ConfirmDetails> {
           : Stack(
               children: [
                 GoogleMap(
+                  mapType: MapType.hybrid,
                   onTap: (LatLng destination) {
                     setState(() {
                       // destinationLongitude = destination.longitude;
                       // destinationLatitude = destination.latitude;
-                      confirmDestination = destination;
+                      // confirmDestination = destination;
+                      getAddress(destination.latitude, destination.longitude);
                       markers.clear;
                       markers.add(
                         Marker(
@@ -93,10 +115,12 @@ class _ConfirmDetailsState extends State<ConfirmDetails> {
                   left: 0,
                   right: 0,
                   child: Container(
-                    height: 120,
-                    padding: EdgeInsets.all(8.0),
+                    height: 260,
+                    padding: EdgeInsets.symmetric(
+                      horizontal: 16,
+                    ),
                     decoration: BoxDecoration(
-                      color: Colors.white,
+                      color: Color.fromRGBO(245, 238, 248, 0.8),
                       borderRadius: BorderRadius.circular(16.0),
                       boxShadow: const [
                         BoxShadow(
@@ -107,15 +131,38 @@ class _ConfirmDetailsState extends State<ConfirmDetails> {
                       ],
                     ),
                     child: Column(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
+                        DecoratedBox(
+                          decoration: BoxDecoration(),
+                          child: Text(
+                            "Delivering at:",
+                            style: TextStyle(
+                              fontSize: 24,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        ),
+                        Container(
+                          padding: EdgeInsets.all(8),
+                          child: Text(
+                            locationAddress,
+                          ),
+                          decoration: BoxDecoration(
+                            color: Colors.white60,
+                            borderRadius: BorderRadius.circular(8),
+                          ),
+                        ),
                         Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             Container(
                               padding: const EdgeInsets.all(16),
                               child: Center(
                                 child: ElevatedButton.icon(
                                   icon: const Icon(
-                                    Icons.phone_in_talk_sharp,
+                                    Icons.location_on_outlined,
                                     size: 20.0,
                                     color: Colors.white,
                                   ),
@@ -133,6 +180,7 @@ class _ConfirmDetailsState extends State<ConfirmDetails> {
                                         builder: (context) => RazorPayClass(
                                           Amount: (cart.totalAmount).round(),
                                           destination: confirmDestination,
+                                          address: locationAddress,
                                         ),
                                       ),
                                     );

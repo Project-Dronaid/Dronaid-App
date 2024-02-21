@@ -15,7 +15,8 @@ import '../widgets/cart_item.dart';
 class RazorPayClass extends StatefulWidget {
   final int Amount;
   final LatLng? destination;
-  RazorPayClass({required this.Amount, required this.destination});
+  final String? address;
+  RazorPayClass({required this.Amount, required this.destination, required this.address,});
 
   @override
   _HomePageState createState() => _HomePageState();
@@ -101,16 +102,38 @@ class _HomePageState extends State<RazorPayClass> {
                     ),
                   ),
                   Column(
-                    children: List.generate(
-                      cart.items.values.toList().length,
-                          (id) => CartItems(
-                          id: cart.items.values.toList()[id].id,
-                          productId: cart.items.keys.toList()[id],
-                          title: cart.items.values.toList()[id].title,
-                          price: cart.items.values.toList()[id].price,
-                          quantity: cart.items.values.toList()[id].quantity),
-                    ),
-                  ),
+                    children: List.generate(cart.items.values.toList().length, (id) => Card(
+                      margin: EdgeInsets.symmetric(
+                        horizontal: 15.0,
+                        vertical: 4.0,
+                      ),
+                      child: Padding(
+                        padding: EdgeInsets.all(8.0),
+                        child: ListTile(
+
+                          leading: CircleAvatar(
+                            child: Padding(
+                                padding: EdgeInsets.all(8),
+                                child: FittedBox(child: Text('₹${cart.items.values.toList()[id].price}'))),
+                          ),
+                          title: Text(cart.items.values.toList()[id].title),
+                          subtitle: Text('${cart.items.values.toList()[id].quantity * cart.items.values.toList()[id].price}'),
+                          trailing: Text('${cart.items.values.toList()[id].quantity} x'),
+                        ),
+                      ),
+                    ),),
+                  )
+                  // Column(
+                  //   children: List.generate(
+                  //     cart.items.values.toList().length,
+                  //         (id) => CartItems(
+                  //         id: cart.items.values.toList()[id].id,
+                  //         productId: cart.items.keys.toList()[id],
+                  //         title: cart.items.values.toList()[id].title,
+                  //         price: cart.items.values.toList()[id].price,
+                  //         quantity: cart.items.values.toList()[id].quantity),
+                  //   ),
+                  // ),
                 ],
               ),
             ),
@@ -118,7 +141,7 @@ class _HomePageState extends State<RazorPayClass> {
           // Persistent container at the bottom
           Container(
             padding: EdgeInsets.all(15),
-            height: height * 0.1, // Set the desired height of the bottom container
+            height: height * 0.25, // Set the desired height of the bottom container
             decoration: BoxDecoration(
               color: Color.fromRGBO(245, 238, 248, 1),
               borderRadius: BorderRadius.only(
@@ -126,49 +149,69 @@ class _HomePageState extends State<RazorPayClass> {
                 topRight: Radius.circular(width * 0.06),
               ),
             ),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
+            child: Column(
               children: [
-                Text("Total: ₹$amount", style: TextStyle(fontSize: height*0.025, fontWeight: FontWeight.bold),),
-                GestureDetector(
-                  child: Container(
-                    padding: EdgeInsets.symmetric(horizontal: 20, vertical: 5),
-                    height: height*0.2,
-                    width: width*0.35,
-
-                    decoration: BoxDecoration(
-                      color: Colors.green,
-                      borderRadius: BorderRadius.all(
-                        Radius.circular(width * 0.02),
+                Column(
+                  children: [
+                    Text("Delivering to:", style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),),
+                    SizedBox(height: 8,),
+                    Container(
+                      padding: EdgeInsets.all(4),
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(12),
+                        color: Colors.white60,
                       ),
+                      child: Text(widget.address!),
                     ),
-                    child: Row(
-                     crossAxisAlignment: CrossAxisAlignment.stretch,
-                      mainAxisAlignment: MainAxisAlignment.spaceAround,
-                      children: [
-                        Text("Pay", style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold,fontSize: height*0.035),),
-                        Icon(CupertinoIcons.arrowtriangle_right_fill, size: height*0.035,)
-                      ],
-                    ),
-                  ),
-                    onTap: () {
-                      ///Make payment
-                      var options = {
-                        'key': "rzp_test_akq5S37G2uCNxH",
-                        // amount will be multiple of 100
-                        'amount': (amount * 100)
-                            .toString(), //So its pay 500
-                        'name': 'Dronaid',
-                        'description': 'Demo',
-                        'timeout': 300, // in seconds
-                        'prefill': {
-                          'contact': '9369204281',
-                          'email': 'contact4rai@gmail.com'
+                  ],
+                ),
+                SizedBox(height: 12,),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  children: [
+                    
+                    Text("Total: ₹$amount", style: TextStyle(fontSize: height*0.025, fontWeight: FontWeight.bold),),
+                    GestureDetector(
+                      child: Container(
+                        padding: EdgeInsets.symmetric(horizontal: 20, vertical: 5),
+                        height: height*0.07,
+                        width: width*0.35,
+                
+                        decoration: BoxDecoration(
+                          color: Colors.green,
+                          borderRadius: BorderRadius.all(
+                            Radius.circular(width * 0.02),
+                          ),
+                        ),
+                        child: Row(
+                         crossAxisAlignment: CrossAxisAlignment.stretch,
+                          mainAxisAlignment: MainAxisAlignment.spaceAround,
+                          children: [
+                            Text("Pay", style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold,fontSize: height*0.035),),
+                            Icon(CupertinoIcons.arrowtriangle_right_fill, size: height*0.035,)
+                          ],
+                        ),
+                      ),
+                        onTap: () {
+                          ///Make payment
+                          var options = {
+                            'key': "rzp_test_akq5S37G2uCNxH",
+                            // amount will be multiple of 100
+                            'amount': (amount * 100)
+                                .toString(), //So its pay 500
+                            'name': 'Dronaid',
+                            'description': 'Demo',
+                            'timeout': 300, // in seconds
+                            'prefill': {
+                              'contact': '9369204281',
+                              'email': 'contact4rai@gmail.com'
+                            }
+                          };
+                          _razorpay.open(options);
                         }
-                      };
-                      _razorpay.open(options);
-                    }
-                )
+                    )
+                  ],
+                ),
               ],
             ),
           ),
