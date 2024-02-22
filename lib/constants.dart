@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 const kPrimaryColor = Color(0xFF6F35A5);
 const kPrimaryLightColor = Color(0xFFF1E6FF);
@@ -18,3 +19,5 @@ const lightBlueTextStyle = TextStyle(
   color: Color(0xff696DC3),
   fontSize: 15,
 );
+
+

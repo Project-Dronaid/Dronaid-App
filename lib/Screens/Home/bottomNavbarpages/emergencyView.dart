@@ -88,11 +88,47 @@ class _EmergencyViewState extends State<EmergencyView> {
 
   @override
   void initState() {
+    super.initState();
+
     getCurrentLocation();
     getData();
     route = [];
-    super.initState();
+
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      // This will be called after the first frame is displayed
+      showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            content: Padding(
+              padding: const EdgeInsets.all(16.0),
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Text("This feature is under development!!"),
+                  SizedBox(height: 16),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: [
+                      ElevatedButton(
+                        onPressed: () {
+                          Navigator.of(context).pop(); // Close the dialog
+                        },
+                        child: Text("Okay"),
+                      ),
+
+
+                    ],
+                  ),
+                ],
+              ),
+            ),
+          );
+        },
+      );
+    });
   }
+
 
   // void updateMarker(LatLng coordinates) {
   //   setState(() {
@@ -111,7 +147,9 @@ class _EmergencyViewState extends State<EmergencyView> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Drone Tracking"),
+        title: const Text("EMERGENCY",
+            style: const TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 27,), textAlign: TextAlign.center),
+        backgroundColor: Colors.red.withOpacity(0.84),
         centerTitle: true,
       ),
       body: currentLocation == null
@@ -194,7 +232,7 @@ class _EmergencyViewState extends State<EmergencyView> {
                   children: [
                     Text(
                       "Call Drone",
-                      style: const TextStyle(),
+                        style: const TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 17,), textAlign: TextAlign.center
                     ),
                   ],
                 ),
@@ -223,7 +261,7 @@ class _EmergencyViewState extends State<EmergencyView> {
                   children: [
                     Text(
                       "Stop Drone",
-                      style: const TextStyle(),
+                        style: const TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 17,), textAlign: TextAlign.center,
                     ),
                   ],
                 ),
@@ -250,8 +288,8 @@ class _EmergencyViewState extends State<EmergencyView> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Text(
-                      "Confrim Route",
-                      style: const TextStyle(),
+                      "Confirm Route",
+                      style: const TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 17,), textAlign: TextAlign.center,
                     ),
                   ],
                 ),

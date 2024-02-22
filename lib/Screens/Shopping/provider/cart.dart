@@ -25,7 +25,7 @@ class Cart with ChangeNotifier {
     return _items == null ? 0 : _items.length;
   }
 
-  void addItem(String productId, int price, String title) {
+  void addItem(String productId, int price, String title, int quantity) {
     if (_items.containsKey(productId)) {
       // Chhange the quantity
       _items.update(
@@ -34,7 +34,7 @@ class Cart with ChangeNotifier {
               id: existingCartItem.id,
               title: existingCartItem.title,
               price: existingCartItem.price,
-              quantity: existingCartItem.quantity + 1));
+              quantity: existingCartItem.quantity + quantity));
     } else {
       _items.putIfAbsent(
           productId,
@@ -42,7 +42,7 @@ class Cart with ChangeNotifier {
               id: DateTime.now().toString(),
               title: title,
               price: price,
-              quantity: 1));
+              quantity: quantity));
     }
     notifyListeners();
   }

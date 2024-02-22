@@ -33,7 +33,7 @@ class Products with ChangeNotifier{
           print(extractedData);
           final List<Product> onlineList = [];
           extractedData.forEach((key, value) {
-            onlineList.add(Product(id: value["id"].toString(), title: value["name"].toString() , description: value["category"].toString(), imageUrl: value["url"],price: value["price"]));
+            onlineList.add(Product(id: value["id"].toString(), title: value["name"].toString() , description: value["category"].toString(), imageUrl: value["url"],price: value["price"], category: value["category"]));
           });
 
           _items = onlineList;
