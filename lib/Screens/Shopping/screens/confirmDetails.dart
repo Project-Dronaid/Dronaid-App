@@ -47,11 +47,13 @@ class _ConfirmDetailsState extends State<ConfirmDetails> {
     http.Response res = await http.get(Uri.parse(
         "https://maps.googleapis.com/maps/api/geocode/json?latlng=$latitude,$longitude&key=$key"));
     var data = res.body.toString();
+
     print(data);
     setState(() {
       locationAddress = jsonDecode(data)["results"][0]["formatted_address"];
       confirmDestination =
-          LatLng(currentLocation!.latitude!, currentLocation!.longitude!);
+          LatLng(latitude, longitude);
+
     });
   }
 
