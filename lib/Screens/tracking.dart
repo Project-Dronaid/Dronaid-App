@@ -5,12 +5,9 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:location/location.dart';
 
 class Tracking extends StatefulWidget {
-  const Tracking({ super.key, this.destination});
+  const Tracking({super.key, this.destination});
   static const routeName = 'Tracking';
   final LatLng? destination;
-
-
-
 
   @override
   State<Tracking> createState() => _TrackingState();
@@ -18,12 +15,12 @@ class Tracking extends StatefulWidget {
 
 class _TrackingState extends State<Tracking> {
   GoogleMapController? _controller;
-  // LocationData? currentLocation;
+  BitmapDescriptor droneIcon = BitmapDescriptor.defaultMarker;
+  LocationData? currentLocation;
   Map? droneLiveLocation;
   DatabaseReference db = FirebaseDatabase.instance.ref();
   String? status;
   int? statusCode;
-
 
   double? droneLatitude;
   double? droneLongitude;
@@ -33,21 +30,27 @@ class _TrackingState extends State<Tracking> {
   Set<Marker> markers = {};
   List<LatLng> route = [];
 
-  // Future getCurrentLocation() async {
-  //   Location location = Location();
-  //   LatLng destination;
-  //   await location.getLocation().then((location) => currentLocation = location);
-  //
-  //   markers.add(
-  //     Marker(
-  //       markerId: const MarkerId("Destination"),
-  //       position:
-  //           LatLng(currentLocation!.latitude!, currentLocation!.longitude!),
-  //     ),
-  //   );
-  //
-  //   setState(() {});
-  // }
+  Future getCurrentLocation() async {
+    Location location = Location();
+    LatLng destination;
+    await location.getLocation().then((location) => currentLocation = location);
+
+    markers.add(
+      Marker(
+        markerId: const MarkerId("Destination"),
+        position:
+            LatLng(currentLocation!.latitude!, currentLocation!.longitude!),
+      ),
+    );
+
+    setState(() {});
+  }
+
+  void addCustomIcon() {
+    BitmapDescriptor.fromAssetImage(
+            ImageConfiguration(), "assets/images/drone_small.png")
+        .then((icon) => droneIcon = icon);
+  }
 
   Future getDroneData() async {
     db.child("DRONE/Drone1/").onValue.listen((DatabaseEvent event) {
@@ -75,19 +78,20 @@ class _TrackingState extends State<Tracking> {
           markers.add(Marker(
             markerId: const MarkerId("Drone 1"),
             position: LatLng(droneLatitude!, droneLongitude!),
-            icon: BitmapDescriptor.defaultMarker,
+            icon: droneIcon,
           ));
           markers.add(
             Marker(
               markerId: const MarkerId("Destination"),
-              position: LatLng(
-                  destinationLatitude!, destinationLongitude!),
+              position:
+              LatLng(destinationLatitude!, destinationLongitude!),
+
             ),
           );
           route = [
             LatLng(droneLatitude!, droneLongitude!),
-            LatLng(destinationLatitude!, destinationLongitude!
-                ),
+            LatLng(destinationLatitude!, destinationLongitude!),
+
           ];
         });
       } else if (event.snapshot.value == null) {
@@ -97,15 +101,14 @@ class _TrackingState extends State<Tracking> {
   }
 
   void updateDestination() async {
-    try{
+    try {
       await db.child("DRONE/Drone1/destination").update({
-        // "latitude": currentLocation!.latitude,
-        // "longitude": currentLocation!.longitude,
-        "latitude" :destinationLatitude!,
-        "longitude":destinationLongitude!,
+
+        "latitude": destinationLatitude!,
+        "longitude": destinationLongitude!,
         "take-off": 1,
       });
-    } catch (e){
+    } catch (e) {
       print("error");
     }
   }
@@ -115,8 +118,8 @@ class _TrackingState extends State<Tracking> {
     // await getCurrentLocation();
     route = [
       LatLng(droneLatitude!, droneLongitude!),
-      LatLng(
-          destinationLatitude!, destinationLongitude!),
+      LatLng(destinationLatitude!, destinationLongitude!),
+
     ];
   }
 
@@ -138,19 +141,21 @@ class _TrackingState extends State<Tracking> {
 
   @override
   void initState() {
-
     destinationLatitude = widget.destination!.latitude;
     destinationLongitude = widget.destination!.longitude;
+    // destinationLatitude = 13.360145;
+    // destinationLongitude = 74.7850583;
     route = [];
     confirmRoute();
     updateDestination();
+    addCustomIcon();
+
 
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-
     return Scaffold(
       appBar: AppBar(
         iconTheme: const IconThemeData(
@@ -175,7 +180,7 @@ class _TrackingState extends State<Tracking> {
                         destinationLatitude!,
                         destinationLongitude!,
                       ),
-                      zoom: 15,
+                      zoom: 16,
                     ),
                     zoomControlsEnabled: false,
                     mapType: MapType.normal,
@@ -224,8 +229,17 @@ class _TrackingState extends State<Tracking> {
                                   fontSize: 16.0,
                                 ),
                               ),
+                              InkWell(
+                                highlightColor: Colors.redAccent,
+                                onTap: () => {},
+                                child: Container(
+                                  padding: EdgeInsets.all(4),
+                                  decoration: BoxDecoration(borderRadius: BorderRadius.circular(4.0),color: Colors.red,),
 
-                              Text('Delivery Status: $status'),
+                                    child: Text("Cancel", style: TextStyle(color: Colors.white,),)),
+                              ),
+
+                              // Text('Delivery Status: $status'),
                               // SizedBox(height: 8.0),
                             ],
                           ),
@@ -274,15 +288,15 @@ class _TrackingState extends State<Tracking> {
                                     children: [
                                       Container(
                                         // width: double.infinity,
-                                        width: 240,
+                                        // width: 200,
                                         // padding: const EdgeInsets.all(8),
                                         child: const Text(
-                                          "MIT QUADRANGLE, Eshwar Nagar, Manipal, Karnataka 576104",
-                                          overflow: TextOverflow.ellipsis,
+                                          "MIT Quadrangle",
+                                          // overflow: TextOverflow.ellipsis,
                                           style: TextStyle(
-                                              overflow: TextOverflow.ellipsis,
+                                              // overflow: TextOverflow.ellipsis,
                                               fontSize: 16.0,
-                                              fontWeight: FontWeight.w500),
+                                              fontWeight: FontWeight.w500,),
                                         ),
                                       ),
                                     ],
