@@ -3,6 +3,7 @@ import 'package:dronaidapp/Screens/Products/ProductPage.dart';
 import 'package:dronaidapp/Screens/Shopping/provider/products.dart';
 import 'package:dronaidapp/Screens/Shopping/screens/cart_screen.dart';
 import 'package:dronaidapp/Screens/Shopping/widgets/badge.dart' as badge;
+import 'package:dronaidapp/test_insta.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -21,111 +22,133 @@ class ProductOverviewScreen extends StatefulWidget {
 }
 
 class _ProductOverviewScreenState extends State<ProductOverviewScreen> {
-  var isFavourite = false;
+  var isFavourite = true;
   var isnit = true;
 
   var databaseRef1 = FirebaseDatabase.instance.ref('HOME/OPTIONS');
   var databaseRef2 = FirebaseDatabase.instance.ref('HOME/TYPES');
+  var list= [["About Us", "assets/carousel_photos/about_us.jpg"],["Our Achivements", "assets/carousel_photos/achivements.jpg"], ["The Board","assets/carousel_photos/board.jpg"]];
 
   @override
   void initState() {
-    //print('This executed');
+    //print('This executed');"
     Provider.of<Products>(context, listen: false).fetchAndSetProduct();
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-    Size size = MediaQuery.of(context).size;
+    var size = MediaQuery.of(context).size;
+    var height= MediaQuery.sizeOf(context).height;
+    var width= MediaQuery.sizeOf(context).width;
     // Here I have made listen false because here we dont need to listen to data change we are just interested in the container of product widget
     final productContainer = Provider.of<Products>(context, listen: false);
     return Scaffold(
       appBar: AppBar(
-        toolbarHeight: size.height * 0.15,
+        toolbarHeight: size.height * 0.1,
         backgroundColor: Colors.transparent,
         shadowColor: Colors.white.withOpacity(0.0),
-        title: Column(
-          children: [
-            Row(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                Image.asset('assets/images/banner.png',
-                    width: size.width * 0.55),
-                PopupMenuButton(
-                    onSelected: (FilterOptions selectedValue) {
-                      setState(() {
-                        if (selectedValue == FilterOptions.favourites) {
-                          isFavourite = true;
-                        } else {
-                          isFavourite = false;
-                        }
-                      });
-                    },
-                    icon: Icon(
-                      Icons.more_vert,
-                      color: Color(0xFF000161),
-                      size: size.height * 0.03,
-                    ),
-                    itemBuilder: (_) => [
-                          const PopupMenuItem(
-                            value: FilterOptions.favourites,
-                            child: Text("Only Favourites"),
-                          ),
-                          const PopupMenuItem(
-                            value: FilterOptions.All,
-                            child: Text("Show all"),
-                          ),
-                        ]),
-                Consumer<Cart>(
-                  builder: (_, cart, ch) => badge.Badge(
-                    value: cart.itemCount.toString(),
-                    child: ch as Widget,
-                  ),
-                  child: IconButton(
-                    icon: Icon(Icons.shopping_cart,
-                        color: Color(0xFF000161), size: size.height * 0.03),
-                    onPressed: () {
-                      Navigator.of(context).pushNamed(CartScreen.routeName);
-                    },
-                  ),
+        title: Center(
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Image.asset('assets/images/banner.png',
+                  width: size.width * 0.55),
+              SizedBox(
+                width: MediaQuery.sizeOf(context).width*0.09,
+              ),
+
+              Consumer<Cart>(
+                builder: (_, cart, ch) => badge.Badge(
+                  value: cart.itemCount.toString(),
+                  child: ch as Widget,
                 ),
-              ],
-            ),
-            Padding(
-              padding: EdgeInsets.symmetric(vertical: size.height * 0.01),
-              child: Container(
-                height: size.height * 0.06,
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(18),
-                  color: Color(0xFF8689C6).withOpacity(0.2),
-                ),
-                child: TextButton(
-                  onPressed: () {},
-                  child: Padding(
-                    padding: EdgeInsets.all(8.0),
-                    child: Row(
-                      children: [
-                        Icon(Icons.search),
-                        SizedBox(
-                          width: size.width * 0.03,
-                        ),
-                        Text('Search Medicine & Wellness products...'),
-                      ],
-                    ),
-                  ),
+                child: IconButton(
+                  icon: Icon(Icons.shopping_cart,
+                      color: Color(0xFF000161), size: size.height * 0.03),
+                  onPressed: () {
+                    Navigator.of(context).pushNamed(CartScreen.routeName);
+                  },
                 ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
+      backgroundColor: Color(0xFF8689C6).withOpacity(0.03),
       body: SingleChildScrollView(
         scrollDirection: Axis.vertical,
         physics: AlwaysScrollableScrollPhysics(),
         child: Container(
-          height: size.height * 1,
+
           color: Color(0xFF8689C6).withOpacity(0.03),
           child: Column(mainAxisSize: MainAxisSize.min, children: [
+            Padding(
+              padding: EdgeInsets.symmetric(vertical: size.height * 0),
+              child: Container(
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.black.withOpacity(0.4),
+                      blurStyle: BlurStyle.solid,
+                      blurRadius: 2.5,
+                    ),
+                  ],
+                ),
+                width: double.infinity,
+                height: size.height * 0.2,
+                child: Row(
+                  children: [
+                    Expanded(
+                      child: Column(
+                        children: [
+                          Padding(
+                            padding:  EdgeInsets.only(left: width*0.06),
+                            child: Text(
+                              'Fulfill all your medicinal needs here!!',
+                              style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                                fontSize: size.height * 0.019
+                              ),
+                            ),
+                          ),
+                          SizedBox(
+                            height: height*0.01,
+                          ),
+                          InkWell(
+                            onTap: (){
+                              Navigator.of(context).pushNamed(ProductPage.routeName);
+                              //Navigator.push(context, MaterialPageRoute(builder: (context) => InstagramCarouselScreen()));
+                            },
+                            child: Container(
+                              padding: EdgeInsets.symmetric(horizontal: width*0.09, vertical: height*0.003),
+                              color: Colors.green,
+                              child: Text(
+                                ' GO TO STORE ',
+                                style: TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    color: Colors.white),
+                              ),
+                            ),
+                          )
+                        ],
+                        mainAxisAlignment: MainAxisAlignment.center,
+                      ),
+                    ),
+                    Expanded(
+                      child: Padding(
+                          padding: EdgeInsets.symmetric(),
+                          child: Image.network(
+                            'https://clipart-library.com/data_images/90015.jpg',
+                            fit: BoxFit.cover,
+                          )),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+
             Padding(
               padding: EdgeInsets.symmetric(vertical: size.height * 0.015),
               child: StreamBuilder(
@@ -210,46 +233,64 @@ class _ProductOverviewScreenState extends State<ProductOverviewScreen> {
                     // }
                   }),
             ),
-            StreamBuilder(
-                stream: databaseRef1.onValue,
-                builder:
-                    (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
-                  if (!snapshot.hasData) {
-                    return Center(
-                        child: CircularProgressIndicator(strokeWidth: 1.0));
-                  } else {
-                    try {
-                      Map<dynamic, dynamic> map =
-                          snapshot.data!.snapshot.value as dynamic;
-                      List<dynamic> list = [];
-                      list = map.values.toList();
-                      return CarouselSlider.builder(
-                        itemCount: snapshot.data!.snapshot.children.length,
-                        itemBuilder: (BuildContext context, int itemIndex,
-                                int pageViewIndex) =>
-                            Container(
-                          width: size.width * 0.78,
-                          child: Image.network(
-                            list[itemIndex]['IMG'],
-                            fit: BoxFit.fitWidth,
+
+
+            SizedBox(
+              height: height*0.25,
+              child: CarouselSlider.builder(
+                itemCount: list.length,
+                  itemBuilder: (BuildContext context, int itemIndex,
+                      int pageViewIndex) =>
+                      Container(
+                        width: MediaQuery.of(context).size.width,
+                        margin: EdgeInsets.symmetric(horizontal: 5.0),
+                        decoration: BoxDecoration(
+                          // Add any additional decoration properties if needed
+                        ),
+                        child: SizedBox(
+                          width: MediaQuery.of(context).size.width, // Ensure SizedBox width matches the container width
+                          child: Stack(
+                            children: [
+                              Image.asset(
+                                list[itemIndex][1],
+                                width: MediaQuery.of(context).size.width, // Set the image width to the container width
+                                fit: BoxFit.fitWidth,
+                              ),
+                              Positioned(
+                                bottom: 0,
+                                left: 0,
+                                right: 0,
+                                child: Container(
+                                  color: Colors.black.withOpacity(0.5), // Optional: Add a semi-transparent background for better text readability
+                                  padding: EdgeInsets.all(8.0), // Optional: Add padding for text
+                                  child: Text(
+                                    list[itemIndex][0],
+                                    style: TextStyle(
+                                      color: Colors.white,
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: width*0.04
+                                      // Optional: Set text color
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ],
                           ),
                         ),
-                        options: CarouselOptions(
-                          height: size.height * 0.22,
-                          autoPlay: true,
-                        ),
-                      );
-                    } catch (e) {
-                      return Text(
-                        'Currently you don\'t have any Orders.',
-                        style: TextStyle(
-                            color: Colors.black, fontWeight: FontWeight.bold),
-                      );
-                    }
-                  }
-                }),
+                      ),
+
+                options: CarouselOptions(height: 400.0,
+                enlargeCenterPage: true,
+                  autoPlay: true
+                ),
+
+              ),
+            ),
+
+
+
             Padding(
-              padding: EdgeInsets.symmetric(vertical: size.height * 0.025),
+              padding: EdgeInsets.only(bottom: size.height * 0.025, top: height*0.025),
               child: Container(
                 decoration: BoxDecoration(
                   color: Colors.white,
@@ -299,82 +340,8 @@ class _ProductOverviewScreenState extends State<ProductOverviewScreen> {
                 ),
               ),
             ),
-            ProductGrid(showFavs: isFavourite),
-            Padding(
-              padding: EdgeInsets.symmetric(vertical: size.height * 0.01),
-              child: StreamBuilder(
-                  stream: databaseRef2.onValue,
-                  builder:
-                      (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
-                    if (!snapshot.hasData) {
-                      return Center(
-                          child: CircularProgressIndicator(strokeWidth: 1.0));
-                    } else {
-                      try {
-                        Map<dynamic, dynamic> map =
-                            snapshot.data!.snapshot.value as dynamic;
-                        List<dynamic> list = [];
-                        list = map.values.toList();
-                        return SizedBox(
-                          height: size.height * 0.11,
-                          child: ListView.builder(
-                              physics: ClampingScrollPhysics(),
-                              shrinkWrap: true,
-                              scrollDirection: Axis.horizontal,
-                              itemCount:
-                                  snapshot.data!.snapshot.children.length,
-                              itemBuilder: (context, index) {
-                                return Column(
-                                  children: [
-                                    Expanded(
-                                      flex: 3,
-                                      child: Padding(
-                                        padding: EdgeInsets.symmetric(
-                                            horizontal: size.width * 0.038),
-                                        child: Container(
-                                          clipBehavior: Clip.antiAlias,
-                                          width: size.width * 0.2,
-                                          decoration: BoxDecoration(
-                                            border: Border.all(
-                                              color: Colors.black12,
-                                            ),
-                                            borderRadius:
-                                                BorderRadius.circular(10),
-                                            color: Colors.transparent,
-                                          ),
-                                          child: Image.network(
-                                            list[index]['IMG'].toString(),
-                                            fit: BoxFit.cover,
-                                          ),
-                                        ),
-                                      ),
-                                    ),
-                                    Expanded(
-                                        flex: 1,
-                                        child: Padding(
-                                          padding: EdgeInsets.symmetric(
-                                              vertical: size.height * 0.005),
-                                          child: Text(
-                                              list[index]['TEXT'].toString(),
-                                              style: TextStyle(
-                                                  color: Color(0xFF000161),
-                                                  fontSize:
-                                                      size.height * 0.0165)),
-                                        )),
-                                  ],
-                                );
-                              }),
-                        );
-                      } catch (e) {
-                        return Text(
-                          'Currently you don\'t have any Orders.',
-                          style: TextStyle(
-                              color: Colors.black, fontWeight: FontWeight.bold),
-                        );
-                      }
-                    }
-                  }),
-            ),
+
+
           ]),
         ),
       ),
