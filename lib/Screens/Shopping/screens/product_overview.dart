@@ -288,8 +288,7 @@ class _ProductOverviewScreenState extends State<ProductOverviewScreen> {
                             _launchURL("https://www.instagram.com/project.dronaid/");
                           },
                           style: ElevatedButton.styleFrom(
-                            padding: EdgeInsets.symmetric(vertical: height * 0.006, horizontal: width * 0.06),
-                            primary: Colors.black.withOpacity(0.55),
+                            padding: EdgeInsets.symmetric(vertical: height * 0.006, horizontal: width * 0.06), backgroundColor: Colors.black.withOpacity(0.55),
                             shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.all(Radius.circular(100)),
                             ),
@@ -331,8 +330,7 @@ class _ProductOverviewScreenState extends State<ProductOverviewScreen> {
                             _launchURL("https://www.linkedin.com/company/dronaid/");
                           },
                           style: ElevatedButton.styleFrom(
-                            padding: EdgeInsets.symmetric(vertical: height * 0.006, horizontal: width * 0.06),
-                            primary: Colors.black.withOpacity(0.55),
+                            padding: EdgeInsets.symmetric(vertical: height * 0.006, horizontal: width * 0.06), backgroundColor: Colors.black.withOpacity(0.55),
                             shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.all(Radius.circular(100)),
                             ),
@@ -374,8 +372,7 @@ class _ProductOverviewScreenState extends State<ProductOverviewScreen> {
                             _launchURL("https://twitter.com/projectdronaid");
                           },
                           style: ElevatedButton.styleFrom(
-                            padding: EdgeInsets.symmetric(vertical: height * 0.006, horizontal: width * 0.06),
-                            primary: Colors.black.withOpacity(0.55),
+                            padding: EdgeInsets.symmetric(vertical: height * 0.006, horizontal: width * 0.06), backgroundColor: Colors.black.withOpacity(0.55),
                             shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.all(Radius.circular(100)),
                             ),
@@ -417,8 +414,7 @@ class _ProductOverviewScreenState extends State<ProductOverviewScreen> {
                             _launchURL("https://www.dronaid.in/");
                           },
                           style: ElevatedButton.styleFrom(
-                            padding: EdgeInsets.symmetric(vertical: height * 0.006, horizontal: width * 0.06),
-                            primary: Colors.black.withOpacity(0.55),
+                            padding: EdgeInsets.symmetric(vertical: height * 0.006, horizontal: width * 0.06), backgroundColor: Colors.black.withOpacity(0.55),
                             shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.all(Radius.circular(100)),
                             ),
