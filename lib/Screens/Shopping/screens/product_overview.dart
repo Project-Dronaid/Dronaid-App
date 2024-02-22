@@ -6,9 +6,13 @@ import 'package:dronaidapp/Screens/Shopping/widgets/badge.dart' as badge;
 import 'package:dronaidapp/test_insta.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:provider/provider.dart';
+import 'package:url_launcher/url_launcher.dart';
 import '../provider/cart.dart';
 import 'package:carousel_slider/carousel_slider.dart';
+import 'package:dronaidapp/Utils/Utils.dart';
+
 import '../widgets/product_grid.dart';
 import '../widgets/product_items.dart';
 
@@ -27,7 +31,22 @@ class _ProductOverviewScreenState extends State<ProductOverviewScreen> {
 
   var databaseRef1 = FirebaseDatabase.instance.ref('HOME/OPTIONS');
   var databaseRef2 = FirebaseDatabase.instance.ref('HOME/TYPES');
-  var list= [["About Us", "assets/carousel_photos/about_us.jpg"],["Our Achivements", "assets/carousel_photos/achivements.jpg"], ["The Board","assets/carousel_photos/board.jpg"]];
+  var list= [["Dronaid", "assets/carousel_photos/about_us.jpg"],["2nd position in Vayurvya RotorCraft Multirotor Competition", "assets/carousel_photos/achivements.jpg"], ["The Board","assets/carousel_photos/board.jpg"], ["Interaction with Hon'ble Union Minister Rajeev Chandrasekhar","assets/carousel_photos/minister_interaction.png"], ["Drone used for deliveries","assets/carousel_photos/drone_hex.jpeg"
+      ""],];
+  void _launchURL(String url) async {
+    try {
+      if (await canLaunch(url)) {
+        await launch(url);
+      } else {
+        print('Could not launch $url');
+        Utils().toastmessage("Sorry couldn't open link.");
+      }
+    } catch (e) {
+      print('Error launching URL: $e');
+      Utils().toastmessage("Sorry couldn't open link.");
+
+    }
+  }
 
   @override
   void initState() {
@@ -75,16 +94,17 @@ class _ProductOverviewScreenState extends State<ProductOverviewScreen> {
           ),
         ),
       ),
-      backgroundColor: Color(0xFF8689C6).withOpacity(0.03),
+     // backgroundColor: Color(0xf7f3fb),
+      backgroundColor: Colors.white70,
       body: SingleChildScrollView(
         scrollDirection: Axis.vertical,
         physics: AlwaysScrollableScrollPhysics(),
         child: Container(
 
-          color: Color(0xFF8689C6).withOpacity(0.03),
+          //color: Color(0xFF8689C6).withOpacity(0.03),
           child: Column(mainAxisSize: MainAxisSize.min, children: [
             Padding(
-              padding: EdgeInsets.symmetric(vertical: size.height * 0),
+              padding: EdgeInsets.symmetric(vertical: size.height * 0.03),
               child: Container(
                 decoration: BoxDecoration(
                   color: Colors.white,
@@ -138,100 +158,29 @@ class _ProductOverviewScreenState extends State<ProductOverviewScreen> {
                     ),
                     Expanded(
                       child: Padding(
-                          padding: EdgeInsets.symmetric(),
-                          child: Image.network(
-                            'https://clipart-library.com/data_images/90015.jpg',
-                            fit: BoxFit.cover,
-                          )),
+                        padding: EdgeInsets.symmetric(),
+                        child: Image.network(
+                          'https://clipart-library.com/data_images/90015.jpg',                          fit: BoxFit.cover,
+                          loadingBuilder: (BuildContext context, Widget child, ImageChunkEvent? loadingProgress) {
+                            if (loadingProgress == null) {
+                              return child;
+                            } else {
+                              return Center(
+                                child: CircularProgressIndicator(
+                                  value: loadingProgress.expectedTotalBytes != null
+                                      ? loadingProgress.cumulativeBytesLoaded / (loadingProgress.expectedTotalBytes ?? 1)
+                                      : null,
+                                ),
+                              );
+                            }
+                          },
+                        ),
+                      ),
                     ),
+
                   ],
                 ),
               ),
-            ),
-
-            Padding(
-              padding: EdgeInsets.symmetric(vertical: size.height * 0.015),
-              child: StreamBuilder(
-                  stream: databaseRef1.onValue,
-                  builder:
-                      (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
-                    if (!snapshot.hasData) {
-                      return Center(
-                          child: CircularProgressIndicator(strokeWidth: 1.0));
-                    } else {
-                      try {
-                        Map<dynamic, dynamic> map =
-                            snapshot.data!.snapshot.value as dynamic;
-                        List<dynamic> list = [];
-                        list = map.values.toList();
-                        return SizedBox(
-                          height: size.height * 0.1,
-                          child: ListView.builder(
-                              physics: NeverScrollableScrollPhysics(),
-                              shrinkWrap: true,
-                              scrollDirection: Axis.horizontal,
-                              itemCount:
-                                  snapshot.data!.snapshot.children.length,
-                              itemBuilder: (context, index) {
-                                return Column(
-                                  children: [
-                                    Expanded(
-                                      flex: 2,
-                                      child: Padding(
-                                        padding: EdgeInsets.symmetric(
-                                            horizontal: size.width * 0.015),
-                                        child: InkWell(
-                                          onTap: () => Navigator.of(context).pushNamed(ProductPage.routeName),
-                                          child: Container(
-                                            clipBehavior: Clip.antiAlias,
-                                            width: size.width * 0.2,
-                                            decoration: BoxDecoration(
-                                              border: Border.all(
-                                                color: Colors.black12,
-                                              ),
-                                              borderRadius:
-                                                  BorderRadius.circular(22),
-                                              color: Colors.white,
-                                            ),
-                                            child: Image.network(
-                                              list[index]['IMG'].toString(),
-                                              fit: BoxFit.cover,
-                                            ),
-                                          ),
-                                        ),
-                                      ),
-                                    ),
-                                    Expanded(
-                                        flex: 1,
-                                        child: Padding(
-                                          padding: EdgeInsets.symmetric(
-                                              vertical: size.height * 0.005),
-                                          child: Text(
-                                              list[index]['TEXT'].toString(),
-                                              style: TextStyle(
-                                                  color: Color(0xFF000161),
-                                                  fontSize:
-                                                      size.height * 0.0165)),
-                                        )),
-                                  ],
-                                );
-                              }),
-                        );
-                      } catch (e) {
-                        return Text(
-                          'Currently you don\'t have any Orders.',
-                          style: TextStyle(
-                              color: Colors.black, fontWeight: FontWeight.bold),
-                        );
-                      }
-                    }
-                    //       catch(e){
-                    //         return Text('Currently you don\'t have any Orders.',style: TextStyle(color: Colors.black,fontWeight: FontWeight.bold),);
-                    //   }
-                    //       catch(e){
-                    //         return Text('Currently you don\'t have any Orders.',style: TextStyle(color: Colors.black,fontWeight: FontWeight.bold),);
-                    // }
-                  }),
             ),
 
 
@@ -287,11 +236,220 @@ class _ProductOverviewScreenState extends State<ProductOverviewScreen> {
               ),
             ),
 
+            Container(
+              margin: EdgeInsets.symmetric(vertical: height*0.02),
+              padding: EdgeInsets.symmetric(vertical: height*0.02, horizontal: width*0.02),
+              width: width*0.95,
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.all(Radius.circular(10)),
+                border: Border.all(color: Colors.black, width: 3),
+                gradient: LinearGradient(
+                  begin: Alignment.topLeft,
+                  end: Alignment.bottomRight,
+                  colors: [
+                    Color(0xFF405DE6).withOpacity(0.8), // Purple
+                    Color(0xFF5851DB).withOpacity(0.8), // Purple-Blue
+                    Color(0xFF833AB4).withOpacity(0.8), // Dark Purple
+                    Color(0xFFC13584).withOpacity(0.8), // Pink
+                    Color(0xFFFF6476).withOpacity(0.8), // Orange-Pink
+                    Color(0xFFFF7643).withOpacity(0.8), // Orange
+                  ],
+                  stops: [0.1, 0.3, 0.5, 0.7, 0.9, 1.0],
+                ),
+              ),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  Container(
+                    padding: EdgeInsets.symmetric(vertical: height*0.006, horizontal: width*0.04),
+                    child: Text("Our Socials!!", style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: width*0.05), ),
+                    decoration: BoxDecoration(
+                      color: Colors.black.withOpacity(0.55),
+                      borderRadius: BorderRadius.all(Radius.circular(100))
+                    ),
+                  ),
+                  SizedBox(height: height*0.01,),
+                  Container(
+                    width: width,
+                    padding: EdgeInsets.symmetric(vertical: height*0.006, horizontal: width*0.04),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Row(
+                          children: [
+                            SvgPicture.asset("assets/icons/instagram.svg", height: height*0.04,),
+                            SizedBox(width: width*0.02,),
+                            Text("project.dronaid", style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold, fontSize: width*0.05), ),
+                          ],
+                        ),
+                        ElevatedButton(
+                          onPressed: () {
+                            _launchURL("https://www.instagram.com/project.dronaid/");
+                          },
+                          style: ElevatedButton.styleFrom(
+                            padding: EdgeInsets.symmetric(vertical: height * 0.006, horizontal: width * 0.06),
+                            primary: Colors.black.withOpacity(0.55),
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.all(Radius.circular(100)),
+                            ),
+                          ),
+                          child: Text(
+                            "Open",
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontWeight: FontWeight.bold,
+                              fontSize: height * 0.018,
+                            ),
+                          ),
+                        ),
+
+                      ],
+                    ),
+                    decoration: BoxDecoration(
+                        color: Colors.white.withOpacity(0.55),
+                        borderRadius: BorderRadius.all(Radius.circular(10))
+                    ),
+
+                  ),
+                  SizedBox(height: height*0.01,),
+                  Container(
+                    width: width,
+                    padding: EdgeInsets.symmetric(vertical: height*0.006, horizontal: width*0.04),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Row(
+                          children: [
+                            SvgPicture.asset("assets/icons/linkedin.svg", height: height*0.04,),
+                            SizedBox(width: width*0.02,),
+                            Text("dronaid", style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold, fontSize: width*0.05), ),
+                          ],
+                        ),
+                        ElevatedButton(
+                          onPressed: () {
+                            _launchURL("https://www.linkedin.com/company/dronaid/");
+                          },
+                          style: ElevatedButton.styleFrom(
+                            padding: EdgeInsets.symmetric(vertical: height * 0.006, horizontal: width * 0.06),
+                            primary: Colors.black.withOpacity(0.55),
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.all(Radius.circular(100)),
+                            ),
+                          ),
+                          child: Text(
+                            "Open",
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontWeight: FontWeight.bold,
+                              fontSize: height * 0.018,
+                            ),
+                          ),
+                        ),
+
+                      ],
+                    ),
+                    decoration: BoxDecoration(
+                        color: Colors.white.withOpacity(0.55),
+                        borderRadius: BorderRadius.all(Radius.circular(10))
+                    ),
+
+                  ),
+                  SizedBox(height: height*0.01,),
+                  Container(
+                    width: width,
+                    padding: EdgeInsets.symmetric(vertical: height*0.006, horizontal: width*0.04),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Row(
+                          children: [
+                            SvgPicture.asset("assets/icons/x.svg", height: height*0.04,),
+                            SizedBox(width: width*0.02,),
+                            Text("projectdronaid", style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold, fontSize: width*0.05), ),
+                          ],
+                        ),
+                        ElevatedButton(
+                          onPressed: () {
+                            _launchURL("https://twitter.com/projectdronaid");
+                          },
+                          style: ElevatedButton.styleFrom(
+                            padding: EdgeInsets.symmetric(vertical: height * 0.006, horizontal: width * 0.06),
+                            primary: Colors.black.withOpacity(0.55),
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.all(Radius.circular(100)),
+                            ),
+                          ),
+                          child: Text(
+                            "Open",
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontWeight: FontWeight.bold,
+                              fontSize: height * 0.018,
+                            ),
+                          ),
+                        ),
+
+                      ],
+                    ),
+                    decoration: BoxDecoration(
+                        color: Colors.white.withOpacity(0.55),
+                        borderRadius: BorderRadius.all(Radius.circular(10))
+                    ),
+
+                  ),
+                  SizedBox(height: height*0.01,),
+                  Container(
+                    width: width,
+                    padding: EdgeInsets.symmetric(vertical: height*0.006, horizontal: width*0.04),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Row(
+                          children: [
+                            SvgPicture.asset("assets/icons/web.svg", height: height*0.04, color: Color.fromRGBO(103, 80, 164, 1),),
+                            SizedBox(width: width*0.02,),
+                            Text("Our Website", style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold, fontSize: width*0.05), ),
+                          ],
+                        ),
+                        ElevatedButton(
+                          onPressed: () {
+                            _launchURL("https://www.dronaid.in/");
+                          },
+                          style: ElevatedButton.styleFrom(
+                            padding: EdgeInsets.symmetric(vertical: height * 0.006, horizontal: width * 0.06),
+                            primary: Colors.black.withOpacity(0.55),
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.all(Radius.circular(100)),
+                            ),
+                          ),
+                          child: Text(
+                            "Open",
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontWeight: FontWeight.bold,
+                              fontSize: height * 0.018,
+                            ),
+                          ),
+                        ),
+
+                      ],
+                    ),
+                    decoration: BoxDecoration(
+                        color: Colors.white.withOpacity(0.55),
+                        borderRadius: BorderRadius.all(Radius.circular(10))
+                    ),
+
+                  ),
+                ],
+              ),
+            ),
 
 
             Padding(
-              padding: EdgeInsets.only(bottom: size.height * 0.025, top: height*0.025),
+              padding: EdgeInsets.only(bottom: size.height * 0.1, top: height*0.01),
               child: Container(
+
                 decoration: BoxDecoration(
                   color: Colors.white,
                   boxShadow: [
@@ -302,7 +460,7 @@ class _ProductOverviewScreenState extends State<ProductOverviewScreen> {
                     ),
                   ],
                 ),
-                width: double.infinity,
+                width: width*0.95,
                 height: size.height * 0.1,
                 child: Row(
                   children: [
@@ -330,12 +488,27 @@ class _ProductOverviewScreenState extends State<ProductOverviewScreen> {
                     ),
                     Expanded(
                       child: Padding(
-                          padding: EdgeInsets.symmetric(),
-                          child: Image.network(
-                            'https://img.freepik.com/premium-vector/drone-delivery-2d-vector-isolated-illustration-carry-cardboard-box-fast-flying-shipment-online-order-flat-scene-cartoon-background-automated-transportation-colourful-scene_151150-7857.jpg?w=1380',
-                            fit: BoxFit.cover,
-                          )),
+                        padding: EdgeInsets.symmetric(),
+                        child: Image.network(
+                          'https://img.freepik.com/premium-vector/drone-delivery-2d-vector-isolated-illustration-carry-cardboard-box-fast-flying-shipment-online-order-flat-scene-cartoon-background-automated-transportation-colourful-scene_151150-7857.jpg?w=1380',
+                          fit: BoxFit.cover,
+                          loadingBuilder: (BuildContext context, Widget child, ImageChunkEvent? loadingProgress) {
+                            if (loadingProgress == null) {
+                              return child;
+                            } else {
+                              return Center(
+                                child: CircularProgressIndicator(
+                                  value: loadingProgress.expectedTotalBytes != null
+                                      ? loadingProgress.cumulativeBytesLoaded / (loadingProgress.expectedTotalBytes ?? 1)
+                                      : null,
+                                ),
+                              );
+                            }
+                          },
+                        ),
+                      ),
                     ),
+
                   ],
                 ),
               ),
