@@ -50,11 +50,11 @@ class _HomeListViewState extends State<HomeListView> {
   Widget build(BuildContext context) {
     final pages = [
       ProductOverviewScreen(),
-      OrderHistory(),
+      ProductPage(),
       EmergencyView(),
       // HelpPage(),
       //Doctor(),
-      ProductPage(),
+      OrderHistory(),
       ProfilePage(),
     ];
     return Scaffold(
@@ -77,13 +77,14 @@ class _HomeListViewState extends State<HomeListView> {
             icon: Icon(Icons.home), label: "Home",
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.shopping_bag), label: "Orders",
+            icon: Icon(Icons.store), label: "Store",
           ),
+
           BottomNavigationBarItem(
             icon: Icon(Icons.emergency), label: "Emergency",
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.store), label: "Store",
+            icon: Icon(Icons.shopping_bag), label: "Orders",
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.account_box), label: "Account",
