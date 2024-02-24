@@ -1,4 +1,4 @@
 # dronaidapp
 
-FLutter Project for Project Dronaid.
+FLutter Project for Project Dronaid
 
